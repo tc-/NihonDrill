@@ -162,7 +162,7 @@ function M.draw_kana_romaji(kana_type, kana, x, y, size, col)
 	M.draw_text(kana, x, y + (size * 0.6), size, col)
 end
 
-function print_hiragana(text, x, y, size, col)
+function M.print_hiragana(text, x, y, size, col)
 	r = r or 0
 	g = g or 0
 	b = b or 0
@@ -172,5 +172,47 @@ function print_hiragana(text, x, y, size, col)
 	end
 end
 
+function M.draw_table(kana_type, basex, basey, size, selected)
+	
+	local text_size = size / 5
+	local buttons = { }
+	
+	for ri, row in ipairs(M.layout) do
+		
+		for ci, l in ipairs(row) do
+			
+			b = { x = basex + (i2*48), y = basey + (i*48), w = 48, h = 48, name = l }
+
+			if user.level == l then
+				if status.button == l then
+					col = util.color(180, 255, 180)
+				else
+					col = util.color(70, 255, 100)
+				end
+			else
+				if status.button == l then
+					col = util.color(100, 200, 120)
+				else
+					col = util.color(70, 70, 100)
+				end
+			end
+			
+			if kana_type == "romaji" then
+				M.draw_text(l, b.x + 24, b.y + 24, 60, col)
+			else
+				M.draw_glyph(kana_type, l, b.x, b.y, text_size, col)
+			end
+			table.insert(buttons, b)
+		
+		end
+		
+	end
+	
+	return buttons
+end
+
 return M
+
+
+
 

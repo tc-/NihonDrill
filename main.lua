@@ -118,6 +118,7 @@ function love.draw()
 	status.buttons = {}
 
 	local col = nil
+	local b = nil
 
 	if status.mode == "drill" then
 		if status.submode == "answer" then
@@ -155,16 +156,24 @@ function love.draw()
 		end
 		
 		if status.button == "sound" then
-			lg.setColor(180, 250, 255);
+			lg.setColor(180, 250, 255, 255);
 		else
-			lg.setColor(140, 200, 255);
+			lg.setColor(140, 200, 255, 50);
 		end
 		
+		b = { x = lg.getWidth() - 60, y = lg.getHeight() - 60, w = 60, h = 48, name = "sound" }
+		
 		if user.sound == true then
-			lg.draw(images.sound, lg.getWidth() - 60, lg.getHeight() - 60, 0, 0.4, 0.4)
+			lg.draw(images.sound, b.x, b.y, 0, 0.4, 0.4)
 		else
 			lg.draw(images.nosound, lg.getWidth() - 60, lg.getHeight() - 60, 0, 0.4, 0.4)
 		end
+		
+		table.insert(status.buttons, b)
+		
+--		lg.setColor(255, 0, 0, 50)
+--		lg.rectangle("fill", b.x, b.y, b.w, b.h)
+
 	elseif status.mode == "select_type" then
 		
 		kana.draw_text("Select what to practice.", 290, 30, 90, util.color(80, 200, 255))
@@ -184,7 +193,7 @@ function love.draw()
 				col = util.color(70, 70, 100)
 			end
 		end
-		local b = { x = 50, y = 100, w = 100, h = 440, name = "hiragana" }
+		b = { x = 50, y = 100, w = 100, h = 440, name = "hiragana" }
 		kana.draw_glyph("hiragana", "hi", b.x + 50, b.y + 50, 100, col)
 		kana.draw_glyph("hiragana", "ra", b.x + 50, b.y + 150, 100, col)
 		kana.draw_glyph("hiragana", "ga", b.x + 50, b.y + 250, 100, col)
@@ -221,7 +230,7 @@ function love.draw()
 			col = util.color(70, 255, 100)
 		end
 		b = { x = lg.getWidth() - 160, y = lg.getHeight() - 80, w = 148, h = 70, name = "hajime" }
-		print_hiragana({"ha","ji","me"}, b.x + 24, b.y + 24, 48, col)
+		kana.print_hiragana({"ha","ji","me"}, b.x + 24, b.y + 24, 48, col)
 		kana.draw_text("start", b.x + 70, b.y + 64, 48, col)
 		table.insert(status.buttons, b)
 		
@@ -270,10 +279,14 @@ function love.mousepressed(x, y, button)
 				if status.hover == status.kana then
 					status.submode = "answer_correct"
 					status.timeout = 1
-					la.play(kana.sounds[status.kana])
+					if user.sound == true then
+						la.play(kana.sounds[status.kana])
+					end
 				else
 					status.submode = "answer_wrong"
-					la.play(kana.sounds[status.kana])
+					if user.sound == true then
+						la.play(kana.sounds[status.kana])
+					end
 				end
 			end
 		else
