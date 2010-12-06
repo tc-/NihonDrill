@@ -116,10 +116,10 @@ end
 
 function M.draw_glyph_bg(x, y, size, col)
 	lg.setColor(col.r, col.g, col.b, 40)
-	lg.circle("fill", x, y, size / 1.7, size * 0.4)
+	lg.circle("fill", x, y, size / 1.6, size * 0.4)
 	lg.setColor(col.r, col.g, col.b, 80)
 	lg.setLineWidth(3)
-	lg.circle("line", x, y, size / 1.7, size * 0.4)
+	lg.circle("line", x, y, size / 1.6, size * 0.4)
 end
 
 function M.draw_glyph(kana_type, glyph, x, y, size, col)
@@ -151,9 +151,9 @@ function M.draw_text(text, x, y, size, col)
 	local h = f:getHeight()
 
 	lg.setColor(0,0,0,100)
-	lg.print(text, x - (w * 0.5) + (h * 0.04), y + (h * 0.24))
+	lg.print(text, x - (w * 0.5) + (h * 0.04), y - (h * 0.64))
 	lg.setColor(col.r, col.g, col.b)
-	lg.print(text, x - (w * 0.5), y + (h * 0.2))
+	lg.print(text, x - (w * 0.5), y - (h * 0.6))
 end
 
 function M.draw_kana_romaji(kana_type, kana, x, y, size, col)
