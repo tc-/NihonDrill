@@ -9,9 +9,12 @@ local views = {}
 
 views.drill = require("drill")
 views.drilloptions = require("drilloptions")
+views.vocoptions = require("vocoptions")
+views.mainmenu = require("mainmenu")
+views.voctrain = require("voctrain")
 
 local status = {
-	view = "drilloptions", --"drill",
+	view = "mainmenu", --"drill",
 	submode = "answer",
 	timeout = 1,
 	kana_type = "katakana",

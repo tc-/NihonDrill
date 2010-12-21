@@ -35,6 +35,10 @@ function M.init(data)
 	kana = data.kana
 end
 
+function M.show()
+	print("drilloptions.show()")
+end
+
 function M.update(dt, mx, my)
 	
 end
@@ -70,6 +74,9 @@ function M.mousepressed(x, y, button)
 end
 
 function M.draw()
+
+	local col
+	
 	kana.draw_text("Select what to practice.", 290, 30, 90, util.color(80, 200, 255))
 	
 	kana.draw_text("Syllabaries", 160, 80, 70, util.color(80, 200, 255))
@@ -136,11 +143,11 @@ function M.draw()
 		for i2,l in ipairs(row) do
 			b = { x = basex + (i2*48), y = basey + (i*48), w = 48, h = 48, name = l }
 			
-			if status.button == l then
-				col = util.color(70, 255, 100)
-			else
-				col = util.color(70, 70, 100)
-			end
+--			if status.button == l then
+--				col = util.color(70, 255, 100)
+--			else
+--				col = util.color(70, 70, 100)
+--			end
 			
 			if user.level == l then
 				if status.button == l then

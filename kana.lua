@@ -42,6 +42,10 @@ M.layout = {
 	{ "pya",        "pyu",        "pyo" }
 }
 
+M.special = {
+	["~"] = { str = "long" },
+	["-"] = { str = "cont" }
+}
 
 M.sounds = { }
 
@@ -112,6 +116,12 @@ function M.init()
 			end
 		end
 	end
+	
+	for k, v in pairs(M.special) do
+		print("love.load special", v.str)
+		v.glyph = lg.newImage("images/special/"..v.str..".png")
+	end
+	
 end
 
 function M.draw_glyph_bg(x, y, size, col)
@@ -126,6 +136,11 @@ function M.draw_glyph(kana_type, glyph, x, y, size, col)
 	--print("draw_glyph", kana_type, glyph)
 	local img = M[kana_type][glyph].glyph
 	size = size or 100
+	
+	if img == nil then
+		img = M.special[glyph].glyph
+	end
+	
 	if img ~= nil then
 		lg.setColor(0,0,0,100)
 		local tmpSize = size * 1.08
@@ -137,7 +152,9 @@ function M.draw_glyph(kana_type, glyph, x, y, size, col)
 	end
 end
 
-function M.draw_text(text, x, y, size, col)
+function M.draw_text(text, x, y, size, col, align)
+
+	align = align or "c"
 	local len = string.len(text)
 	if len == 0 then
 		return
@@ -151,9 +168,15 @@ function M.draw_text(text, x, y, size, col)
 	local h = f:getHeight()
 
 	lg.setColor(0,0,0,100)
-	lg.print(text, x - (w * 0.5) + (h * 0.04), y - (h * 0.64))
-	lg.setColor(col.r, col.g, col.b)
-	lg.print(text, x - (w * 0.5), y - (h * 0.6))
+	if align == "c" then
+		lg.print(text, x - (w * 0.5) + (h * 0.04), y - (h * 0.64))
+		lg.setColor(col.r, col.g, col.b)
+		lg.print(text, x - (w * 0.5), y - (h * 0.6))
+	elseif align == "tl" then
+		lg.print(text, x + (size * 0.04), y - (size * 0.04))
+		lg.setColor(col.r, col.g, col.b)
+		lg.print(text, x, y)
+	end
 end
 
 function M.draw_kana_romaji(kana_type, kana, x, y, size, col)
@@ -168,6 +191,16 @@ function M.print_hiragana(text, x, y, size, col)
 	b = b or 0
 	for i, k in ipairs(text) do
 		M.draw_glyph("hiragana", k, x, y, size, col)
+		x = x + size
+	end
+end
+
+function M.print_kana(text, x, y, size, col, kana_type)
+	r = r or 0
+	g = g or 0
+	b = b or 0
+	for i, k in ipairs(text) do
+		M.draw_glyph(kana_type, k, x, y, size, col)
 		x = x + size
 	end
 end
