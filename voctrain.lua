@@ -44,6 +44,12 @@ function next_question()
 	end
 	status.word = alts[math.random(1, #alts)]
 	status.alternatives = alts
+	
+	if status.word == nil then
+		print("status.word == nil")
+	else
+		print("status.word", status.word.eng)
+	end
 end
 
 function M.show()
@@ -52,13 +58,32 @@ function M.show()
 end
 
 function M.mousepressed(x, y, button)
-	if status.button == "sound" then
 
+	if status.submode == "answer" then
+		if status.button == nil or status.button == "" then
+			return
+		end
+	
+		if status.button == status.word.eng then
+			status.submode = "answer_correct"
+			status.timeout = 1
+		else
+			status.submode = "answer_wrong"
+		end
+	else
+		next_question()
+		status.submode = "answer"
 	end
 end
 
 function M.update(dt, mx, my)
-
+	if status.submode == "answer_correct" then
+		status.timeout = status.timeout - dt
+		if status.timeout <= 0 then
+			next_question()
+			status.submode = "answer"
+		end
+	end
 end
 
 function M.draw()
@@ -71,7 +96,11 @@ function M.draw()
 		
 		kana.draw_text("What does this mean?", 20, 20, 90, util.color(80, 200, 255), "tl")
 		
-		kana.print_kana(status.word.kana, 100, 100, 70, util.color(80, 200, 255), status.word.kana_type)
+		if #status.word.kana < 10 then
+			kana.print_kana(status.word.kana, 100, 120, 70, util.color(80, 200, 255), status.word.kana_type)
+		else
+			kana.print_kana(status.word.kana, 100, 120, 50, util.color(80, 200, 255), status.word.kana_type)
+		end
 		
 		for i, alt in ipairs(status.alternatives) do
 		
@@ -80,10 +109,14 @@ function M.draw()
 			else
 				col = util.color(70, 70, 100)
 			end
-			b = { x = 120, y = 120 + (i * 48), w = 200, h = 40, name = alt.eng }
+			b = { x = 120, y = 130 + (i * 48), w = 200, h = 40, name = alt.eng }
 			kana.draw_text(alt.eng, b.x, b.y, 50, col, "tl")
 			table.insert(status.buttons, b)
 		end
+	elseif status.submode == "answer_correct" then
+		lg.setBackgroundColor(50,255,100)
+	elseif status.submode == "answer_wrong" then
+		lg.setBackgroundColor(250,50,50)
 	end
 --	
 --		for i, alt in ipairs(status.alternatives) do

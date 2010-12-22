@@ -43,8 +43,8 @@ M.layout = {
 }
 
 M.special = {
-	["~"] = { str = "long" },
-	["-"] = { str = "cont" }
+	["~"] = { str = "cont" },
+	["-"] = { str = "long" }
 }
 
 M.sounds = { }
@@ -134,11 +134,16 @@ end
 
 function M.draw_glyph(kana_type, glyph, x, y, size, col)
 	--print("draw_glyph", kana_type, glyph)
-	local img = M[kana_type][glyph].glyph
+	local img = M[kana_type][glyph]
 	size = size or 100
 	
 	if img == nil then
-		img = M.special[glyph].glyph
+		img = M.special[glyph]
+		if img ~= nil then
+			img = img.glyph
+		end
+	else
+		img = img.glyph
 	end
 	
 	if img ~= nil then
