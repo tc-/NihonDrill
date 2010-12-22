@@ -132,11 +132,14 @@ function M.draw_glyph_bg(x, y, size, col)
 	lg.circle("line", x, y, size / 1.6, size * 0.4)
 end
 
-function M.draw_glyph(kana_type, glyph, x, y, size, col)
-	--print("draw_glyph", kana_type, glyph)
+function M.draw_glyph(kana_type, glyph, x, y, size, col, auto_scaling)
 	local img = M[kana_type][glyph]
 	size = size or 100
-	
+
+	if auto_scaling == nil then
+		auto_scaling = true
+	end
+
 	if img == nil then
 		img = M.special[glyph]
 		if img ~= nil then
@@ -148,11 +151,14 @@ function M.draw_glyph(kana_type, glyph, x, y, size, col)
 	
 	if img ~= nil then
 		lg.setColor(0,0,0,100)
-		local tmpSize = size * 1.08
-		local scale = tmpSize / img:getWidth()
-		lg.draw(img, x - (tmpSize / 2.1), y - ((img:getHeight() * scale) / 2), 0, scale, scale, 0.5, 0.5)
+		local scale
+		if auto_scaling == true then
+			scale = size / img:getWidth()
+		else
+			scale = size / img:getHeight()
+		end
+		lg.draw(img, x - (size / 2) + (size * 0.04), y - ((img:getHeight() * scale) / 2) - (size * 0.04), 0, scale, scale, 0.5, 0.5)
 		lg.setColor(col.r, col.g, col.b)
-		scale = size / img:getWidth()
 		lg.draw(img, x - (size / 2), y - ((img:getHeight() * scale) / 2), 0, scale, scale, 0.5, 0.5)
 	end
 end
@@ -191,13 +197,7 @@ function M.draw_kana_romaji(kana_type, kana, x, y, size, col)
 end
 
 function M.print_hiragana(text, x, y, size, col)
-	r = r or 0
-	g = g or 0
-	b = b or 0
-	for i, k in ipairs(text) do
-		M.draw_glyph("hiragana", k, x, y, size, col)
-		x = x + size
-	end
+	M.print_kana(text, x, y, size, col, "hiragana")
 end
 
 function M.print_kana(text, x, y, size, col, kana_type)
@@ -205,8 +205,12 @@ function M.print_kana(text, x, y, size, col, kana_type)
 	g = g or 0
 	b = b or 0
 	for i, k in ipairs(text) do
-		M.draw_glyph(kana_type, k, x, y, size, col)
-		x = x + size
+		M.draw_glyph(kana_type, k, x, y, size, col, false)
+		if string.len(k) > 2 and k ~= "shi" and k ~= "chi" and k ~= "tsu" then
+			x = x + (size * 1.5)
+		else
+			x = x + size
+		end
 	end
 end
 

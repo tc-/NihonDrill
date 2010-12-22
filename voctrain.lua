@@ -113,7 +113,7 @@ function M.draw()
 			else
 				col = util.color(70, 70, 100)
 			end
-			b = { x = 120, y = 130 + (i * 48), w = 200, h = 40, name = alt.eng }
+			b = { x = 120, y = 130 + (i * 48), w = 800, h = 40, name = alt.eng }
 			kana.draw_text(alt.eng, b.x, b.y, 50, col, "tl")
 			table.insert(status.buttons, b)
 		end
