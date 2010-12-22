@@ -53,6 +53,7 @@ function next_question()
 end
 
 function M.show()
+	user.alternatives = 5
 	next_question()
 	status.submode = "answer"
 end

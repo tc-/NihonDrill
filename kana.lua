@@ -44,7 +44,8 @@ M.layout = {
 
 M.special = {
 	["~"] = { str = "cont" },
-	["-"] = { str = "long" }
+	["-"] = { str = "long" },
+	["?"] = { str = "q" },
 }
 
 M.sounds = { }
