@@ -70,12 +70,14 @@ function M.mousepressed(x, y, button)
 		end
 	elseif type(status.button) == "number" then
 		set_level(status.button)
+	elseif status.button == "#back" then
+		change_view("mainmenu")
 	end
 end
 
 function M.draw()
 
-	local col
+	local b, col
 	
 	kana.draw_text("Select what to practice.", 290, 30, 90, util.color(80, 200, 255))
 	
@@ -143,12 +145,6 @@ function M.draw()
 		for i2,l in ipairs(row) do
 			b = { x = basex + (i2*48), y = basey + (i*48), w = 48, h = 48, name = l }
 			
---			if status.button == l then
---				col = util.color(70, 255, 100)
---			else
---				col = util.color(70, 70, 100)
---			end
-			
 			if user.level == l then
 				if status.button == l then
 					col = util.color(180, 255, 180)
@@ -168,8 +164,15 @@ function M.draw()
 		end
 		
 	end
---		lg.setColor(255, 0, 0, 50)
---		lg.rectangle("fill", b.x, b.y, b.w, b.h)
+
+	if status.button == "#back" then
+		col = util.color(100, 200, 120)
+	else
+		col = util.color(80, 80, 120)
+	end
+	b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
+	kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+	table.insert(status.buttons, b)
 end
 
 return M

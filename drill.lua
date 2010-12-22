@@ -50,6 +50,10 @@ function M.mousepressed(x, y, button)
 				end
 			end
 		end
+		
+		if status.button == "#back" then
+			change_view("drilloptions")
+		end
 	else
 		next_question()
 		status.submode = "answer"
@@ -86,6 +90,8 @@ function M.update(dt, mx, my)
 end
 
 function M.draw()
+	local b, col
+
 	if status.submode == "answer" then
 		lg.setBackgroundColor(0,150,200)
 		col = util.color(140, 200, 255)
@@ -103,6 +109,15 @@ function M.draw()
 			kana.draw_glyph_bg(x, y, status.size / 1.5, col)
 			kana.draw_text(alt, x, y, status.size, col)
 		end
+		
+		if status.button == "#back" then
+			col = util.color(100, 200, 120)
+		else
+			col = util.color(80, 80, 120)
+		end
+		b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
+		kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+		table.insert(status.buttons, b)
 	elseif status.submode == "answer_correct" then
 		lg.setBackgroundColor(50,255,100)
 		col = util.color(60, 60, 60)

@@ -48,6 +48,8 @@ function M.mousepressed(x, y, button)
 		end
 	elseif type(status.button) == "number" then
 		user.vocabulary_level = status.button
+	elseif status.button == "#back" then
+		change_view("mainmenu")
 	end
 end
 
@@ -131,6 +133,15 @@ function M.draw()
 		
 		end
 	end
+	
+	if status.button == "#back" then
+		col = util.color(100, 200, 120)
+	else
+		col = util.color(80, 80, 120)
+	end
+	b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
+	kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+	table.insert(status.buttons, b)
 end
 
 return M

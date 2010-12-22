@@ -30,6 +30,8 @@ function M.mousepressed(x, y, button)
 		change_view("vocoptions")
 	elseif status.button == "kana" then
 		change_view("drilloptions")
+	elseif status.button == "#back" then
+		love.event.push('q')
 	end
 end
 
@@ -37,10 +39,8 @@ function M.draw()
 
 	local col
 	
-	kana.draw_text("What do you want to train?", 310, 30, 90, util.color(80, 200, 255))
-	
-	--kana.draw_text("Vocabulary", 160, 80, 70, util.color(80, 200, 255))
-	
+	kana.draw_text("What do you want to train?", 20, 20, 90, util.color(80, 200, 255), "tl")
+
 	if status.button == "vocabulary" then
 		col = util.color(180, 255, 180)
 	else
@@ -59,6 +59,14 @@ function M.draw()
 	kana.draw_text("Kana", b.x, b.y, 80, col, "tl")
 	table.insert(status.buttons, b)
 	
+	if status.button == "#back" then
+		col = util.color(100, 200, 120)
+	else
+		col = util.color(80, 80, 120)
+	end
+	b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
+	kana.draw_text("Quit", b.x, b.y, 50, col, "tl")
+	table.insert(status.buttons, b)
 end
 
 return M

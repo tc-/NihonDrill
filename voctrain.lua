@@ -63,12 +63,16 @@ function M.mousepressed(x, y, button)
 		if status.button == nil or status.button == "" then
 			return
 		end
-	
-		if status.button == status.word.eng then
-			status.submode = "answer_correct"
-			status.timeout = 1
+		
+		if status.button == "#back" then
+			change_view("vocoptions")
 		else
-			status.submode = "answer_wrong"
+			if status.button == status.word.eng then
+				status.submode = "answer_correct"
+				status.timeout = 1
+			else
+				status.submode = "answer_wrong"
+			end
 		end
 	else
 		next_question()
@@ -88,7 +92,7 @@ end
 
 function M.draw()
 
-	local b
+	local b, col
 
 	if status.submode == "answer" then
 		lg.setBackgroundColor(0,150,200)
@@ -113,55 +117,46 @@ function M.draw()
 			kana.draw_text(alt.eng, b.x, b.y, 50, col, "tl")
 			table.insert(status.buttons, b)
 		end
+		
+		if status.button == "#back" then
+			col = util.color(100, 200, 120)
+		else
+			col = util.color(80, 80, 120)
+		end
+		b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
+		kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+		table.insert(status.buttons, b)
+			
 	elseif status.submode == "answer_correct" then
 		lg.setBackgroundColor(50,255,100)
+		col = util.color(60, 60, 60)
+		kana.draw_glyph("hiragana", "ha", lg.getWidth() - 100, lg.getHeight() - 200, 100, col)
+		kana.draw_glyph("hiragana", "i", lg.getWidth() - 100, lg.getHeight() - 100, 100, col)
+		
+		col = util.color(0, 120, 0)
+		if #status.word.kana < 10 then
+			kana.print_kana(status.word.kana, 100, 120, 70, col, status.word.kana_type)
+		else
+			kana.print_kana(status.word.kana, 100, 120, 50, col, status.word.kana_type)
+		end
+		
+		kana.draw_text(status.word.eng, 120, 160, 50, col, "tl")
+		
 	elseif status.submode == "answer_wrong" then
 		lg.setBackgroundColor(250,50,50)
+		col = util.color(60, 60, 60)
+		kana.draw_glyph("hiragana", "da", lg.getWidth() - 100, lg.getHeight() - 200, 100, col)
+		kana.draw_glyph("hiragana", "me", lg.getWidth() - 100, lg.getHeight() - 100, 100, col)
+		
+		col = util.color(50, 255, 50)
+		if #status.word.kana < 10 then
+			kana.print_kana(status.word.kana, 100, 120, 70, col, status.word.kana_type)
+		else
+			kana.print_kana(status.word.kana, 100, 120, 50, col, status.word.kana_type)
+		end
+		
+		kana.draw_text(status.word.eng, 120, 160, 50, col, "tl")
 	end
---	
---		for i, alt in ipairs(status.alternatives) do
---			local x, y = get_alternative_pos(i)
---		
---			if alt == status.hover then
---				col = util.color(140, 200, 255)
---			else
---				col = util.color(0, 40, 80)
---			end
---			kana.draw_glyph_bg(x, y, status.size / 1.5, col)
---			kana.draw_text(alt, x, y, status.size, col)
---		end
---	elseif status.submode == "answer_correct" then
---		lg.setBackgroundColor(50,255,100)
---		col = util.color(60, 60, 60)
---		kana.draw_glyph("hiragana", "ha", 100, 100, 100, col)
---		kana.draw_glyph("hiragana", "i", 100, 200, 100, col)
---		local w = lg.getWidth()
---		kana.draw_kana_romaji(status.kana_type, status.kana, w / 2, 300, 200, util.color(0, 120, 0))
---	elseif status.submode == "answer_wrong" then
---		lg.setBackgroundColor(250,50,50)
---		local w = lg.getWidth()
---		col = util.color(60, 60, 60)
---		kana.draw_glyph("hiragana", "da", 100, 100, 100, col)
---		kana.draw_glyph("hiragana", "me", 100, 200, 100, col)
---		kana.draw_kana_romaji(status.kana_type, status.kana, w / 2, 200, 200, util.color(50, 255, 50))
---		kana.draw_kana_romaji(status.kana_type, status.hover, w / 2, 450, 60, util.color(250, 200, 150))
---	end
-
---	if status.button == "sound" then
---		lg.setColor(180, 250, 255, 255);
---	else
---		lg.setColor(140, 200, 255, 50);
---	end
-
---	b = { x = lg.getWidth() - 60, y = lg.getHeight() - 60, w = 60, h = 48, name = "sound" }
-
---	if user.sound == true then
---		lg.draw(images.sound, b.x, b.y, 0, 0.4, 0.4)
---	else
---		lg.draw(images.nosound, lg.getWidth() - 60, lg.getHeight() - 60, 0, 0.4, 0.4)
---	end
-
---	table.insert(status.buttons, b)
 end
 
 return M
