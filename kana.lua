@@ -46,6 +46,7 @@ M.special = {
 	["~"] = { str = "cont" },
 	["-"] = { str = "long" },
 	["?"] = { str = "q" },
+	["xtsu"] = { str = "xtsu" },
 }
 
 M.sounds = { }
@@ -202,15 +203,18 @@ function M.print_hiragana(text, x, y, size, col)
 end
 
 function M.print_kana(text, x, y, size, col, kana_type)
-	r = r or 0
-	g = g or 0
-	b = b or 0
 	for i, k in ipairs(text) do
-		M.draw_glyph(kana_type, k, x, y, size, col, false)
-		if (string.len(k) > 2 and k ~= "shi" and k ~= "chi" and k ~= "tsu") or k == "ja" or k == "ju" or k == "jo" then
-			x = x + (size * 1.5)
+	
+		if k ~= string.upper(k) then
+			M.draw_glyph(kana_type, k, x, y, size, col, false)
+			if (string.len(k) > 2 and k ~= "shi" and k ~= "chi" and k ~= "tsu" and k ~= "xtsu") or k == "ja" or k == "ju" or k == "jo" then
+				x = x + (size * 1.5)
+			else
+				x = x + size
+			end
 		else
-			x = x + size
+			M.draw_text(k, x, y, size * 2.0, col)
+			x = x + (size * 1.0)
 		end
 	end
 end
