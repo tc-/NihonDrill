@@ -32,6 +32,8 @@ function M.mousepressed(x, y, button)
 		change_view("drilloptions")
 	elseif status.button == "#back" then
 		love.event.push('q')
+	elseif status.button == "credits" then
+		change_view("about")
 	end
 end
 
@@ -57,6 +59,15 @@ function M.draw()
 	end
 	b = { x = 50, y = 200, w = 100, h = 60, name = "kana" }
 	kana.draw_text("Kana", b.x, b.y, 80, col, "tl")
+	table.insert(status.buttons, b)
+	
+	if status.button == "credits" then
+		col = util.color(100, 200, 120)
+	else
+		col = util.color(80, 80, 120)
+	end
+	b = { x = lg.getWidth() - 100, y = lg.getHeight() - 40, w = 90, h = 28, name = "credits" }
+	kana.draw_text("Credits", b.x, b.y, 50, col, "tl")
 	table.insert(status.buttons, b)
 	
 	if status.button == "#back" then

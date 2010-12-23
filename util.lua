@@ -12,7 +12,7 @@ function M.get_font(size)
 	if fonts[size] ~= nil then
 		return fonts[size]
 	else
-		local f = lg.newFont(size, "Tuffy.ttf") -- http://tulrich.com/fonts/
+		local f = lg.newFont(size, "Tuffy.ttf") -- http://tulrich.com/fonts/ Thatcher Ulrich
 		fonts[size] = f
 		return f
 	end

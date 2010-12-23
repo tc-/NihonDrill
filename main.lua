@@ -12,6 +12,7 @@ views.drilloptions = require("drilloptions")
 views.vocoptions = require("vocoptions")
 views.mainmenu = require("mainmenu")
 views.voctrain = require("voctrain")
+views.about = require("about")
 
 local status = {
 	view = "mainmenu", --"drill",
