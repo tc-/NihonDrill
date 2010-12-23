@@ -207,7 +207,7 @@ function M.print_kana(text, x, y, size, col, kana_type)
 	b = b or 0
 	for i, k in ipairs(text) do
 		M.draw_glyph(kana_type, k, x, y, size, col, false)
-		if string.len(k) > 2 and k ~= "shi" and k ~= "chi" and k ~= "tsu" then
+		if (string.len(k) > 2 and k ~= "shi" and k ~= "chi" and k ~= "tsu") or k == "ja" or k == "ju" or k == "jo" then
 			x = x + (size * 1.5)
 		else
 			x = x + size

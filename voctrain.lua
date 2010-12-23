@@ -18,33 +18,49 @@ function M.init(data)
 	images = data.images
 end
 
-function all_words(level, voc)
+function all_words(level, voc, specific_level_only)
 	local t = {}
 
-	for i=1,level,1 do
-	
-		for i1, k in ipairs(voc.levels[i]) do
-			table.insert(t, k)
+	if specific_level_only ~= true then
+		for i=1,level,1 do
+
+			for i1, k in ipairs(voc.levels[i]) do
+				table.insert(t, k)
+			end
+
 		end
-
+	else
+		for i1, k in ipairs(voc.levels[level]) do
+				table.insert(t, k)
+		end
 	end
-
 	return t
 end
 
 function next_question()
-	local words = all_words(user.vocabulary_level, user.vocabulary)
+	local words = all_words(user.vocabulary_level, user.vocabulary, false)
 	local alts = {}
 	local word
 	
-	while #alts < user.alternatives do
+	if #status.word_queue == 0 then
+		status.word_queue = util.scramble(all_words(user.vocabulary_level, user.vocabulary, false))
+	end
+	
+	while #alts < user.alternatives - 1 do
 		word = words[math.random(1, #words)]
 		util.remove_object(words, word)
 		table.insert(alts, word)
 	end
-	status.word = alts[math.random(1, #alts)]
-	status.alternatives = alts
-	
+	status.word = status.word_queue[1] --alts[math.random(1, #alts)]
+	if util.contains(alts, status.word) then
+		word = words[math.random(1, #words)]
+		table.insert(alts, word)
+	else
+		table.insert(alts, math.random(1, #alts), status.word)
+		util.remove_object(status.word_queue, status.word)
+		status.alternatives = alts
+	end
+
 	if status.word == nil then
 		print("status.word == nil")
 	else
@@ -54,6 +70,7 @@ end
 
 function M.show()
 	user.alternatives = 5
+	status.word_queue = all_words(user.vocabulary_level, user.vocabulary, true)
 	next_question()
 	status.submode = "answer"
 end

@@ -26,6 +26,26 @@ function M.remove_object(t, o)
 	end
 end
 
+function M.contains(t, o)
+	for k,v in pairs(t) do
+		if v == o then
+			return true
+		end
+	end
+	return false;
+end
+
+function M.scramble(t)
+	local t2 = {}
+	local pos
+	while #t > 0 do
+		pos = math.random(1,#t)
+		table.insert(t2, t[pos]);
+		table.remove(t, pos)
+	end
+	return t2
+end
+
 function M.distance_to(x1, y1, x2, y2)
 	local dist = math.sqrt( math.pow(x2 - x1, 2) + math.pow(y2 - y1, 2) )
 	return dist
