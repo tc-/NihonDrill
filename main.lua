@@ -13,6 +13,7 @@ views.vocoptions = require("vocoptions")
 views.mainmenu = require("mainmenu")
 views.voctrain = require("voctrain")
 views.about = require("about")
+views.test = require("test")
 
 local status = {
 	view = "mainmenu", --"drill",

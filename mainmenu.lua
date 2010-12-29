@@ -34,6 +34,8 @@ function M.mousepressed(x, y, button)
 		love.event.push('q')
 	elseif status.button == "credits" then
 		change_view("about")
+	elseif status.button == "#test" then
+		change_view("test")
 	end
 end
 
@@ -77,6 +79,9 @@ function M.draw()
 	end
 	b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
 	kana.draw_text("Quit", b.x, b.y, 50, col, "tl")
+	table.insert(status.buttons, b)
+	
+	b = { x = lg.getWidth() - 20, y = lg.getHeight() - 20, w = 20, h = 20, name = "#test" }
 	table.insert(status.buttons, b)
 end
 

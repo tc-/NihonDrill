@@ -258,6 +258,44 @@ function M.draw_table(kana_type, basex, basey, size, selected)
 	return buttons
 end
 
+function M.draw_table(kana_type, x, y, w, h, size, text_col)
+	
+	local kh = h / 17
+	local posx = x
+	local posy = y
+	
+	for i, row in ipairs(M.layout) do
+	
+		local kw = w / 10
+		
+		if i >= 1 and i <= 11 then
+			posy = y + ((i - 1) * kh);
+			posx = x
+		elseif i >= 12 and i <= 16 then
+			posy = y + ((i - 1) * kh) + kh;
+			posx = x
+		elseif i >= 17 and i <= 22 then
+			posy = y + ((i - 17) * kh);
+			posx = x + (kw * 6);
+		elseif i == 23 then
+			posy = y + ((i - 15) * kh);
+			posx = x + (kw * 6);
+		elseif i >= 24 and i <= 25 then
+			posy = y + ((i - 12) * kh) + 4;
+			posx = x + (kw * 6);
+		elseif i >= 26 and i <= 27 then
+			posy = y + ((i - 11) * kh) + 5;
+			posx = x + (kw * 6);
+		end
+		
+		for i2, glyph in ipairs(row) do
+			M.draw_glyph(kana_type, glyph, posx, posy, size, text_col, false)
+			posx = posx + kw
+		end
+	end
+	
+end
+
 return M
 
 
