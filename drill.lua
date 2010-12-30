@@ -10,8 +10,46 @@ local util = nil
 local kana = nil
 local images = nil
 
+
 local function next_question()
-	status.kana, status.alternatives, status.kana_type = kana.generate_question(user.level, status.kana, user.alternatives, user.kana_types)
+	local kanas = kana.all_test_kanas(user.level)
+	local alts = {}
+	local kana
+	
+	if #status.kana_queue == 0 then
+		status.kana_queue = util.scramble(kana.all_test_kanas(user.level))
+	end
+	
+	while #alts < user.alternatives - 1 do
+		kana = kanas[math.random(1, #kanas)]
+		util.remove_object(kanas, kana)
+		table.insert(alts, kana)
+	end
+	status.kana = status.kana_queue[1]
+	if util.contains(alts, status.kana) then
+		kana = kanas[math.random(1, #kanas)]
+		table.insert(alts, kana)
+	else
+		table.insert(alts, math.random(1, #alts), status.kana)
+	end
+
+	util.remove_object(status.kana_queue, status.kana)
+	status.alternatives = alts
+
+	status.kana_type = user.kana_types
+	if user.kana_types == "both" then
+		if math.random(1,2) == 1 then
+			status.kana_type = "hiragana"
+		else
+			status.kana_type = "katakana"
+		end
+	end
+
+	if status.kana == nil then
+		print("status.kana == nil")
+	else
+--		print("status.kana", status.kana)
+	end
 end
 
 local function get_alternative_pos(index)
@@ -30,6 +68,7 @@ function M.init(data)
 end
 
 function M.show()
+	status.kana_queue = util.scramble(kana.all_test_kanas(user.level))
 	next_question()
 	status.submode = "answer"
 end
@@ -44,6 +83,10 @@ function M.mousepressed(x, y, button)
 					la.play(kana.sounds[status.kana])
 				end
 			else
+				-- Add the kana the user answered incorrectly to the queue.
+				table.insert(status.kana_queue, status.kana)
+				table.insert(status.kana_queue, status.hover)
+				
 				status.submode = "answer_wrong"
 				if user.sound == true then
 					la.play(kana.sounds[status.kana])

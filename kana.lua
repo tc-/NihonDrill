@@ -70,40 +70,6 @@ function M.all_test_kanas(level)
 	return t
 end
 
-function M.generate_question(level, last, num_alt, user_kana_types)
-	local kanas = M.all_test_kanas(level)
-	local selected = kanas[math.random(1, #kanas)]
-	while selected == last do
-		selected = kanas[math.random(1, #kanas)]
-	end
-	
-	util.remove_object(kanas, selected)
-	
-	local i = 0
-	local alts = { }
-	while i < num_alt - 1 do
-		print("#kanas", #kanas)
-		local alt = kanas[math.random(1, #kanas)]
-		util.remove_object(kanas, alt)
-		table.insert(alts, alt)
-		i = i + 1
-	end
-	
-	local pos = math.random(1, num_alt)
-	table.insert(alts, pos, selected)
-	
-	local kana_type = user_kana_types
-	if user_kana_types == "both" then
-		if math.random(1,2) == 1 then
-			kana_type = "hiragana"
-		else
-			kana_type = "katakana"
-		end
-	end
-	
-	return selected, alts, kana_type
-end
-
 function M.init()
 
 	for i, row in ipairs(M.layout) do

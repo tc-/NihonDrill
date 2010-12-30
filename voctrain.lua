@@ -18,7 +18,7 @@ function M.init(data)
 	images = data.images
 end
 
-function all_words(level, voc, specific_level_only)
+local function all_words(level, voc, specific_level_only)
 	local t = {}
 
 	if specific_level_only ~= true then
@@ -37,7 +37,7 @@ function all_words(level, voc, specific_level_only)
 	return t
 end
 
-function next_question()
+local function next_question()
 	local words = all_words(user.vocabulary_level, user.vocabulary, false)
 	local alts = {}
 	local word
@@ -57,14 +57,15 @@ function next_question()
 		table.insert(alts, word)
 	else
 		table.insert(alts, math.random(1, #alts), status.word)
-		util.remove_object(status.word_queue, status.word)
-		status.alternatives = alts
 	end
+
+	util.remove_object(status.word_queue, status.word)
+	status.alternatives = alts
 
 	if status.word == nil then
 		print("status.word == nil")
 	else
-		print("status.word", status.word.eng)
+--		print("status.word", status.word.eng)
 	end
 end
 
