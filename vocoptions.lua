@@ -17,6 +17,8 @@ function M.init(data)
 	util = data.util
 	kana = data.kana
 	
+	vocabulary.init()
+	
 	if user.selected_voc == nil then
 		user.vocabulary = vocabulary.vocabularies[1]
 		user.vocabulary_level = 1
