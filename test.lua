@@ -36,9 +36,9 @@ function M.draw()
 	local b, col
 
 	lg.setBackgroundColor(0,150,200)
-	col = util.color(140, 200, 255)
+	col = util.color(220, 220, 255)
 	
-	kana.draw_table("hiragana", 40, 40, 500, 500, 24, col)
+	kana.draw_table("hiragana", 20, 20, 580, 540, 26, col, util.color(100, 160, 200), util.color(180, 200, 255), util.color(120, 255, 200), {["ka"] = "ka"})
 	
 	if status.button == "#back" then
 		col = util.color(100, 200, 120)

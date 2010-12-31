@@ -185,7 +185,7 @@ function M.print_kana(text, x, y, size, col, kana_type)
 	end
 end
 
-function M.draw_table(kana_type, basex, basey, size, selected)
+function M.draw_table2(kana_type, basex, basey, size, selected)
 	
 	local text_size = size / 5
 	local buttons = { }
@@ -224,42 +224,70 @@ function M.draw_table(kana_type, basex, basey, size, selected)
 	return buttons
 end
 
-function M.draw_table(kana_type, x, y, w, h, size, text_col)
+function M.draw_table(kana_type, x, y, w, h, size, text_col, bg_col, frame_col, bg_sel_col, selected)
 	
-	local kh = h / 17
+	local sw = w * 0.5
+	local cw = w - sw - 10
 	local posx = x
 	local posy = y
+	local buttons = {}
+	
+	selected = selected or {}
 	
 	for i, row in ipairs(M.layout) do
 	
-		local kw = w / 10
+		local incnum = 1
+		local kw = sw / 5
+		local kh = h / 17
 		
 		if i >= 1 and i <= 11 then
 			posy = y + ((i - 1) * kh);
 			posx = x
+			if i == 8 then
+				incnum = 2
+			elseif i == 10 then
+				incnum = 4
+			end
 		elseif i >= 12 and i <= 16 then
 			posy = y + ((i - 1) * kh) + kh;
 			posx = x
-		elseif i >= 17 and i <= 22 then
-			posy = y + ((i - 17) * kh);
-			posx = x + (kw * 6);
-		elseif i == 23 then
-			posy = y + ((i - 15) * kh);
-			posx = x + (kw * 6);
-		elseif i >= 24 and i <= 25 then
-			posy = y + ((i - 12) * kh) + 4;
-			posx = x + (kw * 6);
-		elseif i >= 26 and i <= 27 then
-			posy = y + ((i - 11) * kh) + 5;
-			posx = x + (kw * 6);
+		else
+			kw = cw / 3
+			posx = x + w - cw
+			if i <= 22 then
+				posy = y + ((i - 16) * kh);
+			elseif i == 23 then
+				posy = y + ((i - 14) * kh);
+			elseif i >= 24 and i <= 25 then
+				posy = y + ((i - 12) * kh);
+			elseif i >= 26 and i <= 27 then
+				posy = y + ((i - 11) * kh);
+			end
 		end
 		
 		for i2, glyph in ipairs(row) do
-			M.draw_glyph(kana_type, glyph, posx, posy, size, text_col, false)
-			posx = posx + kw
+			b = { x = posx, y = posy, w = kw, h = kh, name = "kana_"..glyph }
+			table.insert(buttons, b)
+			
+			if selected[glyph] ~= nil then
+				lg.setColor(bg_sel_col.r, bg_sel_col.g, bg_sel_col.b, bg_sel_col.a)
+			else
+				lg.setColor(bg_col.r, bg_col.g, bg_col.b, bg_col.a)
+			end
+			lg.rectangle("fill", posx, posy, kw - 1, kh - 1)
+			
+			M.draw_glyph(kana_type, glyph, posx + (kw * 0.23), posy + (kh * 0.5), size, text_col, false)
+			M.draw_text(glyph, posx + (kw * 0.56), posy + (size * 0.3), size, text_col, "tl")
+			
+			lg.setLineWidth(1)
+			lg.setColor(frame_col.r, frame_col.g, frame_col.b, frame_col.a)
+			lg.rectangle("line", posx, posy, kw - 1, kh - 1)
+
+			posx = posx + (kw * incnum)
 		end
 	end
 	
+	return buttons
 end
 
 return M
