@@ -38,12 +38,12 @@ local function all_words(level, voc, specific_level_only)
 end
 
 local function next_question()
-	local words = all_words(user.vocabulary_level, user.vocabulary, false)
+	local words = all_words(user.vocabulary_level, status.vocabulary, false)
 	local alts = {}
 	local word
 	
 	if #status.word_queue == 0 then
-		status.word_queue = util.scramble(all_words(user.vocabulary_level, user.vocabulary, false))
+		status.word_queue = util.scramble(all_words(user.vocabulary_level, status.vocabulary, false))
 	end
 	
 	while #alts < user.alternatives - 1 do
@@ -71,7 +71,7 @@ end
 
 function M.show()
 	user.alternatives = 5
-	status.word_queue = all_words(user.vocabulary_level, user.vocabulary, true)
+	status.word_queue = all_words(user.vocabulary_level, status.vocabulary, true)
 	next_question()
 	status.submode = "answer"
 end

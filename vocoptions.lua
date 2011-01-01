@@ -19,9 +19,21 @@ function M.init(data)
 	
 	vocabulary.init()
 	
-	if user.selected_voc == nil then
-		user.vocabulary = vocabulary.vocabularies[1]
-		user.vocabulary_level = 1
+	if status.vocabulary == nil then
+		if user.vocabulary_name ~= nil then
+			for i,v in ipairs(vocabulary.vocabularies) do
+				if v.name == user.vocabulary_name then
+					status.vocabulary = v
+				end
+			end
+		end
+		
+		if status.vocabulary == nil then
+			status.vocabulary = vocabulary.vocabularies[1]
+			
+			user.vocabulary_name = status.vocabulary.name
+			user.vocabulary_level = 1
+		end
 	end
 end
 
@@ -39,13 +51,14 @@ function M.mousepressed(x, y, button)
 	for i=1,#vocabulary.vocabularies,1 do
 		local voc = vocabulary.vocabularies[i]
 		if status.button == voc.name then
-			user.vocabulary = voc
+			status.vocabulary = voc
+			user.vocabulary_name = status.vocabulary.name
 			user.vocabulary_level = 1
 		end
 	end
 	
 	if status.button == "hajime" then
-		if user.vocabulary ~= nil then
+		if status.vocabulary ~= nil then
 			change_view("voctrain")
 		end
 	elseif type(status.button) == "number" then
@@ -66,7 +79,7 @@ function M.draw()
 	for i=1,#vocabulary.vocabularies,1 do
 		local voc = vocabulary.vocabularies[i]
 		
-		if user.vocabulary == voc then
+		if status.vocabulary == voc then
 			if status.button == voc.name then
 				col = util.color(180, 255, 180)
 			else
@@ -85,7 +98,7 @@ function M.draw()
 		table.insert(status.buttons, b)
 	end
 
-	if user.vocabulary == nil then
+	if status.vocabulary == nil then
 		col = util.color(70, 70, 100)
 	elseif status.button == "hajime" then
 		col = util.color(180, 255, 180)
@@ -104,9 +117,9 @@ function M.draw()
 	local colu = 0
 	local row = 0
 	
-	if user.vocabulary ~= nil then
+	if status.vocabulary ~= nil then
 
-		for i=1,#user.vocabulary.levels,1 do
+		for i=1,#status.vocabulary.levels,1 do
 			
 			if colu >= cols then
 				colu = 0

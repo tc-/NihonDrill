@@ -31,18 +31,30 @@ local status = {
 	buttons = { }
 }
 
-local user = {
-	level = 1, -- 1 -> 27
+local default_user = {
+	level = 1,
 	alternatives = 4,
 	kana_types = "", -- "hiragana" | "katakana" | "both"
-	errors = {
-		{ kana = "i", mixed_with = {"i"}, times = 2 }
-	},
-	correct = {
-		{ kana = "e", times = 3 }
-	},
 	sound = true, -- http://thejapanesepage.com
+	status = {
+		kana = {
+			hiragana = {
+				correct = { },
+				incorrect = { }
+			},
+			katakana = {
+				correct = { },
+				incorrect = { }
+			}
+		},
+		voc = {
+			correct = { },
+			incorrect = { }
+		}
+	}
 }
+
+local user
 
 local images = { }
 
@@ -70,6 +82,24 @@ function love.load()
 	math.randomseed(os.time())
 	
 	love.filesystem.setIdentity("NihonDrill")
+	
+	if love.filesystem.exists("user.lua") then
+		local chunk = love.filesystem.load("user.lua")
+		local ok, result = pcall(chunk)
+		if not ok then
+			print("love.load failed to load user data", result)
+			user = default_user
+		else
+			print("love.load loaded user data", "data does not contain all keys")
+			util.print_table(result)
+			user = result
+			data.user = user
+		end
+	else
+		user = default_user
+	end
+	
+	data.user = user
 	
 	kana.init()
 	
@@ -142,5 +172,8 @@ function love.focus(f)
 end
 
 function love.quit()
+	local data = "return "..util.serialize(user)
+	--print(data)
+	love.filesystem.write("user.lua", data)
 end
 

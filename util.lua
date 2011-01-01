@@ -60,9 +60,9 @@ function M.point_within(px, py, ax, ay, w, h)
 end
 
 function M.indent(s, ind)
-	local ret
+	local ret = ""
 	for i=0,ind do
-		ret = ret + "\t"
+		ret = ret.."\t"
 	end
 	return ret..s
 end
@@ -72,12 +72,18 @@ local function serialize_indent(o, i)
 		return o
 	elseif type(o) == "string" then
 		return string.format("%q", o)
+	elseif type(o) == "boolean" then
+		if o then
+			return "true"
+		else
+			return "false"
+		end
 	elseif type(o) == "table" then
 		local ret = "{\n"
 		for k,v in pairs(o) do
 			ret = ret..M.indent(k.." = "..serialize_indent(v, i + 1)..",\n", i + 1)
 		end
-		ret = ret..M.indent("}\n", i)
+		ret = ret..M.indent("}", i)
 		return ret
 	else
 		error("cannot serialize a " .. type(o))
@@ -86,6 +92,30 @@ end
 
 function M.serialize(o)
 	return serialize_indent(o, 0)
+end
+
+function M.print_table(t)
+	if t ~= nil then
+		local i = 0
+		for k,v in pairs(t) do
+			print(k, "=>", v)
+			i = i + 1
+		end
+		if i == 0 then
+			print("empty")
+		end
+	else
+		print("nil")
+	end
+end
+
+function M.num_keys(t)
+	local i = 0
+	for k,v in pairs(t) do
+		i = i + 1
+		--print(k, v)
+	end
+	return i
 end
 
 return M
