@@ -22,7 +22,7 @@ function M.show()
 end
 
 function M.mousepressed(x, y, button)
-	if status.button == "#back" then
+	if status.button.name == "#back" then
 		change_view("mainmenu")
 	end
 end
@@ -52,7 +52,7 @@ function M.draw()
 	-- Font Tuffy http://tulrich.com/fonts/ Thatcher Ulrich
 	-- Sound http://thejapanesepage.com/
 	
-	if status.button == "#back" then
+	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)
 	else
 		col = util.color(80, 80, 120)

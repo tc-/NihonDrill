@@ -23,7 +23,7 @@ function M.show()
 end
 
 function M.mousepressed(x, y, button)
-	if status.button == "#back" then
+	if status.button.name == "#back" then
 		change_view("mainmenu")
 	end
 end
@@ -40,7 +40,7 @@ function M.draw()
 	
 	kana.draw_table("hiragana", 20, 20, 580, 540, 26, col, util.color(100, 160, 200), util.color(180, 200, 255), util.color(120, 255, 200), {["ka"] = "ka"})
 	
-	if status.button == "#back" then
+	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)
 	else
 		col = util.color(80, 80, 120)

@@ -44,7 +44,7 @@ function M.update(dt, mx, my)
 end
 
 function M.mousepressed(x, y, button)
-	if status.button == "hiragana" then
+	if status.button.name == "hiragana" then
 		if user.kana_types == "" then
 			user.kana_types = "hiragana"
 		elseif user.kana_types == "katakana" then
@@ -54,7 +54,7 @@ function M.mousepressed(x, y, button)
 		elseif user.kana_types == "hiragana" then
 			user.kana_types = ""
 		end
-	elseif status.button == "katakana" then
+	elseif status.button.name == "katakana" then
 		if user.kana_types == "" then
 			user.kana_types = "katakana"
 		elseif user.kana_types == "hiragana" then
@@ -64,13 +64,13 @@ function M.mousepressed(x, y, button)
 		elseif user.kana_types == "katakana" then
 			user.kana_types = ""
 		end
-	elseif status.button == "hajime" then
+	elseif status.button.name == "hajime" then
 		if user.kana_types ~= "" then
 			change_view("drill")
 		end
-	elseif type(status.button) == "number" then
-		set_level(status.button)
-	elseif status.button == "#back" then
+	elseif type(status.button.name) == "number" then
+		set_level(status.button.name)
+	elseif status.button.name == "#back" then
 		change_view("mainmenu")
 	end
 end
@@ -84,13 +84,13 @@ function M.draw()
 	kana.draw_text("Syllabaries", 160, 80, 70, util.color(80, 200, 255))
 	
 	if user.kana_types == "hiragana" or user.kana_types == "both" then
-		if status.button == "hiragana" then
+		if status.button.name == "hiragana" then
 			col = util.color(180, 255, 180)
 		else
 			col = util.color(70, 255, 100)
 		end
 	else
-		if status.button == "hiragana" then
+		if status.button.name == "hiragana" then
 			col = util.color(100, 200, 120)
 		else
 			col = util.color(70, 70, 100)
@@ -105,13 +105,13 @@ function M.draw()
 	table.insert(status.buttons, b)
 	
 	if user.kana_types == "katakana" or user.kana_types == "both" then
-		if status.button == "katakana" then
+		if status.button.name == "katakana" then
 			col = util.color(180, 255, 180)
 		else
 			col = util.color(70, 255, 100)
 		end
 	else
-		if status.button == "katakana" then
+		if status.button.name == "katakana" then
 			col = util.color(100, 200, 120)
 		else
 			col = util.color(70, 70, 100)
@@ -127,7 +127,7 @@ function M.draw()
 	
 	if user.kana_types == "" then
 		col = util.color(70, 70, 100)
-	elseif status.button == "hajime" then
+	elseif status.button.name == "hajime" then
 		col = util.color(180, 255, 180)
 	else
 		col = util.color(70, 255, 100)
@@ -146,13 +146,13 @@ function M.draw()
 			b = { x = basex + (i2*48), y = basey + (i*48), w = 48, h = 48, name = l }
 			
 			if user.level == l then
-				if status.button == l then
+				if status.button.name == l then
 					col = util.color(180, 255, 180)
 				else
 					col = util.color(70, 255, 100)
 				end
 			else
-				if status.button == l then
+				if status.button.name == l then
 					col = util.color(100, 200, 120)
 				else
 					col = util.color(70, 70, 100)
@@ -165,7 +165,7 @@ function M.draw()
 		
 	end
 
-	if status.button == "#back" then
+	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)
 	else
 		col = util.color(80, 80, 120)

@@ -185,61 +185,21 @@ function M.print_kana(text, x, y, size, col, kana_type)
 	end
 end
 
-function M.draw_table2(kana_type, basex, basey, size, selected)
-	
-	local text_size = size / 5
-	local buttons = { }
-	
-	for ri, row in ipairs(M.layout) do
-		
-		for ci, l in ipairs(row) do
-			
-			b = { x = basex + (i2*48), y = basey + (i*48), w = 48, h = 48, name = l }
-
-			if user.level == l then
-				if status.button == l then
-					col = util.color(180, 255, 180)
-				else
-					col = util.color(70, 255, 100)
-				end
-			else
-				if status.button == l then
-					col = util.color(100, 200, 120)
-				else
-					col = util.color(70, 70, 100)
-				end
-			end
-			
-			if kana_type == "romaji" then
-				M.draw_text(l, b.x + 24, b.y + 24, 60, col)
-			else
-				M.draw_glyph(kana_type, l, b.x, b.y, text_size, col)
-			end
-			table.insert(buttons, b)
-		
-		end
-		
-	end
-	
-	return buttons
-end
-
 function M.draw_table(kana_type, x, y, w, h, size, text_col, bg_col, frame_col, bg_sel_col, selected)
-	
 	local sw = w * 0.5
 	local cw = w - sw - 10
 	local posx = x
 	local posy = y
 	local buttons = {}
-	
+
 	selected = selected or {}
-	
+
 	for i, row in ipairs(M.layout) do
-	
+
 		local incnum = 1
 		local kw = sw / 5
 		local kh = h / 17
-		
+
 		if i >= 1 and i <= 11 then
 			posy = y + ((i - 1) * kh);
 			posx = x
@@ -264,7 +224,7 @@ function M.draw_table(kana_type, x, y, w, h, size, text_col, bg_col, frame_col, 
 				posy = y + ((i - 11) * kh);
 			end
 		end
-		
+
 		for i2, glyph in ipairs(row) do
 			b = { x = posx, y = posy, w = kw, h = kh, name = "kana_"..glyph }
 			table.insert(buttons, b)
@@ -286,7 +246,7 @@ function M.draw_table(kana_type, x, y, w, h, size, text_col, bg_col, frame_col, 
 			posx = posx + (kw * incnum)
 		end
 	end
-	
+
 	return buttons
 end
 

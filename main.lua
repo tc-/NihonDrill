@@ -109,26 +109,42 @@ end
 function love.update(dt)
 	local mx, my = love.mouse.getPosition()
 
-	local v = views[status.view]
+	status.button = nil
+	for i, b in pairs(status.buttons) do
+		if b.r == nil then
+			-- Rectangular button
+			if util.point_within(mx, my, b.x, b.y, b.w, b.h) then
+				status.button = b
+				break
+			end
+		else
+			-- Circle button
+			if util.distance_to(b.x, b.y, mx, my) <= b.r then
+				status.button = b
+				break
+			end
+		end
+	end
 	
+	if status.button == nil then
+		status.button = {}
+	end
+	
+	local v = views[status.view]
 	if v ~= nil then
 		v.update(dt, mx, my)
 	else
-		
-	end
-	
-	status.button = nil
-	for i, b in pairs(status.buttons) do
-		if util.point_within(mx, my, b.x, b.y, b.w, b.h) then
-			status.button = b.name
-			break
-		end
+		change_view("mainmenu")
 	end
 end
 
 function love.draw()
 
 	status.buttons = {}
+
+	if status.button == nil then
+		status.button = {}
+	end
 
 	local col = nil
 	local b = nil
@@ -137,16 +153,21 @@ function love.draw()
 	if v ~= nil then
 		v.draw()
 	else
-		
+		change_view("mainmenu")
 	end
 end
 
 function love.mousepressed(x, y, button)
 	local v = views[status.view]
+
+	if status.button == nil then
+		status.button = {}
+	end
+
 	if v ~= nil then
 		v.mousepressed(x, y, button)
 	else
-		
+		change_view("mainmenu")
 	end
 end
 

@@ -50,20 +50,20 @@ function M.mousepressed(x, y, button)
 	local i
 	for i=1,#vocabulary.vocabularies,1 do
 		local voc = vocabulary.vocabularies[i]
-		if status.button == voc.name then
+		if status.button.name == voc.name then
 			status.vocabulary = voc
 			user.vocabulary_name = status.vocabulary.name
 			user.vocabulary_level = 1
 		end
 	end
 	
-	if status.button == "hajime" then
+	if status.button.name == "hajime" then
 		if status.vocabulary ~= nil then
 			change_view("voctrain")
 		end
-	elseif type(status.button) == "number" then
-		user.vocabulary_level = status.button
-	elseif status.button == "#back" then
+	elseif type(status.button.name) == "number" then
+		user.vocabulary_level = status.button.name
+	elseif status.button.name == "#back" then
 		change_view("mainmenu")
 	end
 end
@@ -80,13 +80,13 @@ function M.draw()
 		local voc = vocabulary.vocabularies[i]
 		
 		if status.vocabulary == voc then
-			if status.button == voc.name then
+			if status.button.name == voc.name then
 				col = util.color(180, 255, 180)
 			else
 				col = util.color(70, 255, 100)
 			end
 		else
-			if status.button == voc.name then
+			if status.button.name == voc.name then
 				col = util.color(100, 200, 120)
 			else
 				col = util.color(70, 70, 100)
@@ -100,7 +100,7 @@ function M.draw()
 
 	if status.vocabulary == nil then
 		col = util.color(70, 70, 100)
-	elseif status.button == "hajime" then
+	elseif status.button.name == "hajime" then
 		col = util.color(180, 255, 180)
 	else
 		col = util.color(70, 255, 100)
@@ -130,13 +130,13 @@ function M.draw()
 			b = { x = basex + (colu*48), y = basey + (row*48), w = 48, h = 48, name = i }
 		
 			if user.vocabulary_level == i then
-				if status.button == i then
+				if status.button.name == i then
 					col = util.color(180, 255, 180)
 				else
 					col = util.color(70, 255, 100)
 				end
 			else
-				if status.button == i then
+				if status.button.name == i then
 					col = util.color(100, 200, 120)
 				else
 					col = util.color(70, 70, 100)
@@ -149,7 +149,7 @@ function M.draw()
 		end
 	end
 	
-	if status.button == "#back" then
+	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)
 	else
 		col = util.color(80, 80, 120)

@@ -79,14 +79,14 @@ end
 function M.mousepressed(x, y, button)
 
 	if status.submode == "answer" then
-		if status.button == nil or status.button == "" then
+		if status.button.name == nil or status.button.name == "" then
 			return
 		end
 		
-		if status.button == "#back" then
+		if status.button.name == "#back" then
 			change_view("vocoptions")
 		else
-			if status.button == status.word.eng then
+			if status.button.name == status.word.eng then
 				status.submode = "answer_correct"
 				status.timeout = 1
 			else
@@ -127,7 +127,7 @@ function M.draw()
 		
 		for i, alt in ipairs(status.alternatives) do
 		
-			if status.button == alt.eng then
+			if status.button.name == alt.eng then
 				col = util.color(100, 200, 120)
 			else
 				col = util.color(70, 70, 100)
@@ -137,7 +137,7 @@ function M.draw()
 			table.insert(status.buttons, b)
 		end
 		
-		if status.button == "#back" then
+		if status.button.name == "#back" then
 			col = util.color(100, 200, 120)
 		else
 			col = util.color(80, 80, 120)

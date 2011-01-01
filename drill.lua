@@ -124,11 +124,13 @@ end
 
 function M.mousepressed(x, y, button)
 	if status.submode == "answer" then
-		if status.hover ~= nil then
-			if status.hover == status.kana then
+		if status.button.alt ~= nil then
+			if status.button.name == status.kana then
 				status.submode = "answer_correct"
 				status.timeout = 1
-				
+
+				status.answer_kana = status.button.name
+
 				local s = get_kana_stats(status.kana, status.kana_type)
 				s.correct = s.correct + 1
 				
@@ -138,7 +140,9 @@ function M.mousepressed(x, y, button)
 			else
 				-- Add the kana the user answered incorrectly to the queue.
 				table.insert(status.kana_queue, status.kana)
-				table.insert(status.kana_queue, status.hover)
+				table.insert(status.kana_queue, status.button.name)
+
+				status.answer_kana = status.button.name
 
 				local s = get_kana_stats(status.kana, status.kana_type)
 				s.incorrect = s.incorrect + 1
@@ -150,7 +154,7 @@ function M.mousepressed(x, y, button)
 			end
 		end
 		
-		if status.button == "#back" then
+		if status.button.name == "#back" then
 			change_view("drilloptions")
 		end
 	else
@@ -158,7 +162,7 @@ function M.mousepressed(x, y, button)
 		status.submode = "answer"
 	end
 	
-	if status.button == "sound" then
+	if status.button.name == "sound" then
 		if user.sound == true then
 			user.sound = false
 		else
@@ -168,18 +172,7 @@ function M.mousepressed(x, y, button)
 end
 
 function M.update(dt, mx, my)
-	if status.submode == "answer" then
-		status.hover = nil
-
-		for i, alt in ipairs(status.alternatives) do
-			local x,y = get_alternative_pos(i)
-			
-			if util.distance_to(x, y, mx, my) <= status.size * 0.4 then
-				status.hover = alt
-				break
-			end
-		end
-	elseif status.submode == "answer_correct" then
+	if status.submode == "answer_correct" then
 		status.timeout = status.timeout - dt
 		if status.timeout <= 0 then
 			next_question()
@@ -199,8 +192,10 @@ function M.draw()
 	
 		for i, alt in ipairs(status.alternatives) do
 			local x, y = get_alternative_pos(i)
-		
-			if alt == status.hover then
+			b = { x = x, y = y, r = status.size * 0.4, name = alt, alt = i }
+			table.insert(status.buttons, b)
+			
+			if alt == status.button.name then
 				col = util.color(140, 200, 255)
 			else
 				col = util.color(0, 40, 80)
@@ -209,7 +204,7 @@ function M.draw()
 			kana.draw_text(alt, x, y, status.size, col)
 		end
 		
-		if status.button == "#back" then
+		if status.button.name == "#back" then
 			col = util.color(100, 200, 120)
 		else
 			col = util.color(80, 80, 120)
@@ -231,27 +226,21 @@ function M.draw()
 		kana.draw_glyph("hiragana", "da", 100, 100, 100, col)
 		kana.draw_glyph("hiragana", "me", 100, 200, 100, col)
 		kana.draw_kana_romaji(status.kana_type, status.kana, w / 2, 200, 200, util.color(50, 255, 50))
-		kana.draw_kana_romaji(status.kana_type, status.hover, w / 2, 450, 60, util.color(250, 200, 150))
+		kana.draw_kana_romaji(status.kana_type, status.answer_kana, w / 2, 450, 60, util.color(250, 200, 150))
 	end
 
-	if status.button == "sound" then
+	if status.button.name == "sound" then
 		lg.setColor(180, 250, 255, 255);
 	else
 		lg.setColor(140, 200, 255, 50);
 	end
-
 	b = { x = lg.getWidth() - 60, y = lg.getHeight() - 60, w = 60, h = 48, name = "sound" }
-
 	if user.sound == true then
 		lg.draw(images.sound, b.x, b.y, 0, 0.4, 0.4)
 	else
 		lg.draw(images.nosound, lg.getWidth() - 60, lg.getHeight() - 60, 0, 0.4, 0.4)
 	end
-
 	table.insert(status.buttons, b)
-
---		lg.setColor(255, 0, 0, 50)
---		lg.rectangle("fill", b.x, b.y, b.w, b.h)
 end
 
 return M
