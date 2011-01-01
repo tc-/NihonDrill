@@ -14,21 +14,21 @@ local images = nil
 local function next_question()
 	local kanas = kana.all_test_kanas(user.level)
 	local alts = {}
-	local kana
+	local k
 	
 	if #status.kana_queue == 0 then
 		status.kana_queue = util.scramble(kana.all_test_kanas(user.level))
 	end
 	
 	while #alts < user.alternatives - 1 do
-		kana = kanas[math.random(1, #kanas)]
-		util.remove_object(kanas, kana)
-		table.insert(alts, kana)
+		k = kanas[math.random(1, #kanas)]
+		util.remove_object(kanas, k)
+		table.insert(alts, k)
 	end
 	status.kana = status.kana_queue[1]
 	if util.contains(alts, status.kana) then
-		kana = kanas[math.random(1, #kanas)]
-		table.insert(alts, kana)
+		k = kanas[math.random(1, #kanas)]
+		table.insert(alts, k)
 	else
 		table.insert(alts, math.random(1, #alts), status.kana)
 	end

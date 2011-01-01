@@ -69,6 +69,8 @@ end
 function love.load()
 	math.randomseed(os.time())
 	
+	love.filesystem.setIdentity("NihonDrill")
+	
 	kana.init()
 	
 	images.sound = lg.newImage("images/sound.png")
