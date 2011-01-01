@@ -19,6 +19,17 @@ local levels = {
 	{ 25, 26, 27 },
 }
 
+local loaded_level_image_no = -1
+local loaded_level_image = nil
+
+local function get_level_image(l)
+	if loaded_level_image_no ~= l then
+		loaded_level_image_no = l
+		loaded_level_image = lg.newImage("images/levels/level_"..l..".png")
+	end
+	return loaded_level_image
+end
+
 function set_level(l)
 	user.level = l
 	user.alternatives = 3 + l
@@ -138,7 +149,7 @@ function M.draw()
 	table.insert(status.buttons, b)
 	
 	kana.draw_text("Level", 520, 80, 70, util.color(80, 200, 255))
-	local basex = 400
+	local basex = 360
 	local basey = 80
 	for i,row in ipairs(levels) do
 		
@@ -164,6 +175,9 @@ function M.draw()
 		end
 		
 	end
+	lg.setColor(180, 255, 180)
+	local img = get_level_image(user.level)
+	lg.draw(img, lg.getWidth() - 180, 140)
 
 	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)
