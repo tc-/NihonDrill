@@ -79,11 +79,34 @@ local function serialize_indent(o, i)
 			return "false"
 		end
 	elseif type(o) == "table" then
-		local ret = "{\n"
+	
+		local has_table = false
 		for k,v in pairs(o) do
-			ret = ret..M.indent(k.." = "..serialize_indent(v, i + 1)..",\n", i + 1)
+			if type(v) == "table" then
+				has_table = true
+				break
+			end
 		end
-		ret = ret..M.indent("}", i)
+	
+		local tnl, ind
+		if has_table then
+			tnl = "\n"
+			ind = M.indent("", i + 1)
+		else
+			tnl = " "
+			ind = ""
+		end
+		
+		local ret = "{"..tnl
+		for k,v in pairs(o) do
+			ret = ret..ind..k.." = "..serialize_indent(v, i + 1)..","..tnl
+		end
+
+		if has_table then
+			ret = ret..M.indent("}", i)
+		else
+			ret = ret.."}"
+		end
 		return ret
 	else
 		error("cannot serialize a " .. type(o))
