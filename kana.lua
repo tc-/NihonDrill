@@ -217,7 +217,7 @@ function M.draw_table(kana_type, x, y, w, h, size, text_col, bg_col, frame_col, 
 			if i <= 22 then
 				posy = y + ((i - 16) * kh);
 			elseif i == 23 then
-				posy = y + ((i - 14) * kh);
+				posy = y + ((i - 15) * kh);
 			elseif i >= 24 and i <= 25 then
 				posy = y + ((i - 12) * kh);
 			elseif i >= 26 and i <= 27 then

@@ -152,11 +152,17 @@ function M.mousepressed(x, y, button)
 					la.play(kana.sounds[status.kana])
 				end
 			end
+		elseif status.button.name == "#answer" then
+			status.submode = "show_answer"
+			table.insert(status.kana_queue, status.kana)
 		end
 		
 		if status.button.name == "#back" then
 			change_view("drilloptions")
 		end
+	elseif status.submode == "show_answer" then
+		next_question()
+		status.submode = "answer"
 	else
 		next_question()
 		status.submode = "answer"
@@ -189,12 +195,12 @@ function M.draw()
 		col = util.color(140, 200, 255)
 		kana.draw_glyph_bg(status.x, status.y, status.size, col)
 		kana.draw_glyph(status.kana_type, status.kana, status.x, status.y, status.size, col)
-	
+
 		for i, alt in ipairs(status.alternatives) do
 			local x, y = get_alternative_pos(i)
 			b = { x = x, y = y, r = status.size * 0.4, name = alt, alt = i }
 			table.insert(status.buttons, b)
-			
+
 			if alt == status.button.name then
 				col = util.color(140, 200, 255)
 			else
@@ -203,7 +209,17 @@ function M.draw()
 			kana.draw_glyph_bg(x, y, status.size / 1.5, col)
 			kana.draw_text(alt, x, y, status.size, col)
 		end
-		
+
+		if status.button.name == "#answer" then
+			col = util.color(140, 200, 255)
+		else
+			col = util.color(0, 40, 80)
+		end
+		b = { x = lg.getWidth() - 40, y = 40, r = status.size * 0.4, name = "#answer" }
+		kana.draw_glyph_bg(b.x, b.y, status.size / 1.5, col)
+		kana.draw_text("?", b.x, b.y, status.size, col)
+		table.insert(status.buttons, b)
+
 		if status.button.name == "#back" then
 			col = util.color(100, 200, 120)
 		else
@@ -227,6 +243,10 @@ function M.draw()
 		kana.draw_glyph("hiragana", "me", 100, 200, 100, col)
 		kana.draw_kana_romaji(status.kana_type, status.kana, w / 2, 200, 200, util.color(50, 255, 50))
 		kana.draw_kana_romaji(status.kana_type, status.answer_kana, w / 2, 450, 60, util.color(250, 200, 150))
+	elseif status.submode == "show_answer" then
+		lg.setBackgroundColor(0,150,200)
+		col = util.color(220, 220, 255)
+		kana.draw_table(status.kana_type, 80, 20, 580, 540, 26, col, util.color(100, 160, 200), util.color(180, 200, 255), util.color(80, 140, 255), {[status.kana] = status.kana})
 	end
 
 	if status.button.name == "sound" then
