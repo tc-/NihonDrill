@@ -113,11 +113,15 @@ function M.init(data)
 	images = data.images
 end
 
-function M.show()
+local function reset_queue()
 	status.kana_queue = {
 		hiragana = {},
 		katakana = {}
 	}
+end
+
+function M.show()
+	reset_queue()
 	next_question()
 	status.submode = "answer"
 end
@@ -155,6 +159,16 @@ function M.mousepressed(x, y, button)
 		elseif status.button.name == "#answer" then
 			status.submode = "show_answer"
 			table.insert(status.kana_queue, status.kana)
+		elseif status.button.name == "#level_up" then
+			if user.level < 27 then
+				user.level = user.level + 1
+				reset_queue()
+			end
+		elseif status.button.name == "#level_down" then
+			if user.level > 1 then
+				user.level = user.level - 1
+				reset_queue()
+			end
 		end
 		
 		if status.button.name == "#back" then
@@ -189,13 +203,17 @@ end
 
 function M.draw()
 	local b, col
+	local center = lg.getWidth() * 0.5
 
 	if status.submode == "answer" then
 		lg.setBackgroundColor(0,150,200)
+		
+		-- Draw the question kana.
 		col = util.color(140, 200, 255)
 		kana.draw_glyph_bg(status.x, status.y, status.size, col)
 		kana.draw_glyph(status.kana_type, status.kana, status.x, status.y, status.size, col)
 
+		-- Draw the alternatives.
 		for i, alt in ipairs(status.alternatives) do
 			local x, y = get_alternative_pos(i)
 			b = { x = x, y = y, r = status.size * 0.4, name = alt, alt = i }
@@ -210,6 +228,41 @@ function M.draw()
 			kana.draw_text(alt, x, y, status.size, col)
 		end
 
+		-- Draw the level selector.
+		b = { x = 26, y = 44, r = 26, name = "#level_down" }
+		table.insert(status.buttons, b)
+		if user.level <= 1 then
+			col = util.color(70, 70, 100)
+		else
+			if status.button.name == "#level_down" then
+				col = util.color(140, 200, 255)
+			else
+				col = util.color(0, 40, 80)
+			end
+		end
+		kana.draw_glyph_bg(b.x, b.y, 40, col)
+		kana.draw_glyph("hiragana", "<", b.x, b.y, 32, col)
+
+		b = { x = 154, y = 44, r = 26, name = "#level_up" }
+		table.insert(status.buttons, b)
+		if user.level >= 27 then
+			col = util.color(70, 70, 100)
+		else
+			if status.button.name == "#level_up" then
+				col = util.color(140, 200, 255)
+			else
+				col = util.color(0, 40, 80)
+			end
+		end
+		kana.draw_glyph_bg(b.x, b.y, 40, col)
+		kana.draw_glyph("hiragana", ">", b.x, b.y, 32, col)
+		
+		col = util.color(140, 200, 255)
+		kana.draw_glyph_bg(90, 44, 60, col)
+		kana.draw_text(user.level, 90, 40, 80, col)
+		kana.draw_text("level", 90, 64, 24, col)
+
+		-- Draw the show answer button.
 		if status.button.name == "#answer" then
 			col = util.color(140, 200, 255)
 		else
@@ -220,6 +273,7 @@ function M.draw()
 		kana.draw_text("?", b.x, b.y, status.size, col)
 		table.insert(status.buttons, b)
 
+		-- Draw the back button.
 		if status.button.name == "#back" then
 			col = util.color(100, 200, 120)
 		else
@@ -228,6 +282,7 @@ function M.draw()
 		b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
 		kana.draw_text("Back", b.x, b.y, 50, col, "tl")
 		table.insert(status.buttons, b)
+
 	elseif status.submode == "answer_correct" then
 		lg.setBackgroundColor(50,255,100)
 		col = util.color(60, 60, 60)

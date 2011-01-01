@@ -47,6 +47,8 @@ M.special = {
 	["-"] = { str = "long" },
 	["?"] = { str = "q" },
 	["xtsu"] = { str = "xtsu" },
+	["<"] = { str = "lt" },
+	[">"] = { str = "gt" },
 }
 
 M.sounds = { }
