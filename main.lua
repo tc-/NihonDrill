@@ -36,21 +36,12 @@ local default_user = {
 	alternatives = 4,
 	kana_types = "", -- "hiragana" | "katakana" | "both"
 	sound = true, -- http://thejapanesepage.com
-	status = {
+	stats = {
 		kana = {
-			hiragana = {
-				correct = { },
-				incorrect = { }
-			},
-			katakana = {
-				correct = { },
-				incorrect = { }
-			}
+			hiragana = {},
+			katakana = {}
 		},
-		voc = {
-			correct = { },
-			incorrect = { }
-		}
+		voc = {}
 	}
 }
 

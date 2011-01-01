@@ -10,32 +10,26 @@ local util = nil
 local kana = nil
 local images = nil
 
+local function filter_needs_training(stats)
+	local ret = {}
+	for k, s in pairs(stats) do
+		if s.correct > s.incorrect then
+			ret[k] = s
+		end
+	end
+	return ret
+end
+
+function sort_by_correctness(s1, s2)
+	return s1.val > s2.val
+end
 
 local function next_question()
 	local kanas = kana.all_test_kanas(user.level)
 	local alts = {}
 	local k
 	
-	if #status.kana_queue == 0 then
-		status.kana_queue = util.scramble(kana.all_test_kanas(user.level))
-	end
-	
-	while #alts < user.alternatives - 1 do
-		k = kanas[math.random(1, #kanas)]
-		util.remove_object(kanas, k)
-		table.insert(alts, k)
-	end
-	status.kana = status.kana_queue[1]
-	if util.contains(alts, status.kana) then
-		k = kanas[math.random(1, #kanas)]
-		table.insert(alts, k)
-	else
-		table.insert(alts, math.random(1, #alts), status.kana)
-	end
-
-	util.remove_object(status.kana_queue, status.kana)
-	status.alternatives = alts
-
+	-- Set the kana type of this question.
 	status.kana_type = user.kana_types
 	if user.kana_types == "both" then
 		if math.random(1,2) == 1 then
@@ -44,12 +38,55 @@ local function next_question()
 			status.kana_type = "katakana"
 		end
 	end
+	
+	if #status.kana_queue[status.kana_type] == 0 then
+		-- Queue is empty so we need to generate a new one.
+		local tmp_stats = filter_needs_training(user.stats.kana[status.kana_type])
+		local selection = kana.all_test_kanas(user.level)
+		local num_all = util.num_keys(selection)
+		
+		-- Generate a table we can sort and sort it so that the kanas with the best
+		-- stats are first.
+		local sort_list = {}
+		for k,v in pairs(tmp_stats) do
+			table.insert(sort_list, {kana = k, val = v.correct - v.incorrect})
+		end
 
-	if status.kana == nil then
-		print("status.kana == nil")
-	else
---		print("status.kana", status.kana)
+		table.sort(sort_list, sort_by_correctness)
+
+		-- Skip the 70% with the best stats.
+		local i = num_all * 0.7
+		for k, v in pairs(sort_list) do
+			if i <= 0 then
+				break
+			end
+			--print("skipping", v.kana, v.val)
+			util.remove_object(selection, v.kana)
+			i = i - 1
+		end
+		
+		-- Scramble and assign the new queue.
+		status.kana_queue[status.kana_type] = util.scramble(selection)
 	end
+	
+	-- Generate the alternatives.
+	while #alts < user.alternatives - 1 do
+		k = kanas[math.random(1, #kanas)]
+		util.remove_object(kanas, k)
+		table.insert(alts, k)
+	end
+	status.kana = status.kana_queue[status.kana_type][1]
+	if util.contains(alts, status.kana) then
+		k = kanas[math.random(1, #kanas)]
+		table.insert(alts, k)
+	else
+		table.insert(alts, math.random(1, #alts), status.kana)
+	end
+
+	util.remove_object(status.kana_queue[status.kana_type], status.kana)
+	status.alternatives = alts
+
+	assert(status.kana ~= nil, "status.kana == nil")
 end
 
 local function get_alternative_pos(index)
@@ -57,6 +94,15 @@ local function get_alternative_pos(index)
 	local x = status.x + math.cos(angle) * (status.size * 1.3)
 	local y = status.y - math.sin(angle) * (status.size * 1.3)
 	return x, y
+end
+
+local function get_kana_stats(k, kana_type)
+	local s = user.stats.kana[kana_type][k]
+	if s == nil then
+		s = { correct = 0, incorrect = 0 }
+		user.stats.kana[kana_type][k] = s
+	end
+	return s
 end
 
 function M.init(data)
@@ -68,7 +114,10 @@ function M.init(data)
 end
 
 function M.show()
-	status.kana_queue = util.scramble(kana.all_test_kanas(user.level))
+	status.kana_queue = {
+		hiragana = {},
+		katakana = {}
+	}
 	next_question()
 	status.submode = "answer"
 end
@@ -79,6 +128,10 @@ function M.mousepressed(x, y, button)
 			if status.hover == status.kana then
 				status.submode = "answer_correct"
 				status.timeout = 1
+				
+				local s = get_kana_stats(status.kana, status.kana_type)
+				s.correct = s.correct + 1
+				
 				if user.sound == true then
 					la.play(kana.sounds[status.kana])
 				end
@@ -86,7 +139,10 @@ function M.mousepressed(x, y, button)
 				-- Add the kana the user answered incorrectly to the queue.
 				table.insert(status.kana_queue, status.kana)
 				table.insert(status.kana_queue, status.hover)
-				
+
+				local s = get_kana_stats(status.kana, status.kana_type)
+				s.incorrect = s.incorrect + 1
+
 				status.submode = "answer_wrong"
 				if user.sound == true then
 					la.play(kana.sounds[status.kana])
