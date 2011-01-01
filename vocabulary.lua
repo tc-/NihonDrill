@@ -1,11 +1,12 @@
 local M = {}
 
-local voc_files = { "jpfbp1" }
-
 M.vocabularies = {}
 
 function M.init()
 	print("vocabulary.init()")
+	
+	local voc_files = require("voc/vocindex")
+	
 	for i, voc_file in ipairs(voc_files) do
 		print("vocabulary.load", voc_file)
 		local voc = require("voc/"..voc_file)
