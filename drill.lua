@@ -21,7 +21,7 @@ local function filter_needs_training(stats)
 end
 
 function sort_by_correctness(s1, s2)
-	return s1.val > s2.val
+	return (s1.val == s2.val and s1.incorrect < s2.incorrect) or (s1.val > s2.val)
 end
 
 local function next_question()
@@ -39,8 +39,12 @@ local function next_question()
 		end
 	end
 	
+	
 	if #status.kana_queue[status.kana_type] == 0 then
 		-- Queue is empty so we need to generate a new one.
+
+		print("Generating new queue", status.kana_type)
+
 		local tmp_stats = filter_needs_training(user.stats.kana[status.kana_type])
 		local selection = kana.all_test_kanas(user.level)
 		local num_all = util.num_keys(selection)
@@ -49,13 +53,15 @@ local function next_question()
 		-- stats are first.
 		local sort_list = {}
 		for k,v in pairs(tmp_stats) do
-			table.insert(sort_list, {kana = k, val = v.correct - v.incorrect})
+			table.insert(sort_list, {kana = k, val = v.correct - v.incorrect, incorrect = v.incorrect})
 		end
 
 		table.sort(sort_list, sort_by_correctness)
 
-		-- Skip the 70% with the best stats.
-		local i = num_all * 0.7
+		-- Skip over the kanas with the best stats.
+		local i = num_all - 6
+		if num_all - i <= 2 then i = 2 end
+		print("skipping", i, "out of", num_all, "num left", num_all - i)
 		for k, v in pairs(sort_list) do
 			if i <= 0 then
 				break
