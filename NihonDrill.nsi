@@ -88,4 +88,7 @@ Section "Uninstall"
   RMDir "$INSTDIR\voc"
   RMDir "$INSTDIR"
 
+  Delete $SMPROGRAMS\NihonDrill\*.*
+  RMDir "$SMPROGRAMS\NihonDrill"
+
 SectionEnd
