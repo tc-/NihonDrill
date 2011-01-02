@@ -9,6 +9,8 @@ local user = nil
 local util = nil
 local kana = nil
 
+local version = "v0.1"
+
 function M.init(data)
 	print("mainmenu.init()", data)
 	status = data.status
@@ -71,6 +73,8 @@ function M.draw()
 	b = { x = lg.getWidth() - 100, y = lg.getHeight() - 40, w = 90, h = 28, name = "credits" }
 	kana.draw_text("Credits", b.x, b.y, 50, col, "tl")
 	table.insert(status.buttons, b)
+
+	kana.draw_text(version, lg.getWidth() - 32, 2, 18, util.color(70, 70, 70), "tl")
 
 	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)
