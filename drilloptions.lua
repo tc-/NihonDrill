@@ -9,6 +9,7 @@ local user = nil
 local util = nil
 local kana = nil
 local images = nil
+local color = nil
 
 local levels = {
 	{  1,  2,  3,  4 },
@@ -46,6 +47,7 @@ function M.init(data)
 	util = data.util
 	kana = data.kana
 	images = data.images
+	color = data.color
 end
 
 function M.show()
@@ -99,27 +101,18 @@ function M.mousepressed(x, y, button)
 end
 
 function M.draw()
-	local b, col
+	local b, col, hover, seleted
 
 	-- Draw the heading.
-	kana.draw_text("Select what to practice.", 290, 30, 90, util.color(80, 200, 255))
+	kana.draw_text("Select what to practice.", 290, 30, 90, color.title)
 
-	kana.draw_text("Syllabaries", 70, 60, 70, util.color(80, 200, 255), "tl")
+	kana.draw_text("Syllabaries", 70, 60, 70, color.header, "tl")
 
 	-- Draw the Hiragana button.
-	if user.kana_types == "hiragana" or user.kana_types == "both" then
-		if status.button.name == "hiragana" then
-			col = util.color(180, 255, 180)
-		else
-			col = util.color(70, 255, 100)
-		end
-	else
-		if status.button.name == "hiragana" then
-			col = util.color(100, 200, 120)
-		else
-			col = util.color(70, 70, 100)
-		end
-	end
+	
+	selected = user.kana_types == "hiragana" or user.kana_types == "both"
+	hover = status.button.name == "hiragana"
+	col = color.get_highlight_color(selected, hover)
 	b = { x = 50, y = 100, w = 100, h = 440, name = "hiragana" }
 	kana.draw_glyph("hiragana", "hi", b.x + 50, b.y + 50, 100, col)
 	kana.draw_glyph("hiragana", "ra", b.x + 50, b.y + 150, 100, col)
@@ -129,19 +122,9 @@ function M.draw()
 	table.insert(status.buttons, b)
 
 	-- Draw the Katakana button.
-	if user.kana_types == "katakana" or user.kana_types == "both" then
-		if status.button.name == "katakana" then
-			col = util.color(180, 255, 180)
-		else
-			col = util.color(70, 255, 100)
-		end
-	else
-		if status.button.name == "katakana" then
-			col = util.color(100, 200, 120)
-		else
-			col = util.color(70, 70, 100)
-		end
-	end
+	selected = user.kana_types == "katakana" or user.kana_types == "both"
+	hover = status.button.name == "katakana"
+	col = color.get_highlight_color(selected, hover)
 	b = { x = 200, y = 100, w = 100, h = 440, name = "katakana" }
 	kana.draw_glyph("katakana", "ka", b.x + 50, b.y + 50, 100, col)
 	kana.draw_glyph("katakana", "ta", b.x + 50, b.y + 150, 100, col)
@@ -151,13 +134,9 @@ function M.draw()
 	table.insert(status.buttons, b)
 
 	-- Draw the start button.
-	if user.kana_types == "" then
-		col = util.color(70, 70, 100)
-	elseif status.button.name == "hajime" then
-		col = util.color(180, 255, 180)
-	else
-		col = util.color(70, 255, 100)
-	end
+	selected = user.kana_types ~= ""
+	hover = status.button.name == "hajime" and selected
+	col = color.get_highlight_color(selected, hover)
 	b = { x = lg.getWidth() - 160, y = lg.getHeight() - 80, w = 148, h = 70, name = "hajime" }
 	kana.print_hiragana({"ha","ji","me"}, b.x + 24, b.y + 24, 48, col)
 	kana.draw_text("start", b.x + 70, b.y + 64, 48, col)
@@ -171,21 +150,10 @@ function M.draw()
 	for i,row in ipairs(levels) do
 		for i2,l in ipairs(row) do
 			b = { x = basex + (i2*48) - 48, y = basey + (i*48), w = 48, h = 48, name = l }
-			
-			if user.level == l and not user.autolevel then
-				if status.button.name == l then
-					col = util.color(180, 255, 180)
-				else
-					col = util.color(70, 255, 100)
-				end
-			else
-				if status.button.name == l then
-					col = util.color(100, 200, 120)
-				else
-					col = util.color(70, 70, 100)
-				end
-			end
 
+			selected = user.level == l and not user.autolevel
+			hover = status.button.name == l
+			col = color.get_highlight_color(selected, hover)
 			kana.draw_text(l, b.x + 24, b.y + 24, 60, col)
 			table.insert(status.buttons, b)
 		end
@@ -207,25 +175,16 @@ function M.draw()
 	else
 		img = images.unchecked
 	end
-
-	if status.button.name == "#autolevel" then
-		col = util.color(180, 255, 180)
-	elseif user.autolevel then
-		col = util.color(70, 255, 100)
-	else
-		col = util.color(80, 80, 120)
-	end
+	selected = user.autolevel
+	hover = status.button.name == "#autolevel"
+	col = color.get_highlight_color(selected, hover)
 	b = { x = basex, y = basey + (#levels * 48) + 64, w = 180, h = 32, name = "#autolevel" }
 	lg.draw(img, b.x, b.y, 0, 0.5, 0.5)
 	kana.draw_text("Auto level", b.x + 40, b.y, 50, col, "tl")
 	table.insert(status.buttons, b)
 
 	-- Draw the back button.
-	if status.button.name == "#back" then
-		col = util.color(100, 200, 120)
-	else
-		col = util.color(80, 80, 120)
-	end
+	col = color.get_highlight_color(false, status.button.name == "#back")
 	b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
 	kana.draw_text("Back", b.x, b.y, 50, col, "tl")
 	table.insert(status.buttons, b)

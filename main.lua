@@ -49,14 +49,33 @@ local user
 
 local images = { }
 
+local color = {}
+
 local data = {
 	util = util,
 	kana = kana,
 	status = status,
 	user = user,
 	images = images,
+	color = nil,
 	views = views
 }
+
+function color.get_highlight_color(col_type, is_selected, is_hovering)
+	if is_selected then
+		if is_hovering then
+			return color.hover
+		else
+			return color.active
+		end
+	else
+		if is_hovering then
+			return color.disabled_hover
+		else
+			return color.disabled
+		end
+	end
+end
 
 function change_view(new_view)
 	status.view = new_view
@@ -73,6 +92,10 @@ function love.load()
 	math.randomseed(os.time())
 
 	love.filesystem.setIdentity("NihonDrill")
+
+	color = require("color")
+	color.init(util)
+	data.color = color
 
 	if love.filesystem.exists("user.lua") then
 		local chunk = love.filesystem.load("user.lua")

@@ -11,6 +11,7 @@ local user = nil
 local util = nil
 local kana = nil
 local images = nil
+local color = nil
 
 local function get_kana_stats(k, kana_type)
 	local s = user.stats.kana[kana_type][k]
@@ -148,6 +149,7 @@ function M.init(data)
 	util = data.util
 	kana = data.kana
 	images = data.images
+	color = data.color
 end
 
 local function reset_queue()
