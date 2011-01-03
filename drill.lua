@@ -198,11 +198,13 @@ function M.mousepressed(x, y, button)
 			table.insert(status.kana_queue, status.kana)
 		elseif status.button.name == "#level_up" then
 			if user.level < 27 then
+				user.autolevel = false
 				set_level(user.level + 1)
 				reset_queue()
 			end
 		elseif status.button.name == "#level_down" then
 			if user.level > 1 then
+				user.autolevel = false
 				set_level(user.level - 1)
 				reset_queue()
 			end
