@@ -9,7 +9,7 @@ local user = nil
 local util = nil
 local kana = nil
 
-local version = "v0.1"
+local version = "v0.1*"
 
 function M.init(data)
 	print("mainmenu.init()", data)

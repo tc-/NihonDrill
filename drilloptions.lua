@@ -8,6 +8,7 @@ local status = nil
 local user = nil
 local util = nil
 local kana = nil
+local images = nil
 
 local levels = {
 	{  1,  2,  3,  4 },
@@ -44,10 +45,14 @@ function M.init(data)
 	user = data.user
 	util = data.util
 	kana = data.kana
+	images = data.images
 end
 
 function M.show()
 	print("drilloptions.show()")
+	if user.autolevel == nil then
+		user.autolevel = true
+	end
 end
 
 function M.update(dt, mx, my)
@@ -80,20 +85,28 @@ function M.mousepressed(x, y, button)
 			change_view("drill")
 		end
 	elseif type(status.button.name) == "number" then
-		set_level(status.button.name)
+			user.autolevel = false
+			set_level(status.button.name)
+	elseif status.button.name == "#autolevel" then
+		if user.autolevel then
+			user.autolevel = false
+		else
+			user.autolevel = true
+		end
 	elseif status.button.name == "#back" then
 		change_view("mainmenu")
 	end
 end
 
 function M.draw()
-
 	local b, col
-	
+
+	-- Draw the heading.
 	kana.draw_text("Select what to practice.", 290, 30, 90, util.color(80, 200, 255))
-	
-	kana.draw_text("Syllabaries", 160, 80, 70, util.color(80, 200, 255))
-	
+
+	kana.draw_text("Syllabaries", 70, 60, 70, util.color(80, 200, 255), "tl")
+
+	-- Draw the Hiragana button.
 	if user.kana_types == "hiragana" or user.kana_types == "both" then
 		if status.button.name == "hiragana" then
 			col = util.color(180, 255, 180)
@@ -114,7 +127,8 @@ function M.draw()
 	kana.draw_glyph("hiragana", "na", b.x + 50, b.y + 350, 100, col)
 	kana.draw_text("hiragana", b.x + 50, b.y + 420, 40, col)
 	table.insert(status.buttons, b)
-	
+
+	-- Draw the Katakana button.
 	if user.kana_types == "katakana" or user.kana_types == "both" then
 		if status.button.name == "katakana" then
 			col = util.color(180, 255, 180)
@@ -135,7 +149,8 @@ function M.draw()
 	kana.draw_glyph("katakana", "na", b.x + 50, b.y + 350, 100, col)
 	kana.draw_text("katakana", b.x + 50, b.y + 420, 40, col)
 	table.insert(status.buttons, b)
-	
+
+	-- Draw the start button.
 	if user.kana_types == "" then
 		col = util.color(70, 70, 100)
 	elseif status.button.name == "hajime" then
@@ -147,16 +162,17 @@ function M.draw()
 	kana.print_hiragana({"ha","ji","me"}, b.x + 24, b.y + 24, 48, col)
 	kana.draw_text("start", b.x + 70, b.y + 64, 48, col)
 	table.insert(status.buttons, b)
-	
-	kana.draw_text("Level", 520, 80, 70, util.color(80, 200, 255))
+
+	-- Draw the levels.
 	local basex = 360
-	local basey = 80
+	local basey = 70
+
+	kana.draw_text("Level", basex, 60, 70, util.color(80, 200, 255), "tl")
 	for i,row in ipairs(levels) do
-		
 		for i2,l in ipairs(row) do
-			b = { x = basex + (i2*48), y = basey + (i*48), w = 48, h = 48, name = l }
+			b = { x = basex + (i2*48) - 48, y = basey + (i*48), w = 48, h = 48, name = l }
 			
-			if user.level == l then
+			if user.level == l and not user.autolevel then
 				if status.button.name == l then
 					col = util.color(180, 255, 180)
 				else
@@ -169,16 +185,42 @@ function M.draw()
 					col = util.color(70, 70, 100)
 				end
 			end
-			
+
 			kana.draw_text(l, b.x + 24, b.y + 24, 60, col)
 			table.insert(status.buttons, b)
 		end
-		
 	end
-	lg.setColor(180, 255, 180)
-	local img = get_level_image(user.level)
-	lg.draw(img, lg.getWidth() - 180, 140)
 
+	-- Draw level help image.
+	lg.setColor(180, 255, 180)
+	local img
+	if not user.autolevel then
+		img = get_level_image(user.level)
+	else
+		img = get_level_image(27)
+	end
+	lg.draw(img, lg.getWidth() - 200, 140)
+
+	--Draw the auto level checkbox.
+	if user.autolevel then
+		img = images.checked
+	else
+		img = images.unchecked
+	end
+
+	if status.button.name == "#autolevel" then
+		col = util.color(180, 255, 180)
+	elseif user.autolevel then
+		col = util.color(70, 255, 100)
+	else
+		col = util.color(80, 80, 120)
+	end
+	b = { x = basex, y = basey + (#levels * 48) + 64, w = 180, h = 32, name = "#autolevel" }
+	lg.draw(img, b.x, b.y, 0, 0.5, 0.5)
+	kana.draw_text("Auto level", b.x + 40, b.y, 50, col, "tl")
+	table.insert(status.buttons, b)
+
+	-- Draw the back button.
 	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)
 	else

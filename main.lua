@@ -71,9 +71,9 @@ end
 
 function love.load()
 	math.randomseed(os.time())
-	
+
 	love.filesystem.setIdentity("NihonDrill")
-	
+
 	if love.filesystem.exists("user.lua") then
 		local chunk = love.filesystem.load("user.lua")
 		local ok, result = pcall(chunk)
@@ -89,13 +89,15 @@ function love.load()
 	else
 		user = default_user
 	end
-	
+
 	data.user = user
-	
+
 	kana.init()
-	
+
 	images.sound = lg.newImage("images/sound.png")
 	images.nosound = lg.newImage("images/nosound.png")
+	images.checked = lg.newImage("images/checked.png")
+	images.unchecked = lg.newImage("images/unchecked.png")
 
 	for k, v in pairs(views) do
 		print("load.init", k, v)

@@ -1,6 +1,8 @@
 
 local M = {}
 
+local autolevel_value_needed = 10
+
 local lg = love.graphics
 local la = love.audio
 
@@ -9,6 +11,31 @@ local user = nil
 local util = nil
 local kana = nil
 local images = nil
+
+local function get_kana_stats(k, kana_type)
+	local s = user.stats.kana[kana_type][k]
+	if s == nil then
+		s = { correct = 0, incorrect = 0 }
+		user.stats.kana[kana_type][k] = s
+	end
+	return s
+end
+
+local function calc_autolevel(kana_type, value_needed)
+	local num_practice = 0
+	for l, level in ipairs(kana.layout) do
+		for i, k in ipairs(level) do
+			local s = get_kana_stats(k, kana_type)
+			if (s.correct - s.incorrect) < value_needed then
+				num_practice = num_practice + 1
+			end
+			if num_practice >= 3 then
+				return l
+			end
+		end
+	end
+	return 27
+end
 
 local function filter_needs_training(stats)
 	local ret = {}
@@ -28,7 +55,7 @@ local function next_question()
 	local kanas = kana.all_test_kanas(user.level)
 	local alts = {}
 	local k
-	
+
 	-- Set the kana type of this question.
 	status.kana_type = user.kana_types
 	if user.kana_types == "both" then
@@ -38,17 +65,28 @@ local function next_question()
 			status.kana_type = "katakana"
 		end
 	end
-	
-	
+
 	if #status.kana_queue[status.kana_type] == 0 then
 		-- Queue is empty so we need to generate a new one.
-
-		print("Generating new queue", status.kana_type)
+		if user.autolevel then
+			local new_level = 1
+			if user.kana_types == "both" then
+				new_level = math.min(calc_autolevel("hiragana", autolevel_value_needed), calc_autolevel("katakana", autolevel_value_needed))
+			elseif user.kana_types == "hiragana" then
+				new_level = calc_autolevel("hiragana", autolevel_value_needed)
+			elseif user.kana_types == "katakana" then
+				new_level = calc_autolevel("katakana", autolevel_value_needed)
+			end
+			if new_level ~= user.level then
+				set_level(new_level)
+			end
+		end
+		print("Generating new queue", status.kana_type, "user.level", user.level)
 
 		local tmp_stats = filter_needs_training(user.stats.kana[status.kana_type])
 		local selection = kana.all_test_kanas(user.level)
 		local num_all = util.num_keys(selection)
-		
+
 		-- Generate a table we can sort and sort it so that the kanas with the best
 		-- stats are first.
 		local sort_list = {}
@@ -61,20 +99,22 @@ local function next_question()
 		-- Skip over the kanas with the best stats.
 		local i = num_all - 6
 		if num_all - i <= 2 then i = 2 end
-		print("skipping", i, "out of", num_all, "num left", num_all - i)
-		for k, v in pairs(sort_list) do
-			if i <= 0 then
-				break
+		if i > 0 then
+			print("skipping", i, "out of", num_all, "num left", num_all - i)
+			for k, v in pairs(sort_list) do
+				if i <= 0 then
+					break
+				end
+				--print("skipping", v.kana, v.val)
+				util.remove_object(selection, v.kana)
+				i = i - 1
 			end
-			--print("skipping", v.kana, v.val)
-			util.remove_object(selection, v.kana)
-			i = i - 1
 		end
-		
+
 		-- Scramble and assign the new queue.
 		status.kana_queue[status.kana_type] = util.scramble(selection)
 	end
-	
+
 	-- Generate the alternatives.
 	while #alts < user.alternatives - 1 do
 		k = kanas[math.random(1, #kanas)]
@@ -100,15 +140,6 @@ local function get_alternative_pos(index)
 	local x = status.x + math.cos(angle) * (status.size * 1.3)
 	local y = status.y - math.sin(angle) * (status.size * 1.3)
 	return x, y
-end
-
-local function get_kana_stats(k, kana_type)
-	local s = user.stats.kana[kana_type][k]
-	if s == nil then
-		s = { correct = 0, incorrect = 0 }
-		user.stats.kana[kana_type][k] = s
-	end
-	return s
 end
 
 function M.init(data)
@@ -167,12 +198,12 @@ function M.mousepressed(x, y, button)
 			table.insert(status.kana_queue, status.kana)
 		elseif status.button.name == "#level_up" then
 			if user.level < 27 then
-				user.level = user.level + 1
+				set_level(user.level + 1)
 				reset_queue()
 			end
 		elseif status.button.name == "#level_down" then
 			if user.level > 1 then
-				user.level = user.level - 1
+				set_level(user.level - 1)
 				reset_queue()
 			end
 		end
