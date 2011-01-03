@@ -300,6 +300,9 @@ function M.draw()
 		kana.draw_glyph_bg(90, 44, 60, col)
 		kana.draw_text(user.level, 90, 40, 80, col)
 		kana.draw_text("level", 90, 64, 24, col)
+		if user.autolevel then
+			kana.draw_text("auto", 90, 16, 24, col)
+		end
 
 		-- Draw the show answer button.
 		if status.button.name == "#answer" then
