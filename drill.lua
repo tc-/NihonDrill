@@ -243,16 +243,15 @@ function M.update(dt, mx, my)
 end
 
 function M.draw()
-	local b, col
+	local b, col, selected, hover
 	local center = lg.getWidth() * 0.5
 
 	if status.submode == "answer" then
 		lg.setBackgroundColor(0,150,200)
 		
 		-- Draw the question kana.
-		col = util.color(140, 200, 255)
-		kana.draw_glyph_bg(status.x, status.y, status.size, col)
-		kana.draw_glyph(status.kana_type, status.kana, status.x, status.y, status.size, col)
+		kana.draw_glyph_bg(status.x, status.y, status.size, color.alt_question)
+		kana.draw_glyph(status.kana_type, status.kana, status.x, status.y, status.size, color.alt_question)
 
 		-- Draw the alternatives.
 		for i, alt in ipairs(status.alternatives) do
@@ -260,69 +259,46 @@ function M.draw()
 			b = { x = x, y = y, r = status.size * 0.4, name = alt, alt = i }
 			table.insert(status.buttons, b)
 
-			if alt == status.button.name then
-				col = util.color(140, 200, 255)
-			else
-				col = util.color(0, 40, 80)
-			end
+			col = color.get_hover_color(alt == status.button.name, "alt")
 			kana.draw_glyph_bg(x, y, status.size / 1.5, col)
 			kana.draw_text(alt, x, y, status.size, col)
 		end
 
-		-- Draw the level selector.
+		-- Draw the level selector down.
 		b = { x = 26, y = 44, r = 26, name = "#level_down" }
 		table.insert(status.buttons, b)
-		if user.level <= 1 then
-			col = util.color(70, 70, 100)
-		else
-			if status.button.name == "#level_down" then
-				col = util.color(140, 200, 255)
-			else
-				col = util.color(0, 40, 80)
-			end
-		end
+		selected = user.level > 1
+		hover = status.button.name == "#level_down" and selected
+		col = color.get_highlight_color(selected, hover, "alt")
 		kana.draw_glyph_bg(b.x, b.y, 40, col)
 		kana.draw_glyph("hiragana", "<", b.x, b.y, 32, col)
-
+		
+		-- Draw the level selector up.
 		b = { x = 154, y = 44, r = 26, name = "#level_up" }
 		table.insert(status.buttons, b)
-		if user.level >= 27 then
-			col = util.color(70, 70, 100)
-		else
-			if status.button.name == "#level_up" then
-				col = util.color(140, 200, 255)
-			else
-				col = util.color(0, 40, 80)
-			end
-		end
+		selected = user.level < 27
+		hover = status.button.name == "#level_up" and selected
+		col = color.get_highlight_color(selected, hover, "alt")
 		kana.draw_glyph_bg(b.x, b.y, 40, col)
 		kana.draw_glyph("hiragana", ">", b.x, b.y, 32, col)
 		
-		col = util.color(140, 200, 255)
-		kana.draw_glyph_bg(90, 44, 60, col)
-		kana.draw_text(user.level, 90, 40, 80, col)
-		kana.draw_text("level", 90, 64, 24, col)
+		-- Draw the level indicator.
+		kana.draw_glyph_bg(90, 44, 60, color.level_ind)
+		kana.draw_text(user.level, 90, 40, 80, color.level_ind)
+		kana.draw_text("level", 90, 64, 24, color.level_ind)
 		if user.autolevel then
-			kana.draw_text("auto", 90, 16, 24, col)
+			kana.draw_text("auto", 90, 16, 24, color.level_ind)
 		end
 
 		-- Draw the show answer button.
-		if status.button.name == "#answer" then
-			col = util.color(140, 200, 255)
-		else
-			col = util.color(0, 40, 80)
-		end
+		col = color.get_hover_color(status.button.name == "#answer", "alt")
 		b = { x = lg.getWidth() - 40, y = 40, r = status.size * 0.4, name = "#answer" }
 		kana.draw_glyph_bg(b.x, b.y, status.size / 1.5, col)
 		kana.draw_text("?", b.x, b.y, status.size, col)
 		table.insert(status.buttons, b)
 
 		-- Draw the back button.
-		if status.button.name == "#back" then
-			col = util.color(100, 200, 120)
-		else
-			col = util.color(80, 80, 120)
-		end
+		col = color.get_hover_color(status.button.name == "#back")
 		b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
 		kana.draw_text("Back", b.x, b.y, 50, col, "tl")
 		table.insert(status.buttons, b)
@@ -345,15 +321,15 @@ function M.draw()
 	elseif status.submode == "show_answer" then
 		lg.setBackgroundColor(0,150,200)
 		col = util.color(220, 220, 255)
-		kana.draw_table(status.kana_type, 80, 20, 580, 540, 26, col, util.color(100, 160, 200), util.color(180, 200, 255), util.color(80, 140, 255), {[status.kana] = status.kana})
+		kana.draw_table(status.kana_type, 80, 20, 580, 540, 26, color.kanatable, {[status.kana] = true})
 	end
 
-	if status.button.name == "sound" then
+	if status.button.name == "#sound" then
 		lg.setColor(180, 250, 255, 255);
 	else
 		lg.setColor(140, 200, 255, 50);
 	end
-	b = { x = lg.getWidth() - 60, y = lg.getHeight() - 60, w = 60, h = 48, name = "sound" }
+	b = { x = lg.getWidth() - 60, y = lg.getHeight() - 60, w = 60, h = 48, name = "#sound" }
 	if user.sound == true then
 		lg.draw(images.sound, b.x, b.y, 0, 0.4, 0.4)
 	else

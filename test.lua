@@ -9,6 +9,7 @@ local user = nil
 local util = nil
 local kana = nil
 local images = nil
+local color = nil
 
 function M.init(data)
 	status = data.status
@@ -16,6 +17,7 @@ function M.init(data)
 	util = data.util
 	kana = data.kana
 	images = data.images
+	color = data.color
 end
 
 function M.show()
@@ -38,7 +40,14 @@ function M.draw()
 	lg.setBackgroundColor(0,150,200)
 	col = util.color(220, 220, 255)
 	
-	kana.draw_table("hiragana", 20, 20, 580, 540, 26, col, util.color(100, 160, 200), util.color(180, 200, 255), util.color(80, 140, 255), {})
+	local sel
+	if status.button.name ~= nil then
+		sel = {[status.button.name] = true}
+	else
+		sel = {}
+	end
+	
+	status.buttons = kana.draw_table("hiragana", 20, 20, 580, 540, 26, color.kanatable, sel)
 	
 	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)

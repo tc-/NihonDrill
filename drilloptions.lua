@@ -184,7 +184,7 @@ function M.draw()
 	table.insert(status.buttons, b)
 
 	-- Draw the back button.
-	col = color.get_highlight_color(false, status.button.name == "#back")
+	col = color.get_hover_color(status.button.name == "#back")
 	b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
 	kana.draw_text("Back", b.x, b.y, 50, col, "tl")
 	table.insert(status.buttons, b)

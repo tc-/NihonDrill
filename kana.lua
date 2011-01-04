@@ -187,12 +187,13 @@ function M.print_kana(text, x, y, size, col, kana_type)
 	end
 end
 
-function M.draw_table(kana_type, x, y, w, h, size, text_col, bg_col, frame_col, bg_sel_col, selected)
+function M.draw_table(kana_type, x, y, w, h, size, colors, selected)
 	local sw = w * 0.5
 	local cw = w - sw - 10
 	local posx = x
 	local posy = y
 	local buttons = {}
+	local col, col_frame
 
 	selected = selected or {}
 
@@ -228,21 +229,25 @@ function M.draw_table(kana_type, x, y, w, h, size, text_col, bg_col, frame_col, 
 		end
 
 		for i2, glyph in ipairs(row) do
-			b = { x = posx, y = posy, w = kw, h = kh, name = "kana_"..glyph }
+			b = { x = posx, y = posy, w = kw, h = kh, name = glyph }
 			table.insert(buttons, b)
 			
 			if selected[glyph] ~= nil then
-				lg.setColor(bg_sel_col.r, bg_sel_col.g, bg_sel_col.b, bg_sel_col.a)
+				lg.setColor(colors.bg_sel.r, colors.bg_sel.g, colors.bg_sel.b, colors.bg_sel.a)
+				col = colors.text_sel
+				col_frame = colors.frame_sel
 			else
-				lg.setColor(bg_col.r, bg_col.g, bg_col.b, bg_col.a)
+				lg.setColor(colors.bg.r, colors.bg.g, colors.bg.b, colors.bg.a)
+				col = colors.text
+				col_frame = colors.frame
 			end
 			lg.rectangle("fill", posx, posy, kw - 1, kh - 1)
 			
-			M.draw_glyph(kana_type, glyph, posx + (kw * 0.23), posy + (kh * 0.5), size, text_col, false)
-			M.draw_text(glyph, posx + (kw * 0.56), posy + (size * 0.3), size, text_col, "tl")
+			M.draw_glyph(kana_type, glyph, posx + (kw * 0.23), posy + (kh * 0.5), size, col, false)
+			M.draw_text(glyph, posx + (kw * 0.56), posy + (size * 0.3), size, col, "tl")
 			
 			lg.setLineWidth(1)
-			lg.setColor(frame_col.r, frame_col.g, frame_col.b, frame_col.a)
+			lg.setColor(col_frame.r, col_frame.g, col_frame.b, col_frame.a)
 			lg.rectangle("line", posx, posy, kw - 1, kh - 1)
 
 			posx = posx + (kw * incnum)
