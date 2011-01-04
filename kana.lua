@@ -72,6 +72,17 @@ function M.all_test_kanas(level)
 	return t
 end
 
+function M.is_kana(kana)
+	for i, row in ipairs(M.layout) do
+		for n, k in ipairs(row) do
+			if kana == k then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 function M.init()
 
 	for i, row in ipairs(M.layout) do
@@ -187,13 +198,13 @@ function M.print_kana(text, x, y, size, col, kana_type)
 	end
 end
 
-function M.draw_table(kana_type, x, y, w, h, size, colors, selected)
+function M.draw_table(kana_type, x, y, w, h, size, colors, selected, hover)
 	local sw = w * 0.5
 	local cw = w - sw - 10
 	local posx = x
 	local posy = y
 	local buttons = {}
-	local col, col_frame
+	local col, col_frame, temp_size
 
 	selected = selected or {}
 
@@ -231,8 +242,13 @@ function M.draw_table(kana_type, x, y, w, h, size, colors, selected)
 		for i2, glyph in ipairs(row) do
 			b = { x = posx, y = posy, w = kw, h = kh, name = glyph }
 			table.insert(buttons, b)
-			
-			if selected[glyph] ~= nil then
+			temp_size = size
+			if glyph == hover then
+				lg.setColor(colors.bg_hover.r, colors.bg_hover.g, colors.bg_hover.b, colors.bg_hover.a)
+				col = colors.text_hover
+				col_frame = colors.frame_hover
+				temp_size = temp_size * 1.15
+			elseif util.contains(selected, glyph) then
 				lg.setColor(colors.bg_sel.r, colors.bg_sel.g, colors.bg_sel.b, colors.bg_sel.a)
 				col = colors.text_sel
 				col_frame = colors.frame_sel
@@ -243,7 +259,7 @@ function M.draw_table(kana_type, x, y, w, h, size, colors, selected)
 			end
 			lg.rectangle("fill", posx, posy, kw - 1, kh - 1)
 			
-			M.draw_glyph(kana_type, glyph, posx + (kw * 0.23), posy + (kh * 0.5), size, col, false)
+			M.draw_glyph(kana_type, glyph, posx + (kw * 0.23), posy + (kh * 0.5), temp_size, col, false)
 			M.draw_text(glyph, posx + (kw * 0.56), posy + (size * 0.3), size, col, "tl")
 			
 			lg.setLineWidth(1)

@@ -216,14 +216,20 @@ function M.mousepressed(x, y, button)
 			change_view("drilloptions")
 		end
 	elseif status.submode == "show_answer" then
-		next_question()
-		status.submode = "answer"
+		if status.button.name == "#back" then
+			next_question()
+			status.submode = "answer"
+		elseif kana.is_kana(status.button.name) then
+			if user.sound == true then
+				la.play(kana.sounds[status.button.name])
+			end
+		end
 	else
 		next_question()
 		status.submode = "answer"
 	end
 	
-	if status.button.name == "sound" then
+	if status.button.name == "#sound" then
 		if user.sound == true then
 			user.sound = false
 		else
@@ -319,9 +325,17 @@ function M.draw()
 		kana.draw_kana_romaji(status.kana_type, status.kana, w / 2, 200, 200, util.color(50, 255, 50))
 		kana.draw_kana_romaji(status.kana_type, status.answer_kana, w / 2, 450, 60, util.color(250, 200, 150))
 	elseif status.submode == "show_answer" then
+		local kanas = kana.all_test_kanas(user.level)
+		
 		lg.setBackgroundColor(0,150,200)
 		col = util.color(220, 220, 255)
-		kana.draw_table(status.kana_type, 80, 20, 580, 540, 26, color.kanatable, {[status.kana] = true})
+		status.buttons = kana.draw_table(status.kana_type, 80, 20, 580, 540, 26, color.kanatable, kanas, status.button.name)
+		
+		-- Draw the back button.
+		col = color.get_hover_color(status.button.name == "#back")
+		b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
+		kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+		table.insert(status.buttons, b)
 	end
 
 	if status.button.name == "#sound" then

@@ -47,7 +47,7 @@ function M.draw()
 		sel = {}
 	end
 	
-	status.buttons = kana.draw_table("hiragana", 20, 20, 580, 540, 26, color.kanatable, sel)
+	status.buttons = kana.draw_table("hiragana", 20, 20, 580, 540, 26, color.kanatable, sel, status.button.name)
 	
 	if status.button.name == "#back" then
 		col = util.color(100, 200, 120)

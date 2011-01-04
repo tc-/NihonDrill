@@ -27,6 +27,10 @@ function M.remove_object(t, o)
 end
 
 function M.contains(t, o)
+	if t[o] ~= nil then
+		return true
+	end
+
 	for k,v in pairs(t) do
 		if v == o then
 			return true

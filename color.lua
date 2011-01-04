@@ -59,11 +59,16 @@ function M.init(util)
 	
 	M.kanatable = {}
 	M.kanatable.text = util.color(60, 60, 80)
-	M.kanatable.text_sel = util.color(220, 220, 255)
 	M.kanatable.bg = util.color(100, 160, 200)
 	M.kanatable.frame = util.color(180, 200, 255)
+	
+	M.kanatable.text_sel = util.color(220, 220, 255)
 	M.kanatable.bg_sel = util.color(80, 140, 255)
 	M.kanatable.frame_sel = util.color(140, 255, 180)
+	
+	M.kanatable.text_hover = util.color(255, 255, 255)
+	M.kanatable.bg_hover = util.color(100, 170, 255)
+	M.kanatable.frame_hover = util.color(255, 255, 255)
 end
 
 return M
