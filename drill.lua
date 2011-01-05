@@ -219,6 +219,12 @@ function M.mousepressed(x, y, button)
 		if status.button.name == "#back" then
 			next_question()
 			status.submode = "answer"
+		elseif status.button.name == "#switch_type" then
+			if status.kana_type == "hiragana" then
+				status.kana_type = "katakana"
+			else
+				status.kana_type = "hiragana"
+			end
 		elseif kana.is_kana(status.button.name) then
 			if user.sound == true then
 				la.play(kana.sounds[status.button.name])
@@ -328,8 +334,33 @@ function M.draw()
 		local kanas = kana.all_test_kanas(user.level)
 		
 		lg.setBackgroundColor(0,150,200)
-		col = util.color(220, 220, 255)
-		status.buttons = kana.draw_table(status.kana_type, 80, 20, 580, 540, 26, color.kanatable, kanas, status.button.name)
+		
+		status.buttons = kana.draw_table(status.kana_type, 140, 20, 580, 540, 26, color.kanatable, kanas, status.button.name)
+
+		col = color.title
+		if status.kana_type == "hiragana" then
+			kana.draw_glyph("hiragana", "hi", 60, 60+(0*110), 100, col)
+			kana.draw_glyph("hiragana", "ra", 60, 60+(1*110), 100, col)
+			kana.draw_glyph("hiragana", "ga", 60, 60+(2*110), 100, col)
+			kana.draw_glyph("hiragana", "na", 60, 60+(3*110), 100, col)
+			kana.draw_text("hiragana", 60, 20+(4*110), 40, col)
+
+			col = color.get_hover_color(status.button.name == "#switch_type")
+			b = { x = lg.getWidth() - 200, y = 10, w = 200, h = 28, name = "#switch_type" }
+			kana.draw_text("Show Katakana", b.x, b.y, 50, col, "tl")
+			table.insert(status.buttons, b)
+		elseif status.kana_type == "katakana" then
+			kana.draw_glyph("katakana", "ka", 60, 60+(0*110), 100, col)
+			kana.draw_glyph("katakana", "ta", 60, 60+(1*110), 100, col)
+			kana.draw_glyph("katakana", "ka", 60, 60+(2*110), 100, col)
+			kana.draw_glyph("katakana", "na", 60, 60+(3*110), 100, col)
+			kana.draw_text("katakana", 60, 20+(4*110), 40, col)
+
+			col = color.get_hover_color(status.button.name == "#switch_type")
+			b = { x = lg.getWidth() - 200, y = 10, w = 200, h = 28, name = "#switch_type" }
+			kana.draw_text("Show Hiragana", b.x, b.y, 50, col, "tl")
+			table.insert(status.buttons, b)
+		end
 		
 		-- Draw the back button.
 		col = color.get_hover_color(status.button.name == "#back")
