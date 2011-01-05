@@ -5,6 +5,8 @@ local la = love.audio
 local util = require("util")
 local kana = require("kana")
 
+local version = "v0.1*"
+
 local views = {}
 
 views.drill = require("drill")
@@ -58,7 +60,8 @@ local data = {
 	user = user,
 	images = images,
 	color = nil,
-	views = views
+	views = views,
+	version = version
 }
 
 function color.get_highlight_color(col_type, is_selected, is_hovering)
@@ -90,7 +93,8 @@ end
 
 function love.load()
 	math.randomseed(os.time())
-
+	lg.setCaption("NihonDrill "..version)
+	lg.setIcon(lg.newImage("images/icon.png"))
 	love.filesystem.setIdentity("NihonDrill")
 
 	color = require("color")
@@ -121,10 +125,18 @@ function love.load()
 	images.nosound = lg.newImage("images/nosound.png")
 	images.checked = lg.newImage("images/checked.png")
 	images.unchecked = lg.newImage("images/unchecked.png")
+	images.fullscreen = lg.newImage("images/fullscreen.png")
+	images.windowed = lg.newImage("images/windowed.png")
 
 	for k, v in pairs(views) do
 		print("load.init", k, v)
 		v.init(data)
+	end
+
+	if user.fullscreen == nil then
+		user.fullscreen = false
+	elseif user.fullscreen then
+		lg.setMode(lg.getWidth(), lg.getHeight(), user.fullscreen)
 	end
 
 	lg.setColor(0,0,0,255)

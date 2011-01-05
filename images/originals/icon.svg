@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   height="64px"
+   id="svg3147"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="/home/tc/Projects/nihondrill/images/icon.png"
+   inkscape:export-xdpi="45"
+   inkscape:export-ydpi="45">
+  <defs
+     id="defs3149">
+    <radialGradient
+       r="223.66783"
+       fy="482.38647"
+       fx="394.04465"
+       cy="482.38647"
+       cx="394.04465"
+       gradientTransform="matrix(0.35891298,0.43069548,-0.80748985,0.67290831,604.82579,-8.4315432)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient3681"
+       xlink:href="#linearGradient3622-0"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient3622-0">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop3624-6" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop3626-4" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="8.0544965"
+     inkscape:cx="47.141067"
+     inkscape:cy="32.736057"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1639"
+     inkscape:window-height="884"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata3152">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:0.50224214;stroke:none;display:inline"
+       id="path3659"
+       sodipodi:cx="447.3634"
+       sodipodi:cy="553.91327"
+       sodipodi:rx="219.66783"
+       sodipodi:ry="219.66783"
+       d="m 667.03123,553.91327 a 219.66783,219.66783 0 1 1 -439.33566,0 219.66783,219.66783 0 1 1 439.33566,0 z"
+       transform="matrix(0.13672907,0,0,0.13672907,-28.591875,-41.951449)"
+       inkscape:export-filename="/home/tc/Projects/Risky/Images/Flags/jp.png"
+       inkscape:export-xdpi="6.3709164"
+       inkscape:export-ydpi="6.3709164" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
+       id="path2816"
+       sodipodi:cx="447.3634"
+       sodipodi:cy="553.91327"
+       sodipodi:rx="219.66783"
+       sodipodi:ry="219.66783"
+       d="m 667.03123,553.91327 a 219.66783,219.66783 0 1 1 -439.33566,0 219.66783,219.66783 0 1 1 439.33566,0 z"
+       transform="matrix(0.13672907,0,0,0.13672907,-30.470815,-45.004718)"
+       inkscape:export-filename="/home/tc/Projects/Risky/Images/Flags/jp.png"
+       inkscape:export-xdpi="6.3709164"
+       inkscape:export-ydpi="6.3709164" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:none;display:inline"
+       id="path2843"
+       sodipodi:cx="479.25336"
+       sodipodi:cy="510.41083"
+       sodipodi:rx="130.5493"
+       sodipodi:ry="129.69041"
+       d="m 609.80266,510.41083 a 130.5493,129.69041 0 1 1 -261.0986,0 130.5493,129.69041 0 1 1 261.0986,0 z"
+       transform="matrix(0.148423,0,0,0.148423,-35.304792,-40.878168)"
+       inkscape:export-filename="/home/tc/Projects/Risky/Images/Flags/jp.png"
+       inkscape:export-xdpi="6.3709164"
+       inkscape:export-ydpi="6.3709164" />
+    <path
+       transform="matrix(0.13672907,0,0,0.13672907,-30.154928,-45.075069)"
+       d="m 667.03123,553.91327 a 219.66783,219.66783 0 1 1 -439.33566,0 219.66783,219.66783 0 1 1 439.33566,0 z"
+       sodipodi:ry="219.66783"
+       sodipodi:rx="219.66783"
+       sodipodi:cy="553.91327"
+       sodipodi:cx="447.3634"
+       id="path3620"
+       style="fill:url(#radialGradient3681);fill-opacity:1;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/tc/Projects/Risky/Images/Flags/jp.png"
+       inkscape:export-xdpi="6.3709164"
+       inkscape:export-ydpi="6.3709164" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#000000;fill-opacity:0.32735428;stroke:none;display:inline"
+       d="m 51.890916,8.9487105 c 2.427873,4.3349345 3.815595,9.3338195 3.815595,14.6556445 0,16.587862 -13.449808,30.033396 -30.037668,30.033396 -8.188297,0 -15.608396,-3.278885 -21.0263701,-8.592568 5.1404577,9.174034 14.9538501,15.377748 26.2178041,15.377748 16.587858,0 30.033394,-13.445537 30.033394,-30.033392 0,-8.396957 -3.448033,-15.990408 -9.002755,-21.4408285 z"
+       id="path3630"
+       inkscape:export-filename="/home/tc/Projects/Risky/Images/Flags/jp.png"
+       inkscape:export-xdpi="6.3709164"
+       inkscape:export-ydpi="6.3709164" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3657"
+       d="m 9.6646629,51.903513 c -2.4278734,-4.334934 -3.815594,-9.33382 -3.815594,-14.655651 0,-16.587863 13.4498061,-30.0333973 30.0376691,-30.0333973 8.188294,0 15.608393,3.2788863 21.026367,8.5925683 C 51.772646,6.6329999 41.959258,0.42928735 30.695303,0.42928735 c -16.587856,0 -30.03339116,13.44553465 -30.03339116,30.03339765 0,8.396948 3.44802636,15.9904 9.00275106,21.440828 z"
+       style="fill:#ffffff;fill-opacity:0.32735428;stroke:none;display:inline"
+       inkscape:export-filename="/home/tc/Projects/Risky/Images/Flags/jp.png"
+       inkscape:export-xdpi="6.3709164"
+       inkscape:export-ydpi="6.3709164" />
+  </g>
+</svg>
