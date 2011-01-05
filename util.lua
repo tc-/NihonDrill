@@ -103,7 +103,11 @@ local function serialize_indent(o, i)
 		
 		local ret = "{"..tnl
 		for k,v in pairs(o) do
-			ret = ret..ind..k.." = "..serialize_indent(v, i + 1)..","..tnl
+			local k2 = k
+			if type(k) == "string" then
+				k2 = "[\""..k2.."\"]"
+			end
+			ret = ret..ind..k2.." = "..serialize_indent(v, i + 1)..","..tnl
 		end
 
 		if has_table then

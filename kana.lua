@@ -42,6 +42,42 @@ M.layout = {
 	{ "pya",        "pyu",        "pyo" }
 }
 
+M.dual = {
+	["kya"] = {"ki", "ya"},
+	["kyu"] = {"ki", "yu"},
+	["kyo"] = {"ki", "yo"},
+	["sha"] = {"shi", "ya"},
+	["shu"] = {"shi", "yu"},
+	["sho"] = {"shi", "yo"},
+	["cha"] = {"chi", "ya"},
+	["chu"] = {"chi", "yu"},
+	["cho"] = {"chi", "yo"},
+	["nya"] = {"ni", "ya"},
+	["nyu"] = {"ni", "yu"},
+	["nyo"] = {"ni", "yo"},
+	["hya"] = {"hi", "ya"},
+	["hyu"] = {"hi", "yu"},
+	["hyo"] = {"hi", "yo"},
+	["mya"] = {"mi", "ya"},
+	["myu"] = {"mi", "yu"},
+	["myo"] = {"mi", "yo"},
+	["rya"] = {"ri", "ya"},
+	["ryu"] = {"ri", "yu"},
+	["ryo"] = {"ri", "yo"},
+	["gya"] = {"gi", "ya"},
+	["gyu"] = {"gi", "yu"},
+	["gyo"] = {"gi", "yo"},
+	["ja"] = {"ji", "ya"},
+	["ju"] = {"ji", "yu"},
+	["jo"] = {"ji", "yo"},
+	["bya"] = {"bi", "ya"},
+	["byu"] = {"bi", "yu"},
+	["byo"] = {"bi", "yo"},
+	["pya"] = {"pi", "ya"},
+	["pyu"] = {"pi", "yu"},
+	["pyo"] = {"pi", "yo"}
+}
+
 M.special = {
 	["~"] = { str = "cont" },
 	["-"] = { str = "long" },
@@ -131,14 +167,16 @@ function M.draw_glyph(kana_type, glyph, x, y, size, col, auto_scaling)
 	end
 	
 	if img ~= nil then
-		lg.setColor(0,0,0,100)
 		local scale
 		if auto_scaling == true then
 			scale = size / img:getWidth()
 		else
 			scale = size / img:getHeight()
 		end
-		lg.draw(img, x - (size / 2) + (size * 0.04), y - ((img:getHeight() * scale) / 2) - (size * 0.04), 0, scale, scale, 0.5, 0.5)
+		if size > 26 then
+			lg.setColor(0,0,0,100)
+			lg.draw(img, x - (size / 2) + (size * 0.04), y - ((img:getHeight() * scale) / 2) - (size * 0.04), 0, scale, scale, 0.5, 0.5)
+		end
 		lg.setColor(col.r, col.g, col.b)
 		lg.draw(img, x - (size / 2), y - ((img:getHeight() * scale) / 2), 0, scale, scale, 0.5, 0.5)
 	end
@@ -186,7 +224,7 @@ function M.print_kana(text, x, y, size, col, kana_type)
 	
 		if k ~= string.upper(k) then
 			M.draw_glyph(kana_type, k, x, y, size, col, false)
-			if (string.len(k) > 2 and k ~= "shi" and k ~= "chi" and k ~= "tsu" and k ~= "xtsu") or k == "ja" or k == "ju" or k == "jo" then
+			if M.dual[k] ~= nil then
 				x = x + (size * 1.5)
 			else
 				x = x + size
