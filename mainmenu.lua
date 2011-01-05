@@ -8,6 +8,7 @@ local status = nil
 local user = nil
 local util = nil
 local kana = nil
+local color = nil
 
 local version = "v0.1*"
 
@@ -17,6 +18,7 @@ function M.init(data)
 	user = data.user
 	util = data.util
 	kana = data.kana
+	color = data.color
 end
 
 function M.update(dt, mx, my)
@@ -45,42 +47,26 @@ function M.draw()
 
 	local col
 
-	kana.draw_text("What do you want to train?", 20, 20, 90, util.color(80, 200, 255), "tl")
+	kana.draw_text("What do you want to train?", 20, 20, 90, color.title, "tl")
 
-	if status.button.name == "vocabulary" then
-		col = util.color(180, 255, 180)
-	else
-		col = util.color(70, 255, 100)
-	end
+	col = color.get_hover_color(status.button.name == "vocabulary")
 	b = { x = 50, y = 100, w = 230, h = 60, name = "vocabulary" }
 	kana.draw_text("Vocabulary", b.x, b.y, 80, col, "tl")
 	table.insert(status.buttons, b)
 
-	if status.button.name == "kana" then
-		col = util.color(180, 255, 180)
-	else
-		col = util.color(70, 255, 100)
-	end
+	col = color.get_hover_color(status.button.name == "kana")
 	b = { x = 50, y = 200, w = 100, h = 60, name = "kana" }
 	kana.draw_text("Kana", b.x, b.y, 80, col, "tl")
 	table.insert(status.buttons, b)
 
-	if status.button.name == "credits" then
-		col = util.color(100, 200, 120)
-	else
-		col = util.color(80, 80, 120)
-	end
+	col = color.get_highlight_color(false, status.button.name == "credits")
 	b = { x = lg.getWidth() - 100, y = lg.getHeight() - 40, w = 90, h = 28, name = "credits" }
 	kana.draw_text("Credits", b.x, b.y, 50, col, "tl")
 	table.insert(status.buttons, b)
 
 	kana.draw_text(version, lg.getWidth() - 32, 2, 18, util.color(70, 70, 70), "tl")
 
-	if status.button.name == "#back" then
-		col = util.color(100, 200, 120)
-	else
-		col = util.color(80, 80, 120)
-	end
+	col = color.get_hover_color(status.button.name == "#back")
 	b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
 	kana.draw_text("Quit", b.x, b.y, 50, col, "tl")
 	table.insert(status.buttons, b)
