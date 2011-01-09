@@ -80,6 +80,16 @@ function color.get_highlight_color(col_type, is_selected, is_hovering)
 	end
 end
 
+function set_fullscreen_mode(fs, force)
+	force = force or false
+	if fs ~= user.fullscreen or force then
+		user.fullscreen = fs
+		lg.setMode(lg.getWidth(), lg.getHeight(), user.fullscreen)
+		lg.setCaption("NihonDrill "..version)
+		lg.setIcon(lg.newImage("images/icon.png"))
+	end
+end
+
 function change_view(new_view)
 	status.view = new_view
 	status.submode = nil
@@ -134,9 +144,9 @@ function love.load()
 	end
 
 	if user.fullscreen == nil then
-		user.fullscreen = false
+		set_fullscreen_mode(false, true)
 	elseif user.fullscreen then
-		lg.setMode(lg.getWidth(), lg.getHeight(), user.fullscreen)
+		set_fullscreen_mode(user.fullscreen, true)
 	end
 
 	lg.setColor(0,0,0,255)

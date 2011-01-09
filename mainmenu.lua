@@ -44,8 +44,7 @@ function M.mousepressed(x, y, button)
 	elseif status.button.name == "#test" then
 		change_view("test")
 	elseif status.button.name == "#fullscreen" then
-		user.fullscreen = not user.fullscreen
-		lg.setMode(lg.getWidth(), lg.getHeight(), user.fullscreen)
+		set_fullscreen_mode(not user.fullscreen)
 	end
 end
 
