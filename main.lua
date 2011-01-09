@@ -51,7 +51,7 @@ local user
 
 local images = { }
 
-local color = {}
+local color = nil
 
 local data = {
 	util = util,
@@ -63,22 +63,6 @@ local data = {
 	views = views,
 	version = version
 }
-
-function color.get_highlight_color(col_type, is_selected, is_hovering)
-	if is_selected then
-		if is_hovering then
-			return color.hover
-		else
-			return color.active
-		end
-	else
-		if is_hovering then
-			return color.disabled_hover
-		else
-			return color.disabled
-		end
-	end
-end
 
 function set_fullscreen_mode(fs, force)
 	force = force or false
