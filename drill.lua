@@ -268,12 +268,17 @@ function M.draw()
 		-- Draw the alternatives.
 		for i, alt in ipairs(status.alternatives) do
 			local x, y = get_alternative_pos(i)
-			b = { x = x, y = y, r = status.size * 0.4, name = alt, alt = i }
+			b = { x = x, y = y, r = status.size * 0.44, name = alt, alt = i }
 			table.insert(status.buttons, b)
 
 			col = color.get_hover_color(alt == status.button.name, "alt")
-			kana.draw_glyph_bg(x, y, status.size / 1.5, col)
-			kana.draw_text(alt, x, y, status.size, col)
+			if alt == status.button.name then
+				kana.draw_glyph_bg(x, y, status.size / 1.4, col)
+				kana.draw_text(alt, x, y, status.size * 1.1, col)
+			else
+				kana.draw_glyph_bg(x, y, status.size / 1.5, col)
+				kana.draw_text(alt, x, y, status.size, col)
+			end
 		end
 
 		-- Draw the level selector down.
