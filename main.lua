@@ -5,7 +5,7 @@ local la = love.audio
 local util = require("util")
 local kana = require("kana")
 
-local version = "v0.1*"
+local version = "v0.2"
 
 local views = {}
 
