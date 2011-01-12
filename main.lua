@@ -109,7 +109,7 @@ function love.load()
 		end
 	else
 		user = default_user
-	end
+	end 
 
 	data.user = user
 
@@ -117,10 +117,17 @@ function love.load()
 
 	images.sound = lg.newImage("images/sound.png")
 	images.nosound = lg.newImage("images/nosound.png")
+
 	images.checked = lg.newImage("images/checked.png")
 	images.unchecked = lg.newImage("images/unchecked.png")
+
 	images.fullscreen = lg.newImage("images/fullscreen.png")
 	images.windowed = lg.newImage("images/windowed.png")
+
+	images.button_base = lg.newImage("images/button_base.png")
+	images.button_top = lg.newImage("images/button_top.png")
+
+	images.kanadrill = lg.newImage("images/kanadrill.png")
 
 	for k, v in pairs(views) do
 		print("load.init", k, v)

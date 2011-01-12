@@ -56,7 +56,13 @@ function M.init(util)
 	M.variants.alt.hover = M.alt_hover
 	M.variants.alt.disabled = M.alt_disabled
 	M.variants.alt.disabled_hover = M.alt_disabled_hover
-	
+
+	M.variants.button = {}
+	M.variants.button.active = M.alt_hover
+	M.variants.button.hover = util.color(200, 240, 255)
+	M.variants.button.disabled = M.alt_disabled
+	M.variants.button.disabled_hover = M.alt_disabled_hover
+
 	M.kanatable = {}
 	M.kanatable.text = util.color(60, 60, 80)
 	M.kanatable.bg = util.color(100, 160, 200)

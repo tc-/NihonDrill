@@ -54,14 +54,42 @@ function M.draw()
 
 	kana.draw_text("What do you want to train?", 20, 20, 90, color.title, "tl")
 
-	col = color.get_hover_color(status.button.name == "vocabulary")
-	b = { x = 50, y = 100, w = 230, h = 60, name = "vocabulary" }
-	kana.draw_text("Vocabulary", b.x, b.y, 80, col, "tl")
+	col = color.get_hover_color(status.button.name == "vocabulary", "button")
+	b = { x = 100, y = 160, w = 386 * 0.8, h = 128 * 0.8, name = "vocabulary" }
+
+	lg.setColor(col.r, col.g, col.b, 255)
+	lg.draw(images.button_base, b.x, b.y, 0, 0.8, 0.8)
+
+	if status.button.name == "vocabulary" then
+		lg.setColor(240, 250, 255, 255)
+		lg.draw(images.kanadrill, b.x + 4, b.y + 4, 0, 0.8, 0.8)
+	else
+		lg.setColor(180, 200, 255, 255)
+		lg.draw(images.kanadrill, b.x + 10, b.y + 6, 0, 0.7, 0.7)
+	end
+	kana.draw_text("Vocabulary", b.x + 100, b.y + 26, 70, col, "tl")
+
+	lg.setColor(col.r, col.g, col.b, 255)
+	lg.draw(images.button_top, b.x, b.y, 0, 0.8, 0.8)
 	table.insert(status.buttons, b)
 
-	col = color.get_hover_color(status.button.name == "kana")
-	b = { x = 50, y = 200, w = 100, h = 60, name = "kana" }
-	kana.draw_text("Kana", b.x, b.y, 80, col, "tl")
+	col = color.get_hover_color(status.button.name == "kana", "button")
+	b = { x = 100, y = 310, w = 386 * 0.8, h = 128 * 0.8, name = "kana" }
+
+	lg.setColor(col.r, col.g, col.b, 255)
+	lg.draw(images.button_base, b.x, b.y, 0, 0.8, 0.8)
+
+	if status.button.name == "kana" then
+		lg.setColor(240, 250, 255, 255)
+		lg.draw(images.kanadrill, b.x + 4, b.y + 4, 0, 0.8, 0.8)
+	else
+		lg.setColor(180, 200, 255, 255)
+		lg.draw(images.kanadrill, b.x + 10, b.y + 6, 0, 0.7, 0.7)
+	end
+	kana.draw_text("Kana", b.x + 130, b.y + 20, 100, col, "tl")
+
+	lg.setColor(col.r, col.g, col.b, 255)
+	lg.draw(images.button_top, b.x, b.y, 0, 0.8, 0.8)
 	table.insert(status.buttons, b)
 
 	col = color.get_highlight_color(false, status.button.name == "credits")
