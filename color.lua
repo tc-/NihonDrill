@@ -35,6 +35,7 @@ function M.init(util)
 	M.disabled_hover = util.color(100, 200, 120)
 	M.header = util.color(80, 200, 255)
 	M.title = util.color(80, 200, 255)
+	M.default_icon = util.color(255, 255, 255)
 
 	M.alt = util.color(0, 40, 80)
 	M.alt_hover = util.color(140, 200, 255)
@@ -62,6 +63,10 @@ function M.init(util)
 	M.variants.button.hover = util.color(200, 240, 255)
 	M.variants.button.disabled = M.alt_disabled
 	M.variants.button.disabled_hover = M.alt_disabled_hover
+
+	M.variants.quit = {}
+	M.variants.quit.active = util.color(60, 60, 80)
+	M.variants.quit.hover = util.color(255, 80, 80)
 
 	M.kanatable = {}
 	M.kanatable.text = util.color(60, 60, 80)

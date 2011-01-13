@@ -4,8 +4,9 @@ local lg = love.graphics
 
 local fonts = { }
 
-function M.color(cr, cg, cb)
-	return { r = cr, g = cg, b = cb }
+function M.color(cr, cg, cb, ca)
+	ca = ca or 255
+	return { r = cr, g = cg, b = cb, a = ca }
 end
 
 function M.get_font(size)

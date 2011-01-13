@@ -5,7 +5,7 @@ local la = love.audio
 local util = require("util")
 local kana = require("kana")
 
-local version = "v0.2"
+local version = "v0.2*"
 
 local views = {}
 
@@ -128,6 +128,8 @@ function love.load()
 	images.button_top = lg.newImage("images/button_top.png")
 
 	images.kanadrill = lg.newImage("images/kanadrill.png")
+	images.vocabulary = lg.newImage("images/vocabulary.png")
+	images.quit = lg.newImage("images/quit.png")
 
 	for k, v in pairs(views) do
 		print("load.init", k, v)
