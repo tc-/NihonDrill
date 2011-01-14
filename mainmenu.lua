@@ -51,30 +51,25 @@ end
 
 function M.draw()
 	local col, img
-	lg.setBackgroundColor(0,110,255)
-	gui.draw_linear_gradient(0, 0, lg.getWidth(), 80, util.color(0,50,200), util.color(0,110,255), 100)
-	gui.draw_linear_gradient(0, 80, lg.getWidth(), lg.getHeight() - 80, color.alt_hover, util.color(100, 100, 100), 100)
-	lg.setColor(200,200,200)
-	lg.rectangle("fill", 0, 79, lg.getWidth(), 2)
-	kana.draw_text("What do you want to do today?", 20, 16, 90, util.color(180, 200, 255), "tl")
-	lg.setColor(160, 160, 255, 255)
-	--lg.rectangle("fill", 0, 0, lg.getWidth(), 30)
-	lg.draw(images.button_top, -18, -4, 0, 2.16, 0.8)
+	gui.draw_page("What do you want to do today?", util.color(0,110,255), color.alt_hover)
+
+	-- Draw the Vocabulary button.
 	col = color.get_hover_color(status.button.name == "vocabulary", "button")
 	b = { x = 100, y = 160, w = 386 * 0.8, h = 128 * 0.8, name = "vocabulary" }
 	gui.draw_button(b, col, images.vocabulary, color.default_icon, images.button_base, 
 		images.button_top, "Vocabulary", status.button.name == "vocabulary", 68)
 	table.insert(status.buttons, b)
 
+	-- Draw the Kana button.
 	col = color.get_hover_color(status.button.name == "kana", "button")
 	b = { x = 100, y = 320, w = 386 * 0.8, h = 128 * 0.8, name = "kana" }
 	gui.draw_button(b, col, images.kanadrill, color.default_icon, images.button_base, 
 		images.button_top, "Kana", status.button.name == "kana", 100)
 	table.insert(status.buttons, b)
 
-	col = color.get_highlight_color(false, status.button.name == "credits")
+	-- Draw the Credits button.
+	col = color.get_hover_color(status.button.name == "credits", "credits")
 	b = { x = lg.getWidth() - 170, y = lg.getHeight() - 58, w = 160, h = 48, name = "credits" }
---	kana.draw_text("Credits", b.x, b.y, 50, col, "tl")
 	gui.draw_button(b, col, images.credits, color.default_icon, images.button_base, 
 		images.button_top, "Credits", status.button.name == "credits", 50)
 	table.insert(status.buttons, b)

@@ -28,6 +28,26 @@ function M.get_hover_color(is_hovering, variant)
 	end
 end
 
+function M.set_brightness(col, delta)
+	col.r = col.r + delta
+	col.g = col.g + delta
+	col.b = col.b + delta
+	if delta > 0 then
+		if col.r > 255 then col.r = 255 end
+		if col.g > 255 then col.g = 255 end
+		if col.b > 255 then col.b = 255 end
+	else
+		if col.r < 0 then col.r = 0 end
+		if col.g < 0 then col.g = 0 end
+		if col.b < 0 then col.b = 0 end
+	end
+	return col
+end
+
+function M.copy_color(col)
+	return { r = col.r, g = col.g, b = col.b, a = col.a }
+end
+
 function M.init(util)
 	M.active = util.color(70, 255, 100)
 	M.hover = util.color(180, 255, 180)
@@ -36,6 +56,13 @@ function M.init(util)
 	M.header = util.color(80, 200, 255)
 	M.title = util.color(80, 200, 255)
 	M.default_icon = util.color(255, 255, 255)
+
+	M.credits = util.color(255, 220, 0)
+
+	M.back_icon = util.color(140, 200, 255)
+
+	M.credits_what = util.color(140, 100, 0)
+	M.credits_name = util.color(200, 180, 0)
 
 	M.alt = util.color(0, 40, 80)
 	M.alt_hover = util.color(140, 200, 255)
@@ -67,6 +94,14 @@ function M.init(util)
 	M.variants.quit = {}
 	M.variants.quit.active = util.color(60, 60, 80)
 	M.variants.quit.hover = util.color(255, 80, 80)
+
+	M.variants.credits = {}
+	M.variants.credits.active = util.color(60, 60, 80)
+	M.variants.credits.hover = M.credits
+
+	M.variants.back = {}
+	M.variants.back.active = util.color(60, 60, 80)
+	M.variants.back.hover = util.color(100, 100, 150)
 
 	M.kanatable = {}
 	M.kanatable.text = util.color(60, 60, 80)

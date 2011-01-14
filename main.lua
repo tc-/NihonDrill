@@ -4,6 +4,7 @@ local la = love.audio
 
 local util = require("util")
 local kana = require("kana")
+local images = require("images")
 
 local version = "v0.2*"
 
@@ -48,8 +49,6 @@ local default_user = {
 }
 
 local user
-
-local images = { }
 
 local color = nil
 
@@ -115,22 +114,7 @@ function love.load()
 
 	kana.init()
 
-	images.sound = lg.newImage("images/sound.png")
-	images.nosound = lg.newImage("images/nosound.png")
-
-	images.checked = lg.newImage("images/checked.png")
-	images.unchecked = lg.newImage("images/unchecked.png")
-
-	images.fullscreen = lg.newImage("images/fullscreen.png")
-	images.windowed = lg.newImage("images/windowed.png")
-
-	images.button_base = lg.newImage("images/button_base.png")
-	images.button_top = lg.newImage("images/button_top.png")
-
-	images.kanadrill = lg.newImage("images/kanadrill.png")
-	images.vocabulary = lg.newImage("images/vocabulary.png")
-	images.quit = lg.newImage("images/quit.png")
-	images.credits = lg.newImage("images/credits.png")
+	images.init()
 
 	for k, v in pairs(views) do
 		print("load.init", k, v)
