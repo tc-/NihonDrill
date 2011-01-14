@@ -56,10 +56,10 @@ function M.draw()
 	gui.draw_linear_gradient(0, 80, lg.getWidth(), lg.getHeight() - 80, color.alt_hover, util.color(100, 100, 100), 100)
 	lg.setColor(200,200,200)
 	lg.rectangle("fill", 0, 79, lg.getWidth(), 2)
-	kana.draw_text("What do you want to train?", 20, 16, 90, util.color(180, 200, 255), "tl")
-	lg.setColor(255, 255, 255, 70)
+	kana.draw_text("What do you want to do today?", 20, 16, 90, util.color(180, 200, 255), "tl")
+	lg.setColor(160, 160, 255, 255)
 	--lg.rectangle("fill", 0, 0, lg.getWidth(), 30)
-	lg.draw(images.button_top, -10, -4, 0, 2.2, 0.8)
+	lg.draw(images.button_top, -18, -4, 0, 2.16, 0.8)
 	col = color.get_hover_color(status.button.name == "vocabulary", "button")
 	b = { x = 100, y = 160, w = 386 * 0.8, h = 128 * 0.8, name = "vocabulary" }
 	gui.draw_button(b, col, images.vocabulary, color.default_icon, images.button_base, 
@@ -73,8 +73,10 @@ function M.draw()
 	table.insert(status.buttons, b)
 
 	col = color.get_highlight_color(false, status.button.name == "credits")
-	b = { x = lg.getWidth() - 100, y = lg.getHeight() - 40, w = 90, h = 28, name = "credits" }
-	kana.draw_text("Credits", b.x, b.y, 50, col, "tl")
+	b = { x = lg.getWidth() - 170, y = lg.getHeight() - 58, w = 160, h = 48, name = "credits" }
+--	kana.draw_text("Credits", b.x, b.y, 50, col, "tl")
+	gui.draw_button(b, col, images.credits, color.default_icon, images.button_base, 
+		images.button_top, "Credits", status.button.name == "credits", 50)
 	table.insert(status.buttons, b)
 
 	-- Draw the version number.

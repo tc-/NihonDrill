@@ -130,6 +130,7 @@ function love.load()
 	images.kanadrill = lg.newImage("images/kanadrill.png")
 	images.vocabulary = lg.newImage("images/vocabulary.png")
 	images.quit = lg.newImage("images/quit.png")
+	images.credits = lg.newImage("images/credits.png")
 
 	for k, v in pairs(views) do
 		print("load.init", k, v)
