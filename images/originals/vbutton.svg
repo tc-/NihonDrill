@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg3347"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="hbutton.svg">
+  <defs
+     id="defs3349">
+    <linearGradient
+       id="linearGradient4176">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.63358778;"
+         offset="0"
+         id="stop4178" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.16030534;"
+         offset="1"
+         id="stop4180" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4481">
+      <stop
+         id="stop4483"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:0.20610687;" />
+      <stop
+         id="stop4485"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0.5496183;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4398"
+       id="linearGradient4473"
+       x1="70.809357"
+       y1="20.355217"
+       x2="-9.8523502"
+       y2="20.355217"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(20.969465,0,0,13.547655,-1169.3519,128.98081)" />
+    <linearGradient
+       id="linearGradient4398">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop4400" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="1"
+         id="stop4402" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4481"
+       id="linearGradient3389"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(16.318059,0,0,4.3844586,-974.65956,298.32209)"
+       x1="10.876138"
+       y1="18.896008"
+       x2="56.979084"
+       y2="19.536064" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4176"
+       id="radialGradient4182"
+       cx="408.96954"
+       cy="366.31198"
+       fx="408.96954"
+       fy="366.31198"
+       r="102.04688"
+       gradientTransform="matrix(-2.4151617,0.0317776,-0.07248996,-7.2693266,1303.6059,2920.7091)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.71268239"
+     inkscape:cx="372.04724"
+     inkscape:cy="526.18109"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="973"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3352">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;stroke:none"
+       id="rect4639"
+       width="1029.6609"
+       height="341.23633"
+       x="-1040.5336"
+       y="209.68001"
+       rx="0"
+       ry="0"
+       inkscape:export-filename="/home/tc/Projects/nihondrill/images/hbutton_base.png"
+       inkscape:export-xdpi="55.403946"
+       inkscape:export-ydpi="55.403946"
+       transform="matrix(0,-1,1,0,0,0)" />
+    <rect
+       style="fill:url(#linearGradient4473);fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:16.8548851;stroke-opacity:1"
+       id="rect3886"
+       width="1007.4292"
+       height="322.5426"
+       x="-1029.1722"
+       y="218.75749"
+       rx="49.17173"
+       ry="49.17173"
+       inkscape:export-filename="/home/tc/Projects/nihondrill/images/hbutton_base.png"
+       inkscape:export-xdpi="55.403946"
+       inkscape:export-ydpi="55.403946"
+       transform="matrix(0,-1,1,0,0,0)" />
+    <rect
+       ry="49.17173"
+       rx="49.17173"
+       y="226.89613"
+       x="-1021.4927"
+       height="306.26553"
+       width="992.07001"
+       id="rect4631"
+       style="fill:none;stroke:#939595;stroke-width:4.88952255;stroke-miterlimit:0.60000002;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="/home/tc/Projects/nihondrill/images/hbutton_base.png"
+       inkscape:export-xdpi="55.403946"
+       inkscape:export-ydpi="55.403946"
+       transform="matrix(0,-1,1,0,0,0)" />
+    <rect
+       style="fill:none;stroke:#939595;stroke-width:5.19595957;stroke-miterlimit:0.60000002;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4633"
+       width="1022.5015"
+       height="335.56375"
+       x="-1036.7089"
+       y="212.24666"
+       rx="59.091389"
+       ry="59.091389"
+       inkscape:export-filename="/home/tc/Projects/nihondrill/images/hbutton_base.png"
+       inkscape:export-xdpi="55.403946"
+       inkscape:export-ydpi="55.403946"
+       transform="matrix(0,-1,1,0,0,0)" />
+    <path
+       style="fill:url(#radialGradient4182);fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m 455.93378,31.529474 -177.10815,0.311913 c -3.40513,0.0059 -7.14156,0.156807 -10.39491,0.667877 -3.28471,0.515998 -6.46726,1.221835 -9.41065,2.647125 -2.94339,1.425291 -6.5097,2.652513 -9.12483,4.678588 -2.61514,2.026078 -5.91301,4.463586 -8.13496,7.015872 -2.22195,2.552287 -4.48169,5.511138 -6.24553,8.515062 -1.76384,3.003913 -3.51188,7.060664 -4.50869,10.521458 -0.92892,3.225025 -1.25557,6.821225 -1.52198,10.552616 -0.26297,3.68345 -0.053,7.647459 -0.053,11.558856 l 0,839.589949 c 17.74552,15.02381 36.46532,23.21467 55.84456,23.21467 111.80675,0 202.45631,-267.83303 202.45631,-598.22089 0,-118.27945 -11.75249,-228.22733 -31.79818,-321.053096 z"
+       id="path4166"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cssssssssscssc"
+       inkscape:export-filename="/home/tc/Projects/nihondrill/images/hbutton_base.png"
+       inkscape:export-xdpi="55.403946"
+       inkscape:export-ydpi="55.403946" />
+    <rect
+       transform="matrix(0,-1,1,0,0,0)"
+       inkscape:export-ydpi="55.403946"
+       inkscape:export-xdpi="55.403946"
+       inkscape:export-filename="/home/tc/Projects/nihondrill/images/hbutton_base.png"
+       ry="0"
+       rx="0"
+       y="212.24666"
+       x="-1036.7089"
+       height="335.56375"
+       width="1022.5015"
+       id="rect4184"
+       style="fill:none;stroke:none" />
+  </g>
+</svg>

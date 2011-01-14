@@ -16,6 +16,9 @@ function M.init()
 	M.button_base = lg.newImage("images/button_base.png")
 	M.button_top = lg.newImage("images/button_top.png")
 
+	M.vbutton_base = lg.newImage("images/vbutton_base.png")
+	M.vbutton_top = lg.newImage("images/vbutton_top.png")
+
 	-- 128x128 icons.
 	M.kanadrill = lg.newImage("images/kanadrill.png")
 	M.vocabulary = lg.newImage("images/vocabulary.png")

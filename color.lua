@@ -53,7 +53,7 @@ function M.init(util)
 	M.hover = util.color(180, 255, 180)
 	M.disabled = util.color(70, 70, 100)
 	M.disabled_hover = util.color(100, 200, 120)
-	M.header = util.color(80, 200, 255)
+	M.drill_opt_header = util.color(140, 140, 140)
 	M.title = util.color(80, 200, 255)
 	M.default_icon = util.color(255, 255, 255)
 

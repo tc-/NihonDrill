@@ -51,7 +51,7 @@ end
 
 function M.draw()
 	local col, img
-	gui.draw_page("What do you want to do today?", util.color(0,110,255), color.alt_hover)
+	gui.draw_page("What do you want to practice?", util.color(0,110,255), color.alt_hover)
 
 	-- Draw the Vocabulary button.
 	col = color.get_hover_color(status.button.name == "vocabulary", "button")

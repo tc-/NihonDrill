@@ -10,6 +10,7 @@ local util = nil
 local kana = nil
 local images = nil
 local color = nil
+local gui = require("gui")
 
 local levels = {
 	{  1,  2,  3,  4 },
@@ -103,50 +104,46 @@ end
 function M.draw()
 	local b, col, hover, seleted
 
-	-- Draw the heading.
-	kana.draw_text("Select what to practice.", 290, 30, 90, color.title)
+	gui.draw_page("Select what to practice", util.color(0,100,10), util.color(0,0,0))
 
-	kana.draw_text("Syllabaries", 70, 60, 70, color.header, "tl")
+	-- Draw the heading.
+	--kana.draw_text("Select what to practice.", 290, 30, 90, color.title)
+
+	kana.draw_text("Syllabaries", 70, 90, 70, color.drill_opt_header, "tl")
 
 	-- Draw the Hiragana button.
-	
+
 	selected = user.kana_types == "hiragana" or user.kana_types == "both"
 	hover = status.button.name == "hiragana"
 	col = color.get_highlight_color(selected, hover)
-	b = { x = 50, y = 100, w = 100, h = 440, name = "hiragana" }
-	kana.draw_glyph("hiragana", "hi", b.x + 50, b.y + 50, 100, col)
-	kana.draw_glyph("hiragana", "ra", b.x + 50, b.y + 150, 100, col)
-	kana.draw_glyph("hiragana", "ga", b.x + 50, b.y + 250, 100, col)
-	kana.draw_glyph("hiragana", "na", b.x + 50, b.y + 350, 100, col)
-	kana.draw_text("hiragana", b.x + 50, b.y + 420, 40, col)
+	b = { x = 20, y = 140, w = 140, h = 380, name = "hiragana" }
+	gui.draw_vbutton_kana(b, col, images.vbutton_base, images.vbutton_top, {"hi","ra","ga","na"}, 86, "Hiragana", 40, hover, "hiragana")
 	table.insert(status.buttons, b)
 
 	-- Draw the Katakana button.
 	selected = user.kana_types == "katakana" or user.kana_types == "both"
 	hover = status.button.name == "katakana"
 	col = color.get_highlight_color(selected, hover)
-	b = { x = 200, y = 100, w = 100, h = 440, name = "katakana" }
-	kana.draw_glyph("katakana", "ka", b.x + 50, b.y + 50, 100, col)
-	kana.draw_glyph("katakana", "ta", b.x + 50, b.y + 150, 100, col)
-	kana.draw_glyph("katakana", "ka", b.x + 50, b.y + 250, 100, col)
-	kana.draw_glyph("katakana", "na", b.x + 50, b.y + 350, 100, col)
-	kana.draw_text("katakana", b.x + 50, b.y + 420, 40, col)
+	b = { x = 170, y = 140, w = 140, h = 380, name = "katakana" }
+	gui.draw_vbutton_kana(b, col, images.vbutton_base, images.vbutton_top, {"ka","ta","ka","na"}, 86, "Katakana", 40, hover, "katakana")
 	table.insert(status.buttons, b)
 
 	-- Draw the start button.
 	selected = user.kana_types ~= ""
 	hover = status.button.name == "hajime" and selected
 	col = color.get_highlight_color(selected, hover)
-	b = { x = lg.getWidth() - 160, y = lg.getHeight() - 80, w = 148, h = 70, name = "hajime" }
-	kana.print_hiragana({"ha","ji","me"}, b.x + 24, b.y + 24, 48, col)
-	kana.draw_text("start", b.x + 70, b.y + 64, 48, col)
+	b = { x = lg.getWidth() - 170, y = lg.getHeight() - 90, w = 160, h = 80, name = "hajime" }
+--	kana.print_hiragana({"ha","ji","me"}, b.x + 24, b.y + 24, 48, col)
+--	kana.draw_text("start", b.x + 70, b.y + 64, 48, col)
+	
+	gui.draw_kana_button(b, col, images.button_base, images.button_top, {"ha","ji","me"}, 46, "Start", 46, hover, "hiragana")
 	table.insert(status.buttons, b)
 
 	-- Draw the levels.
 	local basex = 360
-	local basey = 70
+	local basey = 90
 
-	kana.draw_text("Level", basex, 60, 70, util.color(80, 200, 255), "tl")
+	kana.draw_text("Level", basex, 90, 70, color.drill_opt_header, "tl")
 	for i,row in ipairs(levels) do
 		for i2,l in ipairs(row) do
 			b = { x = basex + (i2*48) - 48, y = basey + (i*48), w = 48, h = 48, name = l }
@@ -160,7 +157,7 @@ function M.draw()
 	end
 
 	-- Draw level help image.
-	lg.setColor(180, 255, 180)
+	lg.setColor(180, 255, 180, 127)
 	local img
 	if not user.autolevel then
 		img = get_level_image(user.level)
@@ -184,9 +181,7 @@ function M.draw()
 	table.insert(status.buttons, b)
 
 	-- Draw the back button.
-	col = color.get_hover_color(status.button.name == "#back")
-	b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
-	kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+	b = gui.draw_back(status.button.name == "#back")
 	table.insert(status.buttons, b)
 end
 
