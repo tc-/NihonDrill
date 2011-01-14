@@ -106,13 +106,9 @@ function M.draw()
 
 	gui.draw_page("Select what to practice", util.color(0,100,10), util.color(0,0,0))
 
-	-- Draw the heading.
-	--kana.draw_text("Select what to practice.", 290, 30, 90, color.title)
-
 	kana.draw_text("Syllabaries", 70, 90, 70, color.drill_opt_header, "tl")
 
 	-- Draw the Hiragana button.
-
 	selected = user.kana_types == "hiragana" or user.kana_types == "both"
 	hover = status.button.name == "hiragana"
 	col = color.get_highlight_color(selected, hover)
@@ -133,9 +129,6 @@ function M.draw()
 	hover = status.button.name == "hajime" and selected
 	col = color.get_highlight_color(selected, hover)
 	b = { x = lg.getWidth() - 170, y = lg.getHeight() - 90, w = 160, h = 80, name = "hajime" }
---	kana.print_hiragana({"ha","ji","me"}, b.x + 24, b.y + 24, 48, col)
---	kana.draw_text("start", b.x + 70, b.y + 64, 48, col)
-	
 	gui.draw_kana_button(b, col, images.button_base, images.button_top, {"ha","ji","me"}, 46, "Start", 46, hover, "hiragana")
 	table.insert(status.buttons, b)
 
