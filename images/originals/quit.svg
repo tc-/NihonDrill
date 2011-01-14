@@ -17,8 +17,8 @@
    inkscape:version="0.48.0 r9654"
    sodipodi:docname="quit.svg"
    inkscape:export-filename="/home/tc/Projects/nihondrill/images/quit.png"
-   inkscape:export-xdpi="180"
-   inkscape:export-ydpi="180">
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs9051">
     <linearGradient
@@ -47,7 +47,27 @@
        xlink:href="#linearGradient9580"
        id="linearGradient9602"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.98107531,0,0,0.96829408,-0.79099163,0.27939027)"
+       gradientTransform="matrix(2.3597655,0,0,1.0395667,42.333183,2.2959661)"
+       x1="-26.949177"
+       y1="-20.252909"
+       x2="-43.123104"
+       y2="-26.994242" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9580"
+       id="linearGradient10155"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.98107531,0,0,0.96829408,0.79099163,-0.27939027)"
+       x1="18.792"
+       y1="21.642305"
+       x2="48.920147"
+       y2="62.687637" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9580"
+       id="linearGradient10162"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0228538,0,0,0.90930988,-0.2289249,-2.3105114)"
        x1="-26.949177"
        y1="-20.252909"
        x2="-43.123104"
@@ -61,8 +81,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.71875"
-     inkscape:cx="16.256"
-     inkscape:cy="31.589174"
+     inkscape:cx="28.723904"
+     inkscape:cy="32.410826"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -98,21 +118,20 @@
        id="rect9578"
        width="8.0154572"
        height="33.620285"
-       x="-38.880684"
-       y="-38.587311"
+       x="-39.819351"
+       y="-39.099312"
        transform="scale(-1,-1)" />
     <path
-       inkscape:connector-curvature="0"
-       id="path9596"
-       d="m 32.766229,59.708361 c 14.581371,0 26.411968,-11.571595 26.411968,-25.833745 0,-12.04504 -8.454341,-22.105197 -19.861381,-24.9623669 l 0,9.6876539 c 6.909231,2.368671 11.843463,8.26417 11.843463,15.274713 0,9.082942 -8.23846,16.453637 -18.39405,16.453637 -10.15559,0 -18.341645,-7.370695 -18.341645,-16.453637 0,-6.510269 4.306593,-12.04352 10.428535,-14.710882 l 0,-9.7901678 C 14.173592,12.679178 6.406667,22.326541 6.406667,33.874616 c 0,14.26215 11.778192,25.833745 26.359562,25.833745 z"
-       style="fill:url(#linearGradient9600);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-opacity:1" />
+       style="fill:url(#linearGradient10155);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 23.15625 10.0625 C 13.381532 13.833198 6.40625 22.962629 6.40625 33.875 C 6.40625 48.13715 18.19988 59.71875 32.78125 59.71875 C 47.362621 59.71875 59.1875 48.13715 59.1875 33.875 C 59.1875 22.970272 52.213847 13.747799 42.4375 9.96875 L 42.4375 20.15625 C 47.613918 23.047861 51.15625 28.008467 51.15625 33.875 C 51.15625 42.957942 42.93684 50.34375 32.78125 50.34375 C 22.62566 50.34375 14.4375 42.957942 14.4375 33.875 C 14.4375 28.022542 18.005532 23.088643 23.15625 20.1875 L 23.15625 10.0625 z "
+       id="path10158" />
     <rect
        transform="scale(-1,-1)"
-       y="-35.232613"
-       x="-36.032372"
-       height="33.620285"
-       width="8.0154572"
+       y="-35.659279"
+       x="-36.971039"
+       height="31.572285"
+       width="8.3567905"
        id="rect9598"
-       style="fill:url(#linearGradient9602);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:url(#linearGradient10162);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   </g>
 </svg>
