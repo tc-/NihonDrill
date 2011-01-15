@@ -6,12 +6,14 @@ local autolevel_value_needed = 10
 local lg = love.graphics
 local la = love.audio
 
+local util = require("util")
+local kana = require("kana")
+local images = require("images")
+local color = require("color")
+local gui = require("gui")
+
 local status = nil
 local user = nil
-local util = nil
-local kana = nil
-local images = nil
-local color = nil
 
 local function get_kana_stats(k, kana_type)
 	local s = user.stats.kana[kana_type][k]
@@ -146,10 +148,6 @@ end
 function M.init(data)
 	status = data.status
 	user = data.user
-	util = data.util
-	kana = data.kana
-	images = data.images
-	color = data.color
 end
 
 local function reset_queue()
@@ -259,11 +257,12 @@ function M.draw()
 	local center = lg.getWidth() * 0.5
 
 	if status.submode == "answer" then
-		lg.setBackgroundColor(0,150,200)
-		
+		gui.draw_page("", util.color(0,100,10), util.color(0,0,0), images.kanadrill)
+		gui.draw_page_no_head(util.color(0,150,200))
+
 		-- Draw the question kana.
-		kana.draw_glyph_bg(status.x, status.y, status.size, color.alt_question)
-		kana.draw_glyph(status.kana_type, status.kana, status.x, status.y, status.size, color.alt_question)
+		b = { x = status.x, y = status.y, r = status.size * 0.7, name = "#question" }
+		gui.draw_rbutton_kana(b, util.color(130,180,255), images.rbutton_base, images.rbutton_top, status.kana, status.size, false, status.kana_type)
 
 		-- Draw the alternatives.
 		for i, alt in ipairs(status.alternatives) do
@@ -272,13 +271,7 @@ function M.draw()
 			table.insert(status.buttons, b)
 
 			col = color.get_hover_color(alt == status.button.name, "alt")
-			if alt == status.button.name then
-				kana.draw_glyph_bg(x, y, status.size / 1.4, col)
-				kana.draw_text(alt, x, y, status.size * 1.1, col)
-			else
-				kana.draw_glyph_bg(x, y, status.size / 1.5, col)
-				kana.draw_text(alt, x, y, status.size, col)
-			end
+			gui.draw_rbutton_text(b, col, images.rbutton_base, images.rbutton_top, alt, status.size * 0.7, alt == status.button.name)
 		end
 
 		-- Draw the level selector down.
@@ -315,9 +308,7 @@ function M.draw()
 		table.insert(status.buttons, b)
 
 		-- Draw the back button.
-		col = color.get_hover_color(status.button.name == "#back")
-		b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
-		kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+		b = gui.draw_back(status.button.name == "#back")
 		table.insert(status.buttons, b)
 
 	elseif status.submode == "answer_correct" then
@@ -368,9 +359,7 @@ function M.draw()
 		end
 		
 		-- Draw the back button.
-		col = color.get_hover_color(status.button.name == "#back")
-		b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
-		kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+		b = gui.draw_back(status.button.name == "#back")
 		table.insert(status.buttons, b)
 	end
 

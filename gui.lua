@@ -61,6 +61,40 @@ function M.draw_vbutton_kana(b, col, base_image, top_image, vtext, vtext_size, h
 	lg.draw(top_image, b.x, b.y, 0, scalex, scaley)
 end
 
+function M.draw_rbutton_kana(b, col, base_image, top_image, k, size, hover, kana_type)
+	local scalex = (b.r * 2) / base_image:getWidth()
+	local scaley = (b.r * 2) / base_image:getHeight()
+	local i, x, y
+
+	x = b.x - b.r
+	y = b.y - b.r
+
+	lg.setColor(col.r, col.g, col.b, 255)
+	lg.draw(base_image, x, y, 0, scalex, scaley)
+
+	kana.draw_glyph(kana_type, k, x + b.r, y + b.r, size, col)
+
+	lg.setColor(col.r, col.g, col.b, 255)
+	lg.draw(top_image, x, y, 0, scalex, scaley)
+end
+
+function M.draw_rbutton_text(b, col, base_image, top_image, text, size, hover)
+	local scalex = (b.r * 2) / base_image:getWidth()
+	local scaley = (b.r * 2) / base_image:getHeight()
+	local i, x, y
+
+	x = b.x - b.r
+	y = b.y - b.r
+
+	lg.setColor(col.r, col.g, col.b, 255)
+	lg.draw(base_image, x, y, 0, scalex, scaley)
+
+	kana.draw_text(text, x + b.r, y + b.r, size, col)
+
+	lg.setColor(col.r, col.g, col.b, 255)
+	lg.draw(top_image, x, y, 0, scalex, scaley)
+end
+
 function M.draw_linear_gradient(x, y, w, h, scol, ecol, steps)
 	local rd = (ecol.r - scol.r) / steps
 	local gd = (ecol.g - scol.g) / steps
@@ -93,6 +127,10 @@ function M.draw_page(text, title_col, page_col, icon)
 	
 	lg.setColor(title_col_light.r, title_col_light.g, title_col_light.b, 255)
 	lg.draw(images.button_top, -18, -4, 0, 2.16, 0.8)
+end
+
+function M.draw_page_no_head(page_col)
+	M.draw_linear_gradient(0, 0, lg.getWidth(), lg.getHeight(), page_col, util.color(100, 100, 100), 90)
 end
 
 function M.draw_back(hover)

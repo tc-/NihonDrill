@@ -4,13 +4,14 @@ local M = {}
 local lg = love.graphics
 local la = love.audio
 
+local util = require("util")
+local kana = require("kana")
+local images = require("images")
+local color = require("color")
+local gui = require("gui")
+
 local status = nil
 local user = nil
-local util = nil
-local kana = nil
-local images = nil
-local color = nil
-local gui = require("gui")
 
 local levels = {
 	{  1,  2,  3,  4 },
@@ -45,10 +46,6 @@ function M.init(data)
 	print("drilloptions.init()", data)
 	status = data.status
 	user = data.user
-	util = data.util
-	kana = data.kana
-	images = data.images
-	color = data.color
 end
 
 function M.show()
@@ -113,7 +110,7 @@ function M.draw()
 		gui.draw_part(v)
 	end
 
-	kana.draw_text("Syllabaries", 70, 90, 70, color.drill_opt_header, "tl")
+	kana.draw_text("Syllabaries", 60, 90, 70, color.drill_opt_header, "tl")
 
 	-- Draw the Hiragana button.
 	selected = user.kana_types == "hiragana" or user.kana_types == "both"

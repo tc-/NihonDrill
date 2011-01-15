@@ -65,7 +65,7 @@ function M.init(util)
 	M.credits_what = util.color(140, 100, 0)
 	M.credits_name = util.color(200, 180, 0)
 
-	M.alt = util.color(0, 40, 80)
+	M.alt = util.color(80, 130, 200)
 	M.alt_hover = util.color(140, 200, 255)
 	M.alt_disabled = util.color(20, 20, 20)
 	M.alt_disabled_hover = util.color(10, 50, 90)
