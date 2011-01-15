@@ -98,6 +98,7 @@ function M.draw()
 	lg.draw(img, b.x, b.y, 0, 0.7, 0.7)
 	table.insert(status.buttons, b)
 
+	-- Draw the quit button.
 	col = color.get_hover_color(status.button.name == "#back", "quit")
 	b = { x = 10, y = lg.getHeight() - 58, w = 120, h = 48, name = "#back" }
 	gui.draw_button(b, col, images.quit, color.default_icon, images.button_base, 

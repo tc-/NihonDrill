@@ -321,17 +321,27 @@ function M.draw()
 
 	elseif status.submode == "answer_correct" then
 		lg.setBackgroundColor(50,255,100)
-		col = util.color(60, 60, 60)
-		kana.draw_glyph("hiragana", "ha", 100, 100, 100, col)
-		kana.draw_glyph("hiragana", "i", 100, 200, 100, col)
+		gui.draw_page_no_head(util.color(50,255,100))
+		
+		col = color.get_highlight_color(true, false)
+		b = { x = 10, y = 10, w = 140, h = 240, name = "hai" }
+		gui.draw_vbutton_kana(b, col, images.vbutton_base, images.vbutton_top, {"ha","i"}, 100, "", 40, hover, "hiragana")
+
 		local w = lg.getWidth()
 		kana.draw_kana_romaji(status.kana_type, status.kana, w / 2, 300, 200, util.color(0, 120, 0))
 	elseif status.submode == "answer_wrong" then
-		lg.setBackgroundColor(250,50,50)
+		gui.draw_page_no_head(util.color(255,50,50))
+
 		local w = lg.getWidth()
-		col = util.color(60, 60, 60)
-		kana.draw_glyph("hiragana", "da", 100, 100, 100, col)
-		kana.draw_glyph("hiragana", "me", 100, 200, 100, col)
+		col = color.get_highlight_color(true, true, "quit")
+		b = { x = 10, y = 10, w = 140, h = 240, name = "dame" }
+		gui.draw_vbutton_kana(b, col, images.vbutton_base, images.vbutton_top, {"da","me"}, 100, "", 40, hover, "hiragana")
+
+		col = color.get_hover_color(false, "back")
+		b = { x = 10, y = lg.getHeight() - 74, w = 300, h = 64, name = "#back" }
+		gui.draw_button(b, col, images.back, color.default_icon, images.button_base, 
+			images.button_top, "Click to continue", false, 50)
+
 		kana.draw_kana_romaji(status.kana_type, status.kana, w / 2, 200, 200, util.color(50, 255, 50))
 		kana.draw_kana_romaji(status.kana_type, status.answer_kana, w / 2, 450, 60, util.color(250, 200, 150))
 	elseif status.submode == "show_answer" then
