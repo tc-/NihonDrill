@@ -253,7 +253,7 @@ function M.update(dt, mx, my)
 end
 
 function M.draw()
-	local b, col, selected, hover
+	local b, col, selected, hover, scalex, scaley
 	local center = lg.getWidth() * 0.5
 
 	if status.submode == "answer" then
@@ -275,30 +275,39 @@ function M.draw()
 		end
 
 		-- Draw the level selector down.
-		b = { x = 26, y = 44, r = 26, name = "#level_down" }
-		table.insert(status.buttons, b)
+		b = { x = 10, y = 10, w = 100, h = 48, name = "#level_down" }
 		selected = user.level > 1
 		hover = status.button.name == "#level_down" and selected
 		col = color.get_highlight_color(selected, hover, "alt")
-		kana.draw_glyph_bg(b.x, b.y, 40, col)
-		kana.draw_glyph("hiragana", "<", b.x, b.y, 32, col)
-		
-		-- Draw the level selector up.
-		b = { x = 154, y = 44, r = 26, name = "#level_up" }
+		scalex, scaley = gui.draw_button_image(b, col, images.button_base)
+		kana.draw_glyph("hiragana", "<", b.x + 18, b.y + 24, 32, col)
+		gui.draw_button_image(b, col, images.button_top, scalex, scaley)
+		b.w = b.w - 60
 		table.insert(status.buttons, b)
+
+		b = { x = 72, y = 10, w = 100, h = 48, name = "#level_up" }
 		selected = user.level < 27
 		hover = status.button.name == "#level_up" and selected
 		col = color.get_highlight_color(selected, hover, "alt")
-		kana.draw_glyph_bg(b.x, b.y, 40, col)
-		kana.draw_glyph("hiragana", ">", b.x, b.y, 32, col)
-		
+
+		gui.draw_button_image(b, col, images.button_base)
+		kana.draw_glyph("hiragana", ">", b.x + 22 + 60, b.y + 24, 32, col)
+		gui.draw_button_image(b, col, images.button_top)
+
+		b.w = b.w - 60
+		b.x = b.x + 60
+		table.insert(status.buttons, b)
+
 		-- Draw the level indicator.
-		kana.draw_glyph_bg(90, 44, 60, color.level_ind)
+		b = { x = 92, y = 50, r = 50 }
+		scalex, scaley = gui.draw_button_image(b, color.level_ind, images.rbutton_base)
+		--kana.draw_glyph_bg(90, 44, 60, color.level_ind)
 		kana.draw_text(user.level, 90, 40, 80, color.level_ind)
 		kana.draw_text("level", 90, 64, 24, color.level_ind)
 		if user.autolevel then
 			kana.draw_text("auto", 90, 16, 24, color.level_ind)
 		end
+		--gui.draw_button_image(b, col, images.button_top, scalex, scaley)
 
 		-- Draw the show answer button.
 		col = color.get_hover_color(status.button.name == "#answer", "alt")

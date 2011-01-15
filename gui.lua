@@ -7,42 +7,55 @@ local util = require("util")
 local color = require("color")
 local images = require("images")
 
+function M.draw_button_image(b, col, button_image, scalex, scaley)
+	if scalex == nil or scaley == nil then
+		if b.r == nil then
+			scalex = b.w / button_image:getWidth()
+			scaley = b.h / button_image:getHeight()
+		else
+			scalex = (b.r * 2) / button_image:getWidth()
+			scaley = (b.r * 2) / button_image:getHeight()
+		end
+	end
+
+	lg.setColor(col.r, col.g, col.b, col.a)
+	if b.r == nil then
+		lg.draw(button_image, b.x, b.y, 0, scalex, scaley)
+	else
+		lg.draw(button_image, b.x - b.r, b.y - b.r, 0, scalex, scaley)
+	end
+
+	return scalex, scaley
+end
+
 function M.draw_button(b, col, icon, icon_col, base_image, top_image, text, hover, text_size)
-	local scalex = b.w / base_image:getWidth()
-	local scaley = b.h / base_image:getHeight()
 	local icon_scale = (b.h - 10) / icon:getWidth()
 	local icon_w = icon:getWidth() * icon_scale
 
-	lg.setColor(col.r, col.g, col.b, 255)
-	lg.draw(base_image, b.x, b.y, 0, scalex, scaley)
+	local scalex, scaley = M.draw_button_image(b, col, base_image)
 
 	lg.setColor(icon_col.r, icon_col.g, icon_col.b, 255)
 	lg.draw(icon, b.x + 8, b.y + 6, 0, icon_scale, icon_scale)
 
 	kana.draw_text(text, b.x + icon_w + ((b.w - icon_w) * 0.5), b.y + (b.h * 0.5), text_size, col)
 
-	lg.setColor(col.r, col.g, col.b, 255)
-	lg.draw(top_image, b.x, b.y, 0, scalex, scaley)
+	M.draw_button_image(b, col, top_image)
 end
 
 function M.draw_kana_button(b, col, base_image, top_image, kana_text, kana_text_size, text, text_size, hover, kana_type)
-	local scalex = b.w / base_image:getWidth()
-	local scaley = b.h / base_image:getHeight()
-
-	lg.setColor(col.r, col.g, col.b, 255)
-	lg.draw(base_image, b.x, b.y, 0, scalex, scaley)
+	local scalex, scaley = M.draw_button_image(b, col, base_image)
 
 	kana.print_kana(kana_text, b.x + (kana_text_size *0.7), b.y + (kana_text_size * 0.6), kana_text_size, col, kana_type)
 	kana.draw_text(text, b.x + (b.w * 0.5), b.y + b.h - (text_size * 0.4), text_size, col)
 
-	lg.setColor(col.r, col.g, col.b, 255)
-	lg.draw(top_image, b.x, b.y, 0, scalex, scaley)
+	M.draw_button_image(b, col, top_image, scalex, scaley)
 end
 
 function M.draw_vbutton_kana(b, col, base_image, top_image, vtext, vtext_size, htext, htext_size, hover, kana_type)
-	local scalex = b.w / base_image:getWidth()
-	local scaley = b.h / base_image:getHeight()
 	local i, x, y
+	local scalex, scaley
+
+	scalex, scaley = M.draw_button_image(b, col, base_image)
 
 	x = b.x + (b.w * 0.5) + 4
 	y = b.y + (vtext_size * 0.5) + 4
@@ -57,31 +70,28 @@ function M.draw_vbutton_kana(b, col, base_image, top_image, vtext, vtext_size, h
 
 	kana.draw_text(htext, x, b.y + b.h - (htext_size * 0.8), htext_size, col)
 
-	lg.setColor(col.r, col.g, col.b, 255)
-	lg.draw(top_image, b.x, b.y, 0, scalex, scaley)
+	M.draw_button_image(b, col, top_image, scalex, scaley)
 end
 
 function M.draw_rbutton_kana(b, col, base_image, top_image, k, size, hover, kana_type)
-	local scalex = (b.r * 2) / base_image:getWidth()
-	local scaley = (b.r * 2) / base_image:getHeight()
 	local i, x, y
+	local scalex, scaley
+
+	scalex, scaley = M.draw_button_image(b, col, base_image)
 
 	x = b.x - b.r
 	y = b.y - b.r
 
-	lg.setColor(col.r, col.g, col.b, 255)
-	lg.draw(base_image, x, y, 0, scalex, scaley)
-
 	kana.draw_glyph(kana_type, k, x + b.r, y + b.r, size, col)
 
-	lg.setColor(col.r, col.g, col.b, 255)
-	lg.draw(top_image, x, y, 0, scalex, scaley)
+	M.draw_button_image(b, col, top_image, scalex, scaley)
 end
 
 function M.draw_rbutton_text(b, col, base_image, top_image, text, size, hover)
-	local scalex = (b.r * 2) / base_image:getWidth()
-	local scaley = (b.r * 2) / base_image:getHeight()
 	local i, x, y
+	local scalex, scaley
+
+	scalex, scaley = M.draw_button_image(b, col, base_image)
 
 	x = b.x - b.r
 	y = b.y - b.r
@@ -91,8 +101,7 @@ function M.draw_rbutton_text(b, col, base_image, top_image, text, size, hover)
 
 	kana.draw_text(text, x + b.r, y + b.r, size, col)
 
-	lg.setColor(col.r, col.g, col.b, 255)
-	lg.draw(top_image, x, y, 0, scalex, scaley)
+	M.draw_button_image(b, col, top_image, scalex, scaley)
 end
 
 function M.draw_linear_gradient(x, y, w, h, scol, ecol, steps)

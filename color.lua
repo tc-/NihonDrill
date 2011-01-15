@@ -67,7 +67,7 @@ function M.init(util)
 
 	M.alt = util.color(80, 130, 200)
 	M.alt_hover = util.color(140, 200, 255)
-	M.alt_disabled = util.color(20, 20, 20)
+	M.alt_disabled = util.color(80, 80, 80, 80)
 	M.alt_disabled_hover = util.color(10, 50, 90)
 
 	M.alt_question = util.color(140, 200, 255)
