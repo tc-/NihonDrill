@@ -7,7 +7,7 @@ local util = require("util")
 local color = require("color")
 local images = require("images")
 
-function M.draw_button_image(b, col, button_image, scalex, scaley)
+function M.draw_button_image(b, col, button_image, scalex, scaley, scale)
 	if scalex == nil or scaley == nil then
 		if b.r == nil then
 			scalex = b.w / button_image:getWidth()
@@ -18,11 +18,13 @@ function M.draw_button_image(b, col, button_image, scalex, scaley)
 		end
 	end
 
+	scale = scale or 1.0
+
 	lg.setColor(col.r, col.g, col.b, col.a)
 	if b.r == nil then
 		lg.draw(button_image, b.x, b.y, 0, scalex, scaley)
 	else
-		lg.draw(button_image, b.x - b.r, b.y - b.r, 0, scalex, scaley)
+		lg.draw(button_image, b.x - (b.r * scale), b.y - (b.r * scale), 0, scalex * scale, scaley * scale)
 	end
 
 	return scalex, scaley
@@ -37,7 +39,9 @@ function M.draw_button(b, col, icon, icon_col, base_image, top_image, text, hove
 	lg.setColor(icon_col.r, icon_col.g, icon_col.b, 255)
 	lg.draw(icon, b.x + 8, b.y + 6, 0, icon_scale, icon_scale)
 
-	kana.draw_text(text, b.x + icon_w + ((b.w - icon_w) * 0.5), b.y + (b.h * 0.5), text_size, col)
+	if text ~= nil then
+		kana.draw_text(text, b.x + icon_w + ((b.w - icon_w) * 0.5), b.y + (b.h * 0.5), text_size, col)
+	end
 
 	M.draw_button_image(b, col, top_image)
 end

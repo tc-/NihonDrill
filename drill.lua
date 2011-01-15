@@ -255,7 +255,7 @@ function M.update(dt, mx, my)
 end
 
 function M.draw()
-	local b, col, selected, hover, scalex, scaley
+	local b, col, selected, hover, scalex, scaley, img
 	local center = lg.getWidth() * 0.5
 
 	if status.submode == "answer" then
@@ -306,13 +306,14 @@ function M.draw()
 		if user.autolevel then
 			kana.draw_text("auto", 90, 16, 24, color.level_ind)
 		end
-		gui.draw_button_image(b, color.level_ind, images.rbutton_top)
+		gui.draw_button_image(b, color.level_ind, images.rbutton_top, scalex, scaley)
 
 		-- Draw the show answer button.
 		col = color.get_hover_color(status.button.name == "#answer", "alt")
-		b = { x = lg.getWidth() - 40, y = 40, r = status.size * 0.4, name = "#answer" }
-		kana.draw_glyph_bg(b.x, b.y, status.size / 1.5, col)
-		kana.draw_text("?", b.x, b.y, status.size, col)
+		b = { x = lg.getWidth() - 40, y = 40, r = status.size * 0.5, name = "#answer" }
+		scalex, scaley = gui.draw_button_image(b, col, images.rbutton_base)
+		gui.draw_button_image(b, col, images.levels, nil, nil, 0.56)
+		gui.draw_button_image(b, col, images.rbutton_top, scalex, scaley)
 		table.insert(status.buttons, b)
 
 		-- Draw the back button.
@@ -371,16 +372,16 @@ function M.draw()
 		table.insert(status.buttons, b)
 	end
 
+	b = { x = lg.getWidth() - 58, y = lg.getHeight() - 58, w = 48, h = 48, name = "#sound" }
 	if status.button.name == "#sound" then
-		lg.setColor(180, 250, 255, 255);
+		lg.setColor(60, 100, 255, 255);
 	else
-		lg.setColor(140, 200, 255, 50);
+		lg.setColor(60, 100, 255, 25);
 	end
-	b = { x = lg.getWidth() - 60, y = lg.getHeight() - 60, w = 60, h = 48, name = "#sound" }
 	if user.sound == true then
-		lg.draw(images.sound, b.x, b.y, 0, 0.4, 0.4)
+		lg.draw(images.sound, b.x, b.y, 0, 0.8, 0.8)
 	else
-		lg.draw(images.nosound, lg.getWidth() - 60, lg.getHeight() - 60, 0, 0.4, 0.4)
+		lg.draw(images.nosound, b.x, b.y, 0, 0.8, 0.8)
 	end
 	table.insert(status.buttons, b)
 end
