@@ -107,7 +107,7 @@ end
 function M.draw()
 	local b, col, hover, seleted
 
-	gui.draw_page("Select what to practice", util.color(0,100,10), util.color(0,0,0))
+	gui.draw_page("Select what to practice", util.color(0,100,10), util.color(0,0,0), images.kanadrill)
 
 	for k,v in pairs(parts) do
 		gui.draw_part(v)

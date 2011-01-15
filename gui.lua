@@ -74,7 +74,7 @@ function M.draw_linear_gradient(x, y, w, h, scol, ecol, steps)
 	end
 end
 
-function M.draw_page(text, title_col, page_col)
+function M.draw_page(text, title_col, page_col, icon)
 	local title_col_dark = color.set_brightness(color.copy_color(title_col), -50)
 	local title_col_light = color.set_brightness(color.copy_color(title_col), 100)
 
@@ -83,6 +83,14 @@ function M.draw_page(text, title_col, page_col)
 	lg.setColor(200,200,200)
 	lg.rectangle("fill", 0, 79, lg.getWidth(), 2)
 	kana.draw_text(text, 20, 16, 90, title_col_light, "tl")
+	
+	if icon ~= nil then
+		local icon_scale = (70) / icon:getWidth()
+		local icon_w = icon:getWidth() * icon_scale
+		lg.setColor(255,255,255)
+		lg.draw(icon, lg.getWidth() - icon_w - 5, 5, 0, icon_scale, icon_scale)
+	end
+	
 	lg.setColor(title_col_light.r, title_col_light.g, title_col_light.b, 255)
 	lg.draw(images.button_top, -18, -4, 0, 2.16, 0.8)
 end
@@ -108,7 +116,7 @@ function M.make_part(img)
 		ret.x = lg.getWidth() + 80
 		ret.dx = -math.random(20,60)
 	end
-	
+
 	if math.random(0,1) == 1 then
 		ret.y = -80
 		ret.dy = math.random(20,60)
@@ -116,7 +124,7 @@ function M.make_part(img)
 		ret.y = lg.getWidth() + 80
 		ret.dy = -math.random(20,60)
 	end
-	
+
 	ret.s = math.random(1,3) * 0.1
 	ret.cf = math.random(15,20)
 	ret.cx = math.random(0,40) - 20
@@ -170,6 +178,29 @@ function M.update_kana_parts(dt, parts, level, kana_types, num_parts)
 			img = kana.katakana[kanas[math.random(1, #kanas)]].glyph
 		end
 		table.insert(parts, M.make_part(img))
+	end
+end
+
+function M.update_credits_parts(dt, parts, num_parts)
+	local w = lg.getWidth()
+	local h = lg.getHeight()
+	local remove = {}
+
+	for i,v in pairs(parts) do
+		M.update_part(v, dt)
+		if (v.x < -140) or (v.x > w + 100) or (v.y < -140) or (v.y > h + 100) then
+			table.insert(remove ,i)
+		end
+	end
+
+	for k,v in pairs(remove) do
+		table.remove(parts, v)
+	end
+
+	while #parts < num_parts do
+		local part = M.make_part(images.credits)
+		part.s = part.s * 2.0
+		table.insert(parts, part)
 	end
 end
 
