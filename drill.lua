@@ -55,7 +55,7 @@ function sort_by_correctness(s1, s2)
 end
 
 local function next_question()
-	local kanas = kana.all_test_kanas(user.level)
+	local kanas
 	local alts = {}
 	local k
 
@@ -117,6 +117,8 @@ local function next_question()
 		-- Scramble and assign the new queue.
 		status.kana_queue[status.kana_type] = util.scramble(selection)
 	end
+
+	kanas = kana.all_test_kanas(user.level)
 
 	-- Generate the alternatives.
 	while #alts < user.alternatives - 1 do
@@ -269,7 +271,6 @@ function M.draw()
 			local x, y = get_alternative_pos(i)
 			b = { x = x, y = y, r = status.size * 0.44, name = alt, alt = i }
 			table.insert(status.buttons, b)
-
 			col = color.get_hover_color(alt == status.button.name, "alt")
 			gui.draw_rbutton_text(b, col, images.rbutton_base, images.rbutton_top, alt, status.size * 0.7, alt == status.button.name)
 		end
@@ -285,15 +286,14 @@ function M.draw()
 		b.w = b.w - 60
 		table.insert(status.buttons, b)
 
+		-- Draw the level selector up.
 		b = { x = 72, y = 10, w = 100, h = 48, name = "#level_up" }
 		selected = user.level < 27
 		hover = status.button.name == "#level_up" and selected
 		col = color.get_highlight_color(selected, hover, "alt")
-
 		gui.draw_button_image(b, col, images.button_base)
 		kana.draw_glyph("hiragana", ">", b.x + 22 + 60, b.y + 24, 32, col)
 		gui.draw_button_image(b, col, images.button_top)
-
 		b.w = b.w - 60
 		b.x = b.x + 60
 		table.insert(status.buttons, b)
@@ -301,13 +301,12 @@ function M.draw()
 		-- Draw the level indicator.
 		b = { x = 92, y = 50, r = 50 }
 		scalex, scaley = gui.draw_button_image(b, color.level_ind, images.rbutton_base)
-		--kana.draw_glyph_bg(90, 44, 60, color.level_ind)
 		kana.draw_text(user.level, 90, 40, 80, color.level_ind)
 		kana.draw_text("level", 90, 64, 24, color.level_ind)
 		if user.autolevel then
 			kana.draw_text("auto", 90, 16, 24, color.level_ind)
 		end
-		--gui.draw_button_image(b, col, images.button_top, scalex, scaley)
+		gui.draw_button_image(b, color.level_ind, images.rbutton_top)
 
 		-- Draw the show answer button.
 		col = color.get_hover_color(status.button.name == "#answer", "alt")
