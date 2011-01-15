@@ -8,7 +8,7 @@ local gui = require("gui")
 local status = nil
 local user = nil
 local util = nil
-local kana = nil
+local kana = require("kana")
 local images = nil
 local color = nil
 
@@ -19,14 +19,15 @@ function M.init(data)
 	status = data.status
 	user = data.user
 	util = data.util
-	kana = data.kana
 	images = data.images
 	color = data.color
 	version = data.version
 end
 
-function M.update(dt, mx, my)
+local parts = {}
 
+function M.update(dt, mx, my)
+	gui.update_kana_parts(dt, parts, 11, "both", 16)
 end
 
 function M.show()
@@ -51,7 +52,11 @@ end
 
 function M.draw()
 	local col, img
-	gui.draw_page("What do you want to practice?", util.color(0,110,255), color.alt_hover)
+	gui.draw_page("What do you want to do now?", util.color(0,110,255), color.alt_hover)
+
+	for k,v in pairs(parts) do
+		gui.draw_part(v)
+	end
 
 	-- Draw the Vocabulary button.
 	col = color.get_hover_color(status.button.name == "vocabulary", "button")
@@ -101,6 +106,7 @@ function M.draw()
 
 	b = { x = lg.getWidth() - 20, y = lg.getHeight() - 20, w = 20, h = 20, name = "#test" }
 	table.insert(status.buttons, b)
+
 end
 
 return M

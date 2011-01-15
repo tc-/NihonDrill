@@ -58,8 +58,11 @@ function M.show()
 	end
 end
 
+local parts = {}
+
 function M.update(dt, mx, my)
-	
+	level = math.min(user.level, 16)
+	gui.update_kana_parts(dt, parts, level, user.kana_types, 16)
 end
 
 function M.mousepressed(x, y, button)
@@ -105,6 +108,10 @@ function M.draw()
 	local b, col, hover, seleted
 
 	gui.draw_page("Select what to practice", util.color(0,100,10), util.color(0,0,0))
+
+	for k,v in pairs(parts) do
+		gui.draw_part(v)
+	end
 
 	kana.draw_text("Syllabaries", 70, 90, 70, color.drill_opt_header, "tl")
 

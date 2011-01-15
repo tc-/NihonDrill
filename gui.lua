@@ -95,5 +95,83 @@ function M.draw_back(hover)
 	return b
 end
 
+
+function M.make_part(img)
+	local ret = { c = 0, sv = 0, cv = 0 }
+
+	ret.img = img
+
+	if math.random(0,1) == 1 then
+		ret.x = -80
+		ret.dx = math.random(20,60)
+	else
+		ret.x = lg.getWidth() + 80
+		ret.dx = -math.random(20,60)
+	end
+	
+	if math.random(0,1) == 1 then
+		ret.y = -80
+		ret.dy = math.random(20,60)
+	else
+		ret.y = lg.getWidth() + 80
+		ret.dy = -math.random(20,60)
+	end
+	
+	ret.s = math.random(1,3) * 0.1
+	ret.cf = math.random(15,20)
+	ret.cx = math.random(0,40) - 20
+	ret.cy = math.random(0,40) - 20
+
+	return ret
+end
+
+function M.update_part(p, dt)
+	local f
+	p.c = p.c + dt
+	if p.c > math.pi * 2 then
+		p.c = p.c - math.pi * 2
+	end
+	p.sv = math.sin(p.c) * p.cf
+	p.cv = math.cos(p.c) * p.cf
+	p.x = p.x + (p.dx * dt)
+	p.y = p.y + (p.dy * dt)
+end
+
+function M.draw_part(p)
+	lg.setColor(255, 255, 255, 50)
+	lg.draw(p.img, p.x + (p.cv * p.cx), p.y + (p.sv * p.cy), 0, p.s, p.s)
+end
+
+function M.update_kana_parts(dt, parts, level, kana_types, num_parts)
+	local w = lg.getWidth()
+	local h = lg.getHeight()
+	local remove = {}
+
+	for i,v in pairs(parts) do
+		M.update_part(v, dt)
+		if (v.x < -140) or (v.x > w + 100) or (v.y < -140) or (v.y > h + 100) then
+			table.insert(remove ,i)
+		end
+	end
+
+	for k,v in pairs(remove) do
+		table.remove(parts, v)
+	end
+
+	local kanas, img
+
+	while #parts < num_parts do
+		if kanas == nil then
+			kanas = kana.all_test_kanas(level)
+ 		end
+		if (kana_types == "hiragana") or ((kana_types == "both") and (math.random(0,1) == 1)) then
+			img = kana.hiragana[kanas[math.random(1, #kanas)]].glyph
+		else
+			img = kana.katakana[kanas[math.random(1, #kanas)]].glyph
+		end
+		table.insert(parts, M.make_part(img))
+	end
+end
+
 return M
 
