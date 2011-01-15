@@ -320,9 +320,8 @@ function M.draw()
 		table.insert(status.buttons, b)
 
 	elseif status.submode == "answer_correct" then
-		lg.setBackgroundColor(50,255,100)
 		gui.draw_page_no_head(util.color(50,255,100))
-		
+
 		col = color.get_highlight_color(true, false)
 		b = { x = 10, y = 10, w = 140, h = 240, name = "hai" }
 		gui.draw_vbutton_kana(b, col, images.vbutton_base, images.vbutton_top, {"ha","i"}, 100, "", 40, hover, "hiragana")

@@ -4,18 +4,18 @@ local M = {}
 local lg = love.graphics
 local la = love.audio
 
+local util = require("util")
+local kana = require("kana")
+local images = require("images")
+local color = require("color")
+local gui = require("gui")
+
 local status = nil
 local user = nil
-local util = nil
-local kana = nil
-local images = nil
 
 function M.init(data)
 	status = data.status
 	user = data.user
-	util = data.util
-	kana = data.kana
-	images = data.images
 end
 
 local function all_words(level, voc, specific_level_only)
@@ -110,23 +110,18 @@ function M.update(dt, mx, my)
 end
 
 function M.draw()
-
 	local b, col
 
 	if status.submode == "answer" then
-		lg.setBackgroundColor(0,150,200)
-		col = util.color(140, 200, 255)
-		
-		kana.draw_text("What does this mean?", 20, 20, 90, util.color(80, 200, 255), "tl")
-		
+		gui.draw_page("What does this mean?", util.color(0,110,255), util.color(140, 200, 255), images.vocabulary)
+
 		if #status.word.kana < 10 then
-			kana.print_kana(status.word.kana, 100, 120, 70, util.color(80, 200, 255), status.word.kana_type)
+			kana.print_kana(status.word.kana, 100, 120, 70, util.color(250,250,250), status.word.kana_type)
 		else
-			kana.print_kana(status.word.kana, 100, 120, 50, util.color(80, 200, 255), status.word.kana_type)
+			kana.print_kana(status.word.kana, 100, 120, 50, util.color(250,250,250), status.word.kana_type)
 		end
-		
+
 		for i, alt in ipairs(status.alternatives) do
-		
 			if status.button.name == alt.eng then
 				col = util.color(100, 200, 120)
 			else
@@ -137,21 +132,16 @@ function M.draw()
 			table.insert(status.buttons, b)
 		end
 		
-		if status.button.name == "#back" then
-			col = util.color(100, 200, 120)
-		else
-			col = util.color(80, 80, 120)
-		end
-		b = { x = 20, y = lg.getHeight() - 40, w = 70, h = 28, name = "#back" }
-		kana.draw_text("Back", b.x, b.y, 50, col, "tl")
+		-- Draw the back button.
+		b = gui.draw_back(status.button.name == "#back")
 		table.insert(status.buttons, b)
-			
 	elseif status.submode == "answer_correct" then
-		lg.setBackgroundColor(50,255,100)
-		col = util.color(60, 60, 60)
-		kana.draw_glyph("hiragana", "ha", lg.getWidth() - 100, lg.getHeight() - 200, 100, col)
-		kana.draw_glyph("hiragana", "i", lg.getWidth() - 100, lg.getHeight() - 100, 100, col)
-		
+		gui.draw_page_no_head(util.color(50,255,100))
+
+		col = color.get_highlight_color(true, false)
+		b = { x = lg.getWidth() - 150, y = lg.getHeight() - 250, w = 140, h = 240, name = "hai" }
+		gui.draw_vbutton_kana(b, col, images.vbutton_base, images.vbutton_top, {"ha","i"}, 100, "", 40, hover, "hiragana")
+
 		col = util.color(0, 120, 0)
 		if #status.word.kana < 10 then
 			kana.print_kana(status.word.kana, 100, 120, 70, col, status.word.kana_type)
@@ -162,10 +152,17 @@ function M.draw()
 		kana.draw_text(status.word.eng, 120, 160, 50, col, "tl")
 		
 	elseif status.submode == "answer_wrong" then
-		lg.setBackgroundColor(250,50,50)
-		col = util.color(60, 60, 60)
-		kana.draw_glyph("hiragana", "da", lg.getWidth() - 100, lg.getHeight() - 200, 100, col)
-		kana.draw_glyph("hiragana", "me", lg.getWidth() - 100, lg.getHeight() - 100, 100, col)
+		gui.draw_page_no_head(util.color(255,50,50))
+
+		local w = lg.getWidth()
+		col = color.get_highlight_color(true, true, "quit")
+		b = { x = lg.getWidth() - 150, y = lg.getHeight() - 250, w = 140, h = 240, name = "dame" }
+		gui.draw_vbutton_kana(b, col, images.vbutton_base, images.vbutton_top, {"da","me"}, 100, "", 40, hover, "hiragana")
+
+		col = color.get_hover_color(false, "back")
+		b = { x = 10, y = lg.getHeight() - 74, w = 300, h = 64, name = "#back" }
+		gui.draw_button(b, col, images.back, color.default_icon, images.button_base, 
+			images.button_top, "Click to continue", false, 50)
 		
 		col = util.color(50, 255, 50)
 		if #status.word.kana < 10 then
