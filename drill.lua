@@ -263,7 +263,11 @@ function M.draw()
 
 		-- Draw the question kana.
 		b = { x = status.x, y = status.y, r = status.size * 0.7, name = "#question" }
-		gui.draw_rbutton_kana(b, util.color(130,180,255), images.rbutton_base, images.rbutton_top, status.kana, status.size, false, status.kana_type)
+		if not user.reverse then
+			gui.draw_rbutton_kana(b, util.color(130,180,255), images.rbutton_base, images.rbutton_top, status.kana, status.size, false, status.kana_type)
+		else
+			gui.draw_rbutton_text(b, util.color(130,180,255), images.rbutton_base, images.rbutton_top, status.kana, status.size, false)
+		end
 
 		-- Draw the alternatives.
 		for i, alt in ipairs(status.alternatives) do
@@ -271,7 +275,11 @@ function M.draw()
 			b = { x = x, y = y, r = status.size * 0.44, name = alt, alt = i }
 			table.insert(status.buttons, b)
 			col = color.get_hover_color(alt == status.button.name, "alt")
-			gui.draw_rbutton_text(b, col, images.rbutton_base, images.rbutton_top, alt, status.size * 0.7, alt == status.button.name)
+			if not user.reverse then
+				gui.draw_rbutton_text(b, col, images.rbutton_base, images.rbutton_top, alt, status.size * 0.7, alt == status.button.name)
+			else
+				gui.draw_rbutton_kana(b, col, images.rbutton_base, images.rbutton_top, alt, status.size * 0.6, alt == status.button.name, status.kana_type)
+			end
 		end
 
 		-- Draw the level selector down.

@@ -53,6 +53,9 @@ function M.show()
 	if user.autolevel == nil then
 		user.autolevel = true
 	end
+	if user.autolevel == nil then
+		user.reverse = false
+	end
 end
 
 local parts = {}
@@ -95,6 +98,12 @@ function M.mousepressed(x, y, button)
 			user.autolevel = false
 		else
 			user.autolevel = true
+		end
+	elseif status.button.name == "#reverse" then
+		if user.reverse then
+			user.reverse = false
+		else
+			user.reverse = true
 		end
 	elseif status.button.name == "#back" then
 		change_view("mainmenu")
@@ -175,6 +184,21 @@ function M.draw()
 	b = { x = basex, y = basey + (#levels * 48) + 64, w = 180, h = 32, name = "#autolevel" }
 	lg.draw(img, b.x, b.y, 0, 0.5, 0.5)
 	kana.draw_text("Auto level", b.x + 40, b.y, 50, col, "tl")
+	table.insert(status.buttons, b)
+
+	--Draw the auto level checkbox.
+	if user.reverse then
+		img = images.checked
+	else
+		img = images.unchecked
+	end
+	lg.setColor(180, 255, 180, 127)
+	selected = user.reverse
+	hover = status.button.name == "#reverse"
+	col = color.get_highlight_color(selected, hover)
+	b = { x = basex, y = basey + (#levels * 48) + 64 + 34, w = 180, h = 32, name = "#reverse" }
+	lg.draw(img, b.x, b.y, 0, 0.5, 0.5)
+	kana.draw_text("Reverse", b.x + 40, b.y, 50, col, "tl")
 	table.insert(status.buttons, b)
 
 	-- Draw the back button.
