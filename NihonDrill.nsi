@@ -1,7 +1,7 @@
 
 Name "NihonDrill"
 
-OutFile "NihonDrill_0.2.exe"
+OutFile "NihonDrill_0.3.exe"
 
 InstallDir $PROGRAMFILES\NihonDrill
 

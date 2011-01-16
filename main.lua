@@ -6,7 +6,7 @@ local util = require("util")
 local kana = require("kana")
 local images = require("images")
 
-local version = "v0.2*"
+local version = "v0.3"
 
 local views = {}
 
