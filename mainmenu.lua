@@ -5,12 +5,13 @@ local lg = love.graphics
 local la = love.audio
 local gui = require("gui")
 
+local util = require("util")
+local kana = require("kana")
+local images = require("images")
+local color = require("color")
+
 local status = nil
 local user = nil
-local util = nil
-local kana = require("kana")
-local images = nil
-local color = nil
 
 local version = nil
 
@@ -18,16 +19,13 @@ function M.init(data)
 	print("mainmenu.init()", data)
 	status = data.status
 	user = data.user
-	util = data.util
-	images = data.images
-	color = data.color
 	version = data.version
 end
 
 local parts = {}
 
 function M.update(dt, mx, my)
-	gui.update_kana_parts(dt, parts, 11, "both", 16)
+	gui.update_kana_parts(dt, parts, 11, "both", 20)
 end
 
 function M.show()
@@ -35,6 +33,8 @@ function M.show()
 end
 
 function M.mousepressed(x, y, button)
+	set_parts_pos(parts, x - 16, y - 16)
+
 	if status.button.name == "vocabulary" then
 		change_view("vocoptions")
 	elseif status.button.name == "kana" then
@@ -53,10 +53,6 @@ end
 function M.draw()
 	local col, img
 	gui.draw_page("What do you want to do now?", util.color(0,110,255), color.alt_hover)
-
-	for k,v in pairs(parts) do
-		gui.draw_part(v)
-	end
 
 	-- Draw the Vocabulary button.
 	col = color.get_hover_color(status.button.name == "vocabulary", "button")
@@ -108,6 +104,9 @@ function M.draw()
 	b = { x = lg.getWidth() - 20, y = lg.getHeight() - 20, w = 20, h = 20, name = "#test" }
 	table.insert(status.buttons, b)
 
+	for k,v in pairs(parts) do
+		gui.draw_part(v)
+	end
 end
 
 return M

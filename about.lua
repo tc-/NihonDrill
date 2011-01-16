@@ -21,26 +21,24 @@ end
 function M.show()
 end
 
+local parts = {}
+
 function M.mousepressed(x, y, button)
+	set_parts_pos(parts, x - 16, y - 16)
+
 	if status.button.name == "#back" then
 		change_view("mainmenu")
 	end
 end
 
-local parts = {}
-
 function M.update(dt, mx, my)
-	gui.update_credits_parts(dt, parts, 16)
+	gui.update_credits_parts(dt, parts, 24)
 end
 
 function M.draw()
 	local b
 	local basey = 100
 	gui.draw_page("Credits", color.credits, util.color(0, 0, 0), images.credits)
-
-	for k,v in pairs(parts) do
-		gui.draw_part(v)
-	end
 
 	kana.draw_text("Programming", 30, basey, 70, color.credits_what, "tl")
 	kana.draw_text("Tommy Carlsson (tommyc@lavabit.com)", 60, basey + 50, 50, color.credits_name, "tl")
@@ -54,6 +52,10 @@ function M.draw()
 
 	b = gui.draw_back(status.button.name == "#back")
 	table.insert(status.buttons, b)
+
+	for k,v in pairs(parts) do
+		gui.draw_part(v)
+	end
 end
 
 return M

@@ -53,12 +53,8 @@ local user
 local color = nil
 
 local data = {
-	util = util,
-	kana = kana,
 	status = status,
 	user = user,
-	images = images,
-	color = nil,
 	views = views,
 	version = version
 }

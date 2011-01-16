@@ -196,6 +196,13 @@ function M.update_part(p, dt)
 	p.y = p.y + (p.dy * dt)
 end
 
+function set_parts_pos(parts, x, y)
+	for i, v in pairs(parts) do
+		v.x = x - (v.cv * v.cx)
+		v.y = y - (v.sv * v.cy)
+	end
+end
+
 function M.draw_part(p)
 	lg.setColor(255, 255, 255, 50)
 	lg.draw(p.img, p.x + (p.cv * p.cx), p.y + (p.sv * p.cy), 0, p.s, p.s)
@@ -205,10 +212,13 @@ function M.update_kana_parts(dt, parts, level, kana_types, num_parts)
 	local w = lg.getWidth()
 	local h = lg.getHeight()
 	local remove = {}
+	local x, y
 
 	for i,v in pairs(parts) do
 		M.update_part(v, dt)
-		if (v.x < -140) or (v.x > w + 100) or (v.y < -140) or (v.y > h + 100) then
+		x = v.x + (v.cv * v.cx)
+		y = v.y + (v.sv * v.cy)
+		if (x < -140) or (x > w + 100) or (y < -140) or (y > h + 100) then
 			table.insert(remove ,i)
 		end
 	end
@@ -236,10 +246,13 @@ function M.update_credits_parts(dt, parts, num_parts)
 	local w = lg.getWidth()
 	local h = lg.getHeight()
 	local remove = {}
+	local x, y
 
 	for i,v in pairs(parts) do
 		M.update_part(v, dt)
-		if (v.x < -140) or (v.x > w + 100) or (v.y < -140) or (v.y > h + 100) then
+		x = v.x + (v.cv * v.cx)
+		y = v.y + (v.sv * v.cy)
+		if (x < -140) or (x > w + 100) or (y < -140) or (y > h + 100) then
 			table.insert(remove ,i)
 		end
 	end

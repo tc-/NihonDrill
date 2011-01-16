@@ -66,6 +66,8 @@ function M.update(dt, mx, my)
 end
 
 function M.mousepressed(x, y, button)
+	set_parts_pos(parts, x - 16, y - 16)
+
 	if status.button.name == "hiragana" then
 		if user.kana_types == "" then
 			user.kana_types = "hiragana"
@@ -114,10 +116,6 @@ function M.draw()
 	local b, col, hover, seleted
 
 	gui.draw_page("Select what to practice", util.color(0,100,10), util.color(0,0,0), images.kanadrill)
-
-	for k,v in pairs(parts) do
-		gui.draw_part(v)
-	end
 
 	kana.draw_text("Syllabaries", 60, 90, 70, color.drill_opt_header, "tl")
 
@@ -204,6 +202,11 @@ function M.draw()
 	-- Draw the back button.
 	b = gui.draw_back(status.button.name == "#back")
 	table.insert(status.buttons, b)
+
+	for k,v in pairs(parts) do
+		gui.draw_part(v)
+	end
+
 end
 
 return M
