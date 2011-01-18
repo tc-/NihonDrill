@@ -49,7 +49,7 @@ function M.draw()
 	kana.draw_text("Programming", 30, basey, 70, color.credits_what, "tl")
 	kana.draw_text("Tommy Carlsson (tommyc@lavabit.com)", 60, basey + 50, 50, color.credits_name, "tl")
 
-	kana.draw_text("Ideas and insperation", 30, basey + 100, 70, color.credits_what, "tl")
+	kana.draw_text("Ideas and Inspiration", 30, basey + 100, 70, color.credits_what, "tl")
 	kana.draw_text("Timothy and Rhawnie Carlsson", 60, basey + 150, 50, color.credits_name, "tl")
 
 	kana.draw_text("Other", 30, basey + 200, 70, color.credits_what, "tl")
