@@ -41,6 +41,8 @@ end
 
 function M.show()
 	print("vocoptions.show()")
+	--vocabulary.get_server_voc_list()
+	--vocabulary.download_voc({ id="Colors" })
 end
 
 local parts = {}

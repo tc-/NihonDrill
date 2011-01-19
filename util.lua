@@ -9,6 +9,13 @@ function M.color(cr, cg, cb, ca)
 	return { r = cr, g = cg, b = cb, a = ca }
 end
 
+function M.split(s, sep)
+	local sep, fields = sep or ":", {}
+	local pattern = string.format("([^%s]+)", sep)
+	s:gsub(pattern, function(c) fields[#fields+1] = c end)
+	return fields
+end
+
 function M.get_font(size)
 	if fonts[size] ~= nil then
 		return fonts[size]
