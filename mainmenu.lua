@@ -51,7 +51,7 @@ function M.mousepressed(x, y, button)
 end
 
 function M.draw()
-	local col, img
+	local col, img, b
 	gui.draw_page("What do you want to do now?", util.color(0,110,255), color.alt_hover)
 
 	-- Draw the Vocabulary button.

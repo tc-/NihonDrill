@@ -242,7 +242,7 @@ function M.draw_table(kana_type, x, y, w, h, size, colors, selected, hover)
 	local posx = x
 	local posy = y
 	local buttons = {}
-	local col, col_frame, temp_size
+	local col, col_frame, temp_size, b
 
 	selected = selected or {}
 

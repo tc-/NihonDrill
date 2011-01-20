@@ -46,7 +46,6 @@ function M.validate_voc(voc, voc_id)
 		for wi, word in ipairs(level) do
 			if word == nil then return false, "Word "..wi.." in level "..li.." is nil" end
 			if type(word) ~= "table" then return false, "Word "..wi.." in level "..li.." is not a table" end
-			
 			if word.kana == nil then return false, "Word "..wi.." in level "..li.." is missing kana param" end
 			if word.eng == nil then return false, "Word "..wi.." in level "..li.." is missing eng param" end
 			if word.kana_type == nil then return false, "Word "..wi.." in level "..li.." is missing kana_type param" end
@@ -63,7 +62,7 @@ function M.get_server_voc_list()
 	local b, c = http.request(voc_base_url.."nihondrill/vocabularies.txt")
 	local list
 	print("get_server_voc_list", b, c)
-	
+
 	if b ~= nil and c == 200 then
 		list = {}
 		local lines = util.split(b, "\n")
@@ -79,22 +78,32 @@ function M.get_server_voc_list()
 	return list
 end
 
+function M.load_voc(voc_id, voc_text)
+	local ret, rc, res = run_untrusted(voc_text)
+	if rc then
+		rc, res = M.validate_voc(res, voc_id)
+		if rc then
+			ret = res
+		else
+			print("download_voc", "validate_voc", rc, res)
+		end
+	else
+		print("download_voc", "run", res)
+	end
+	return ret
+end
+
 function M.download_voc(voc)
 	local b, c = http.request(voc_base_url.."nihondrill/"..(voc.id)..".voc")
-	local ret
+	local rc, ret
 	print("download_voc", b, c)
 
 	if b ~= nil and c == 200 then
-		local rc, res = run_untrusted(b)
-		if rc then
-			rc, res = M.validate_voc(res, voc.id)
-			if rc then
+		local res = M.load_voc(voc.id, b)
+		if res ~= nil then
 				ret = res
-			else
-				print("download_voc", "validate_voc", rc, res)
-			end
 		else
-			print("download_voc", "run", res)
+			print("download_voc", "load_voc", res)
 		end
 	end
 

@@ -41,8 +41,12 @@ end
 
 function M.show()
 	print("vocoptions.show()")
-	--vocabulary.get_server_voc_list()
-	--vocabulary.download_voc({ id="Colors" })
+--	vocabulary.get_server_voc_list()
+--	local voc = vocabulary.download_voc({ id="Colors" })
+--	
+--	if voc ~= nil then
+--		table.insert(vocabulary.vocabularies, voc)
+--	end
 end
 
 local parts = {}
@@ -77,16 +81,13 @@ function M.mousepressed(x, y, button)
 end
 
 function M.draw()
-	local i
-	local col
+	local i, col, b
 
 	gui.draw_page("Select what to practice", util.color(0,100,10), util.color(0,0,0), images.vocabulary)
 
 	kana.draw_text("Vocabulary", 24, 90, 60, color.header, "tl")
 
-	for i=1,#vocabulary.vocabularies,1 do
-		local voc = vocabulary.vocabularies[i]
-
+	for i, voc in ipairs(vocabulary.vocabularies) do
 		selected = status.vocabulary == voc
 		hover = status.button.name == voc.name
 		col = color.get_highlight_color(selected, hover)

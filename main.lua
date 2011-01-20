@@ -59,6 +59,8 @@ local data = {
 	version = version
 }
 
+local debug_globals = {}
+
 function set_fullscreen_mode(fs, force)
 	force = force or false
 	if fs ~= user.fullscreen or force then
@@ -81,6 +83,11 @@ function change_view(new_view)
 end
 
 function love.load()
+
+	for k, g in pairs(_G) do
+		debug_globals[k] = true
+	end
+
 	math.randomseed(os.time())
 	lg.setCaption("NihonDrill "..version)
 	lg.setIcon(lg.newImage("images/icon.png"))
@@ -206,6 +213,13 @@ end
 
 function love.quit()
 	local data = "return "..util.serialize(user)
+	
+	for n, g in pairs(_G) do
+		if not debug_globals[n] then
+			print("global", n, tostring(g))
+		end
+	end
+	
 	--print(data)
 	love.filesystem.write("user.lua", data)
 end
