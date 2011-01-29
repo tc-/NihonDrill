@@ -376,7 +376,7 @@ function M.draw()
 
 			col = color.get_hover_color(status.button.name == "#switch_type")
 			b = { x = lg.getWidth() - 340, y = 10, w = 250, h = 48, name = "#switch_type" }
-			gui.draw_button(b, col, kana.katakana.ka.glyph, color.default_icon, images.button_base, 
+			gui.draw_button(b, col, kana.hiragana.hi.glyph, color.default_icon, images.button_base, 
 				images.button_top, "Show Hiragana", status.button.name == "#switch_type", 50)
 			table.insert(status.buttons, b)
 		end
