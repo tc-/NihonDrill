@@ -33,6 +33,7 @@ function M.init()
 	M.credits = lg.newImage("images/credits.png")
 	M.arrow = lg.newImage("images/arrow.png")
 	M.back = M.arrow
+	M.download = lg.newImage("images/download.png")
 end
 
 

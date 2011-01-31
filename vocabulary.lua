@@ -3,7 +3,7 @@ local M = {}
 local http = require("socket.http")
 local util = require("util")
 
-local voc_base_url = "http://localhost/"
+local voc_base_url = "http://nihondrill.serveftp.net/"
 
 M.vocabularies = {}
 
@@ -79,16 +79,18 @@ function M.get_server_voc_list()
 end
 
 function M.load_voc(voc_id, voc_text)
-	local ret, rc, res = run_untrusted(voc_text)
+	local ret
+	local rc, res = run_untrusted(voc_text)
+
 	if rc then
 		rc, res = M.validate_voc(res, voc_id)
 		if rc then
 			ret = res
 		else
-			print("download_voc", "validate_voc", rc, res)
+			print("load_voc", "validate_voc", rc, res)
 		end
 	else
-		print("download_voc", "run", res)
+		print("load_voc", "run", res)
 	end
 	return ret
 end
@@ -108,6 +110,24 @@ function M.download_voc(voc)
 	end
 
 	return ret
+end
+
+function M.load_user_vocs()
+	if love.filesystem.exists("user_vocs.lua") then
+		local chunk = love.filesystem.load("user_vocs.lua")
+		local ok, result = pcall(chunk)
+		if not ok then
+			print("love.load failed to load user voc data", result)
+			user = default_user
+		else
+			print("love.load loaded user data", "data does not contain all keys")
+			util.print_table(result)
+			user = result
+			data.user = user
+		end
+	else
+		user = default_user
+	end
 end
 
 function M.init()

@@ -111,7 +111,7 @@ function love.load()
 		end
 	else
 		user = default_user
-	end 
+	end
 
 	data.user = user
 

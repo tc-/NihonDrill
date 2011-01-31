@@ -46,6 +46,10 @@ local function next_question()
 		status.word_queue = util.scramble(all_words(user.vocabulary_level, status.vocabulary, false))
 	end
 	
+	if #words < user.alternatives then
+		user.alternatives = #words
+	end
+	
 	while #alts < user.alternatives - 1 do
 		word = words[math.random(1, #words)]
 		util.remove_object(words, word)

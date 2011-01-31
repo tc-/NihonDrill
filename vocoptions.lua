@@ -41,12 +41,12 @@ end
 
 function M.show()
 	print("vocoptions.show()")
---	vocabulary.get_server_voc_list()
---	local voc = vocabulary.download_voc({ id="Colors" })
---	
---	if voc ~= nil then
---		table.insert(vocabulary.vocabularies, voc)
---	end
+	vocabulary.get_server_voc_list()
+	local voc = vocabulary.download_voc({ id="Colors" })
+	
+	if voc ~= nil then
+		table.insert(vocabulary.vocabularies, voc)
+	end
 end
 
 local parts = {}
@@ -81,7 +81,7 @@ function M.mousepressed(x, y, button)
 end
 
 function M.draw()
-	local i, col, b
+	local i, col, b, selected, hover
 
 	gui.draw_page("Select what to practice", util.color(0,100,10), util.color(0,0,0), images.vocabulary)
 
@@ -129,6 +129,13 @@ function M.draw()
 			table.insert(status.buttons, b)
 		end
 	end
+
+	hover = status.button.name == "#download"
+	col = color.get_hover_color(hover, "alt")
+	b = { x = lg.getWidth() / 2 - 135, y = lg.getHeight() - 68, w = 260, h = 60, name = "#download" }
+	gui.draw_button(b, col, images.download, color.back_icon, images.button_base, 
+		images.button_top, "Download New", hover, 50)
+	table.insert(status.buttons, b)
 
 	-- Draw the back button.
 	b = gui.draw_back(status.button.name == "#back")
