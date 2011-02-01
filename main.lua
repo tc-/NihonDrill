@@ -13,6 +13,7 @@ local views = {}
 views.drill = require("drill")
 views.drilloptions = require("drilloptions")
 views.vocoptions = require("vocoptions")
+views.vocdownload = require("vocdownload")
 views.mainmenu = require("mainmenu")
 views.voctrain = require("voctrain")
 views.about = require("about")

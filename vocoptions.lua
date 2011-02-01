@@ -26,6 +26,7 @@ function M.init(data)
 			for i,v in ipairs(vocabulary.vocabularies) do
 				if v.name == user.vocabulary_name then
 					status.vocabulary = v
+					break
 				end
 			end
 		end
@@ -41,9 +42,7 @@ end
 
 function M.show()
 	print("vocoptions.show()")
-	vocabulary.get_server_voc_list()
-	local voc = vocabulary.download_voc({ id="Colors" })
-	
+
 	if voc ~= nil then
 		table.insert(vocabulary.vocabularies, voc)
 	end
@@ -75,6 +74,8 @@ function M.mousepressed(x, y, button)
 		end
 	elseif type(status.button.name) == "number" then
 		user.vocabulary_level = status.button.name
+	elseif status.button.name == "#download" then
+		change_view("vocdownload")
 	elseif status.button.name == "#back" then
 		change_view("mainmenu")
 	end
