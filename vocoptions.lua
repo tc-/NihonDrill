@@ -131,8 +131,9 @@ function M.draw()
 		end
 	end
 
+	-- Draw the download button.
 	hover = status.button.name == "#download"
-	col = color.get_hover_color(hover, "alt")
+	col = color.get_hover_color(hover, "back")
 	b = { x = lg.getWidth() / 2 - 135, y = lg.getHeight() - 68, w = 260, h = 60, name = "#download" }
 	gui.draw_button(b, col, images.download, color.back_icon, images.button_base, 
 		images.button_top, "Download New", hover, 50)

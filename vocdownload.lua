@@ -46,12 +46,10 @@ function M.mousepressed(x, y, button)
 
 	set_parts_pos(parts, x - 16, y - 16)
 
-	for i=1,#vocabulary.vocabularies,1 do
-		local voc = vocabulary.vocabularies[i]
+	for i=1,#remote_voc_list,1 do
+		local voc = remote_voc_list[i]
 		if status.button.name == voc.name then
-			status.vocabulary = voc
-			user.vocabulary_name = status.vocabulary.name
-			user.vocabulary_level = 1
+			status.dl_vocabulary = voc
 		end
 	end
 
@@ -72,16 +70,24 @@ function M.draw()
 	gui.draw_page("Download online vocabularies", util.color(0,100,10), util.color(0,0,0), images.vocabulary)
 
 	kana.draw_text("Vocabulary", 24, 90, 60, color.header, "tl")
-
 	for i, voc in ipairs(remote_voc_list) do
-		selected = status.vocabulary == voc
+		selected = status.dl_vocabulary == voc
 		hover = status.button.name == voc.name
 		col = color.get_highlight_color(selected, hover)
-		b = { x = 50, y = 110 + (i * 32), w = 100, h = 30, name = voc.name }
+		b = { x = 50, y = 110 + (i * 32), w = 300, h = 30, name = voc.name }
 		kana.draw_text(voc.name, b.x, b.y, 50, col, "tl")
 		table.insert(status.buttons, b)
 	end
 
+	-- Draw the info about selected vocabulary.
+	kana.draw_text("Info", 410, 90, 60, color.header, "tl")
+	if status.dl_vocabulary ~= nil then
+		kana.draw_text("Author: "..status.dl_vocabulary.author, 430, 130, 40, color.active, "tl")
+		kana.draw_text("Version: "..status.dl_vocabulary.version, 430, 160, 40, color.active, "tl")
+		kana.draw_text("Type: "..status.dl_vocabulary.voc_type, 430, 190, 40, color.active, "tl")
+	end
+
+	-- Draw the download button.
 	hover = status.button.name == "#download"
 	col = color.get_hover_color(hover, "alt")
 	b = { x = lg.getWidth() - 270, y = lg.getHeight() - 68, w = 260, h = 60, name = "#download" }
